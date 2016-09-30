@@ -43,9 +43,9 @@ Official documentation: Work in progress!
 comming soon.
 
 ## Known Issues
-broadway backend segfaults.
-window shadows that should not be there wen using transparent window in Dock mode.
-missing options in app.json will throw an error.
+ * broadway backend segfaults.
+ * window shadows that should not be there wen using transparent window in Dock mode.
+ * missing options in app.json will throw an error.
 
 ## License
 
