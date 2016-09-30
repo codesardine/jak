@@ -1,5 +1,7 @@
 ## Jade Application Kit
 
+[![Join the chat at https://gitter.im/JadeApplicationKit/Lobby](https://badges.gitter.im/JadeApplicationKit/Lobby.svg)](https://gitter.im/JadeApplicationKit/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Official site: https://github.com/vmnlopes/jak  
 Official documentation: Work in progress!
 
