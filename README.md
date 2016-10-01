@@ -8,9 +8,13 @@ Official documentation: Work in progress!
 
 ## Introduction
 
-## This is a DEV Preview not fully finish but it works!
+## This is a DEV Preview not finish but it works!
+Development may be slow as i am working on other stuff!
 
- JAK is an application build in Python 3 on top of GTK3, Pygoject and Webkit2. You can write hybrid Web and Desktop applications on top of a webview, including but not limited to DOCKS, Widgets, or any other sort of apps, .
+ JAK is an application build in Python 3 on top of GTK3 and Webkit2.
+ It is only dependent on PyGi module you should have it pre packaged in any linux distro!
+  
+You can write hybrid Web and Desktop applications on top of a webview, including but not limited to DOCKS, Widgets, or any other sort of apps.
  This works same way as Node Webkit or Electron with a few diferences.
  
 ## Faqs
@@ -30,7 +34,7 @@ Official documentation: Work in progress!
  
  * Is this cross platform?
  
-  * There are packages for your Linux distro, for Windows and MacOx i tink you have to compile PyGobject. I have not tested on the lastest 2 since am only trageting Linux for now, it should work!
+  * There are packages for your Linux distro, for Windows head to [Pygi website](https://wiki.gnome.org/action/show/Projects/PyGObject) and MacOx i tink you have to compile it, instructions [here](https://wiki.gnome.org/action/show/Projects/GTK+/OSX/Building) and [here](https://wiki.gnome.org/Projects/GTK+/OSX/Python). I have not tested on the lastest 2 since am only tageting Linux for now!
 
  * Does it work with PyPy
  
@@ -42,11 +46,15 @@ Official documentation: Work in progress!
  * Use any backend server or none at all!
  * Have your applications run in the browser with websockets using the GTK Broadway backend.
  
+## Instalation
+```
+
+git clone https://github.com/vmnlopes/Jade-Application-Kit.git
+```
 ## Usage
 ```
 jak /path/to/application/directory
 ```
-          or
 ```
 jak http://Address
 ```
@@ -55,7 +63,7 @@ debug mode --> jak -d  myAppRoot
 help       --> jak -h
 ```
 JAK Will look for 2 files in the root of you app, app.json and window.css.
- * window.css can be used to customize the window look if you want to is not required.
+ * window.css can be used to customize the window look if you want to, this is not required.
  
  * app.json options
    
@@ -69,6 +77,7 @@ JAK Will look for 2 files in the root of you app, app.json and window.css.
  
  ```
  your app.json should look like this!
+ 
  {
   "app": {
   
