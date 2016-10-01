@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 #       Jade Application Kit
 #
 #       Copyright (c) 2016 Vitor Lopes <vmnlop@gmail.com>
@@ -54,8 +52,8 @@ option = argparse.ArgumentParser(description='''\
   Licence: GPLv2 or later
 
   url: https://github.com/vmnlopes/Jade-Application-kit''', epilog='''\
-  jadeak.py -d /path/to/my/app/folder
-  jadeak.py -d https://my-url.com
+  jak -d /path/to/my/app/folder
+  jak -d https://my-url.com
   ''', formatter_class=argparse.RawTextHelpFormatter)
 option.add_argument("-d", "--debug", metavar='\b', help="enable developer extras in webkit2")
 option.add_argument('route', nargs="?", help='''\
@@ -81,7 +79,7 @@ def sanitize_input():
 
     get_route = options.route
     NOSSL_MSG = "You can only run unsecure url's in debug mode. Change "
-    SSL_MSG = " forcing SSL"
+    SSL_MSG   = " forcing SSL"
 
     if get_route.endswith("/"):
         pass
@@ -96,11 +94,11 @@ def sanitize_input():
 
     elif not options.debug and get_route.startswith("http://"):
         get_route = get_route.replace("http:", "https:")
-        print(NOSSL_MSG + "http: to https:" + SSL)
+        print(NOSSL_MSG + "http: to https:" + SSL_MSG)
 
     elif not options.debug and get_route.startswith("ws:"):
         get_route = get_route.replace("ws:", "wss:")
-        print(NOSSL_MSG + "ws:// to wss://" + SSL)
+        print(NOSSL_MSG + "ws:// to wss://" + SSL_MSG)
 
     return get_route, app_settings, app_path
 
@@ -179,9 +177,14 @@ class AppWindow(w):
             w.set_icon_from_file(self, get_icon )
 
         else:
-            get_icon = icontheme.load_icon(Gtk.STOCK_MISSING_IMAGE, 0, 0)
-            w.set_icon(self, get_icon)
-            print("Icon not specified or incorrect path, loading default icon!")
+            try:
+                get_icon = icontheme.load_icon(Gtk.STOCK_MISSING_IMAGE, 0, 0)
+                w.set_icon(self, get_icon)
+                print("Icon not specified or incorrect path, loading default icon!")
+
+            except:
+                print("Stock icon not found in this GTK theme")
+                pass
 
         if get_hint_type == "desktop":
             w.set_name(self, 'jade-desktop')
