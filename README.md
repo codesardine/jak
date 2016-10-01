@@ -50,6 +50,8 @@ You can write hybrid Web and Desktop applications on top of a webview, including
 ```
 
 git clone https://github.com/vmnlopes/Jade-Application-Kit.git
+cd ./Jade-Application-Kit
+chmod +x ./jak
 ```
 ## Usage
 ```
