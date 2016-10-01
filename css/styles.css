@@ -1,0 +1,9 @@
+body {
+font-family: "Suez One";
+}
+h1 {
+font-family: "Suez One";
+}
+.jumbotron {padding-top: 20px;margin-bottom:10px;background-color:#fff;border-bottom: 20px solid;border-color:#fc3468;padding-bottom:10px;}
+h3, .bottom-margin{margin-bottom:20px;}
+h4 {margin-bottom:20px;}
