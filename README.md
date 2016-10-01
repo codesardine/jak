@@ -60,14 +60,12 @@ JAK Will look for 2 files in the root of you app, app.json and window.css.
  * app.json options
    
     * hint_type   3 options --> dock (can be used to create panels or widgets), desktop (will spawn a fullscreen undecorated window that will stay below all windows) or leave blank for normal application window.
-    
-    * width       window width
-    * height      window height
-    * fullscreen  leave blank and above sizes will be used or type yes
-    * resizable   leave blank or type no
-    * decorated   leave blank for decorations or type no
-    * transparent leave blank for normal or type yes  
-    * debug       leave blank or type yes
+
+    * fullscreen --> leave blank and above sizes will be used or type yes
+    * resizable  --> leave blank or type no
+    * decorated  --> leave blank for decorations or type no
+    * transparent --> leave blank for normal or type yes  
+    * debug       --> leave blank or type yes
  
  ```
  your app.json should look like this!
