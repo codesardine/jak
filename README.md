@@ -30,7 +30,7 @@ Official documentation: Work in progress!
  
  * Is this cross platform?
  
-  * This works on Linux, but there is Python Gobject for Windows and MacOx. I have not tested on the lastest 2 since am only trageting Linux for now, it should work!
+  * There are packages for your Linux distro, for Windows and MacOx i tink you have to compile PyGobject. I have not tested on the lastest 2 since am only trageting Linux for now, it should work!
 
  * Does it work with PyPy
  
@@ -43,12 +43,71 @@ Official documentation: Work in progress!
  * Have your applications run in the browser with websockets using the GTK Broadway backend.
  
 ## Usage
-comming soon.
+```
+jak /path/to/application/directory
+```
+          or
+```
+jak http://Address
+```
+```
+debug mode --> jak -d  myAppRoot
+help       --> jak -h
+```
+JAK Will look for 2 files in the root of you app, app.json and window.css.
+ * window.css can be used to customize the window look if you want to is not required.
+ 
+ * app.json options
+   
+    * hint_type   3 options --> dock (can be used to create panels or widgets), desktop (will spawn a fullscreen undecorated window that will stay below all windows) or leave blank for normal application window.
+    
+    * width       window width
+    * height      window height
+    * fullscreen  leave blank and above sizes will be used or type yes
+    * resizable   leave blank or type no
+    * decorated   leave blank for decorations or type no
+    * transparent leave blank for normal or type yes  
+    * debug       leave blank or type yes
+ 
+ ```
+ your app.json should look like this!
+ {
+  "app": {
+  
+  "name":        "my application name",
+  "description": "some description",
+  "version":     "0.1",
+  "author":      "your name",
+  "url":         "your application url",
+  "license":     "GPL",
+  "help":        ""
+  
+  },
+  
+  "window": {
+    "icon":        "your icon path",
+    "hint_type":   "dock", 3 options --> dock, desktop or leave blank for normal apps
+    "width":       600,
+    "height":      400,
+    "fullscreen":  "yes"
+    "resizable":   "no",  
+    "decorated":   "no",  
+    "transparent": "yes"  
+    
+  },
+  
+  "webkit": {
+  
+    "debug":  "yes"   
+  }
+}
+```
 
 ## Known Issues
  * broadway backend segfaults.
  * window shadows that should not be there wen using transparent window in Dock mode.
- * missing options in app.json will throw an error.
+ * missing options in app.json will throw an error and crash you app.
+ * theres no way of positioning windows in the screen that was not implemented yet but it will be.
 
 ## License
 
