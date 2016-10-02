@@ -1,2 +1,3 @@
-include j
-include bin
+include j/ *
+include LICENSE
+

@@ -1,6 +1,0 @@
-#!/usr/bin/python
-try:
-    import jak
-    
-except:
-    print("jak.py is not in the same folder or the python path")

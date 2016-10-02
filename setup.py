@@ -2,7 +2,6 @@ from distutils.core import setup
 from j import AK
 
 setup(
-    include_package_data=True,
 	name         = 'jak',
 	version      = AK.__version__,
 	packages     = ['j'],
@@ -31,4 +30,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Software Development :: User Interfaces",
         ],
+    
+    include_package_data=True,
+    package_data={'j':['window.css']},
 )
