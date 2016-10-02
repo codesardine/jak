@@ -4,7 +4,7 @@ setup(
     include_package_data=True,
 	name         = 'jak',
 	version      = '0.6',
-	packages     = ['jak'],
+	packages     = ['jade'],
 	url          = 'http://vmnlopes.github.io/Jade-Application-Kit/',
 	license      = 'GPL',
 	author       = 'Vitor Lopes',
