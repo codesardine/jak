@@ -1,37 +1,16 @@
-#language: python
-#python:
+language: python
+python:
   #- "3.2"
   #- "3.3"
   #- "3.4"
-  #- "3.5"
+  - "3.5"
   #- "nightly"
   # does not have headers provided, please ask https://launchpad.net/~pypy/+archive/ppa
   # maintainers to fix their pypy-dev package.
   #- "pypy"
 # command to install dependencies
-#install:
-  #- pip install .
+install:
+  - pip install .
  # - pip install -r requirements.txt
 # command to run tests
-#script: nosetests
-
-sudo: required
-env:
-  - distribution: ubuntu
-    version: 16.04
-    PYTHON="python3" PACKAGES="python3-gi"
-
-services:
-  - docker
-
-before_install:
- #- sudo add-apt-repository ppa:gnome3-team/gnome3-staging
- #- sudo apt-get dist-upgrade
-install:
- - sudo apt-get update -q
- - sudo apt-get install --no-install-recommends -y xvfb gir1.2-gtk-3.0 $(echo $PACKAGES)
- - virtualenv --python=$PYTHON --system-site-packages _venv
- - source _venv/bin/activate
-
-script:
- - xvfb-run -a $PYTHON ./jak.py
+ script: nosetests
