@@ -1,14 +1,15 @@
 from distutils.core import setup
+from j import AK
 
 setup(
     include_package_data=True,
 	name         = 'jak',
-	version      = '0.6',
-	packages     = ['jak'],
-	url          = 'http://vmnlopes.github.io/Jade-Application-Kit/',
+	version      = AK.__version__,
+	packages     = ['j'],
+	url          = AK.URL,
 	license      = 'GPL',
-	author       = 'Vitor Lopes',
-	author_email = 'vmnlop@gmail.com',
+	author       = AK.__author__,
+	author_email = AK.__email__,
 	description  = 'Jade Application Kit, build awesome hybrid Web and Desktop applications.',
     download_url = "https://github.com/vmnlopes/Jade-Application-Kit/zipball/master",
     keywords     = ["gui", "webkit2", "html5", "web", "javascript", "python", "webgl", "css3", "pygobject", "gtk", "desktop", "gnome", "linux"],
