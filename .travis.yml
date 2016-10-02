@@ -14,35 +14,24 @@ install:
  # - pip install -r requirements.txt
 # command to run tests
 script: nosetests
-sudo: required
-services:
-  - docker
-
-cache: ccache
+---
+services: docker
 
 env:
-    matrix:
-      - OS=ubuntu DIST=xenial PACK=deb
-      - PACK=none
-      include:
-      env: PYTHON="python3" PACKAGES="python3-gi"
-      - sudo apt-get install --no-install-recommends -y xvfb gir1.2-gtk-3.0 $(echo $PACKAGES)
-      - virtualenv --python=$PYTHON --system-site-packages _venv
-      - source _venv/bin/activate
-#matrix:
-  #include:
-    #- os: linux
-      #sudo: required
-      #dist: xenial
-      #language: generic
-      #env: PYTHON="python3" PACKAGES="python3-gi" # python3-gi-cairo
+  - distro: ubuntu1604
+    PYTHON="python3" PACKAGES="python3-gi"
+
+services:
+  - docker
 
 before_install:
  #- sudo add-apt-repository ppa:gnome3-team/gnome3-staging
  #- sudo apt-get dist-upgrade
 install:
  - sudo apt-get update -q
- 
+ - sudo apt-get install --no-install-recommends -y xvfb gir1.2-gtk-3.0 $(echo $PACKAGES)
+ - virtualenv --python=$PYTHON --system-site-packages _venv
+ - source _venv/bin/activate
 
 script:
  - xvfb-run -a $PYTHON ./jak.py
