@@ -1,8 +1,8 @@
 language: python
 python:
-  - "3.2"
+  #- "3.2"
   - "3.3"
-  - "3.4"
+  #- "3.4"
   - "3.5"
   #- "nightly"
   # does not have headers provided, please ask https://launchpad.net/~pypy/+archive/ppa
