@@ -23,7 +23,7 @@ matrix:
       env: PYTHON="python3" PACKAGES="python3-gi" # python3-gi-cairo
 
 before_install:
- - sudo add-apt-repository ppa:gnome3-team/gnome3-staging
+ #- sudo add-apt-repository ppa:gnome3-team/gnome3-staging
  #- sudo apt-get dist-upgrade
 install:
  - sudo apt-get update -q
