@@ -20,7 +20,7 @@ matrix:
       sudo: required
       dist: trusty
       language: generic
-      env: PYTHON="python3" PACKAGES="python3-gi python3-gi-cairo"
+      env: PYTHON="python3" PACKAGES="python3-gi" # python3-gi-cairo
 
 install:
  - sudo apt-get update -q
@@ -29,4 +29,4 @@ install:
  - source _venv/bin/activate
 
 script:
- - xvfb-run -a $PYTHON ./setup.py test
+ - xvfb-run -a $PYTHON ./jak.py
