@@ -1,7 +1,7 @@
 language: python
 python:
   #- "3.2"
-  - "3.3"
+  #- "3.3"
   #- "3.4"
   - "3.5"
   #- "nightly"
@@ -18,7 +18,7 @@ matrix:
   include:
     - os: linux
       sudo: required
-      dist: trusty
+      dist: xenial
       language: generic
       env: PYTHON="python3" PACKAGES="python3-gi" # python3-gi-cairo
 
