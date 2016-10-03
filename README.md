@@ -9,12 +9,12 @@ Official documentation: Work in progress!
 ## Introduction
 
 ## This is a DEV Preview not finish but it works!
-Development may be slow as i am working on other stuff!
+Development may be slow as i am busy!
 
- JAK is an application build in Python 3 on top of GTK3 and Webkit2.
+ JAK is built in Python 3 on top of GTK3 and Webkit2.
  It is only dependent on PyGi module you should have it pre packaged in any linux distro!
   
-You can write hybrid Web and Desktop applications on top of a webview, including but not limited to DOCKS, Widgets, or any other sort of apps.
+You can write hybrid Web and Desktop applications on Linux in a webview, including but not limited to DOCKS, Widgets, or any other sort of apps.
  This works same way as Node Webkit or Electron with a few diferences.
  
 ## Faqs
@@ -34,7 +34,8 @@ You can write hybrid Web and Desktop applications on top of a webview, including
  
  * Is this cross platform?
  
-  * There are packages for your Linux distro, for Windows head to [Pygi website](https://wiki.gnome.org/action/show/Projects/PyGObject) and MacOx i tink you have to compile it, instructions [here](https://wiki.gnome.org/action/show/Projects/GTK+/OSX/Building) and [here](https://wiki.gnome.org/Projects/GTK+/OSX/Python). I have not tested on the lastest 2 since am only tageting Linux for now!
+  THIS WAS NOT TESTED OR IS OFFICIALY SUPPORTED FOR NOW!
+  * There are packages for your Linux distro, for Windows head to [Pygi website](https://wiki.gnome.org/action/show/Projects/PyGObject) and MacOx i tink you have to compile it, instructions [here](https://wiki.gnome.org/action/show/Projects/GTK+/OSX/Building) and [here](https://wiki.gnome.org/Projects/GTK+/OSX/Python).
 
  * Does it work with PyPy
  
@@ -47,13 +48,19 @@ You can write hybrid Web and Desktop applications on top of a webview, including
  * Have your applications run in the browser with websockets using the GTK Broadway backend.
  
 ## Instalation
+using pip
 ```
-
+sudo pip install jak
+```
+using Git
+```
 git clone https://github.com/vmnlopes/Jade-Application-Kit.git
 cd ./Jade-Application-Kit
 chmod +x ./jak
 ```
 ## Usage
+
+Wen pointing to a folder JAK will look for index.html in your application root.
 ```
 jak /path/to/application/directory
 ```
@@ -65,17 +72,25 @@ debug mode --> jak -d  myAppRoot
 help       --> jak -h
 ```
 JAK Will look for 2 files in the root of you app, app.json and window.css.
- * window.css can be used to customize the window look if you want to, this is not required.
+ * window.css can be used to customize the window look if you want to, this is not required as it uses the defaul GTK Theme look.
  
  * app.json options
    
-    * hint_type   3 options --> dock (can be used to create panels or widgets), desktop (will spawn a fullscreen undecorated window that will stay below all windows) or leave blank for normal application window.
+    * hint_type   you got 3 options.
+      * dock can be used to create panels or widgets. 
+      * desktop will spawn a fullscreen undecorated window that will stay below all windows.
+      * leave blank for a normal application window.
 
-    * fullscreen --> leave blank and above sizes will be used or type yes
-    * resizable  --> leave blank or type no
-    * decorated  --> leave blank for decorations or type no
-    * transparent --> leave blank for normal or type yes  
-    * debug       --> leave blank or type yes
+    * fullscreen 
+      * leave blank and above sizes will be used or type yes
+    * resizable  
+      * leave blank or type "no"
+    * decorated 
+      * leave blank for decorations or type "no"
+    * transparent 
+      * leave blank for normal or type "yes"  
+    * debug 
+      * leave blank or type "yes", you can also use (-d option in the command line).
  
  ```
  your app.json should look like this!
@@ -96,8 +111,8 @@ JAK Will look for 2 files in the root of you app, app.json and window.css.
   "window": {
     "icon":        "your icon path",
     "hint_type":   "dock", 3 options --> dock, desktop or leave blank for normal apps
-    "width":       600,
-    "height":      400,
+    "width":       800,
+    "height":      600,
     "fullscreen":  "yes"
     "resizable":   "no",  
     "decorated":   "no",  
@@ -114,9 +129,11 @@ JAK Will look for 2 files in the root of you app, app.json and window.css.
 
 ## Known Issues
  * broadway backend segfaults.
- * window shadows that should not be there wen using transparent window in Dock mode.
+ * Transparent windows are exprimental, window shadows that should not be there wen using transparent window in Dock mode.
  * missing options in app.json will throw an error and crash you app.
  * theres no way of positioning windows in the screen that was not implemented yet but it will be.
+ 
+## SUGESTIONS ARE WELCOME!
 
 ## License
 

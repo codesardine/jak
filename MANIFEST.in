@@ -1,3 +1,5 @@
-include j/ *
 include LICENSE
+recursive-include docs *
+recursive-include j *
+recursive-include bin *
 
