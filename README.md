@@ -49,6 +49,8 @@ You can write hybrid Web and Desktop applications on Linux in a webview, includi
  * Have your applications run in the browser with websockets using the GTK Broadway backend.
  
 ## Instalation
+1 - Install Pygi 3.20 from your Linux distro repository.
+
 using pip
 ```
 sudo pip install jak
