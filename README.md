@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/vmnlopes/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/vmnlopes/Jade-Application-Kit)
 [![PyPI version](https://badge.fury.io/py/jak.svg)](https://badge.fury.io/py/jak)
 
-Official documentation: [wiki](https://github.com/vmnlopes/Jade-Application-Kit/wiki) this is a Work in progress!
+Official documentation: [wiki](https://github.com/vmnlopes/Jade-Application-Kit/wiki)
 
 ## Introduction
 
