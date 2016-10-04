@@ -8,7 +8,6 @@
 Official documentation: [wiki](https://github.com/vmnlopes/Jade-Application-Kit/wiki)
 
 Have a look at some: [screenshoots](https://vmnlopes.github.io/Jade-Application-Kit/)
-## [Contributing](https://github.com/vmnlopes/Jade-Application-Kit/blob/master/contributing.md)
 
 ## Introduction
 
@@ -34,9 +33,10 @@ You can write hybrid Web and Desktop applications on Linux in a webview, includi
  * Theres no way of positioning windows in the screen that was not implemented yet but it will be.
  
 ## SUGESTIONS ARE WELCOME!
+## [Contributing](https://github.com/vmnlopes/Jade-Application-Kit/blob/master/contributing.md)
 
 ## License
+Jade Application Kit is covered by the GPL license.
 
-*Copyright (c) 2015-2016, Vitor Lopes. All rights reserved.*
+Copyright (c) 2015-2016, Vitor Lopes. All rights reserved.
 
-JAK is covered by the GPL license.
