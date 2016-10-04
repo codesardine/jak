@@ -25,8 +25,13 @@ h3, h4, .bottom-margin {
 h2 {
 margin-top: 10px;
 }
-.pink-border {
+.pink-border-left {
 padding-left:8px;
 border-left: 2px solid;
+border-color:#fc3468;
+}
+.pink-border-top {
+padding-top:8px;
+border-top: 2px solid;
 border-color:#fc3468;
 }
