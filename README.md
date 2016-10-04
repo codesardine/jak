@@ -25,10 +25,10 @@ You can write hybrid Web and Desktop applications on Linux in a webview, includi
  * Have your applications run in the browser with websockets using the GTK Broadway backend.
  
 ## Known Issues
- * broadway backend segfaults.
- * Transparent windows are exprimental, window shadows that should not be there wen using transparent window in Dock mode.
- * missing options in app.json will throw an error and crash you app.
- * theres no way of positioning windows in the screen that was not implemented yet but it will be.
+ * Broadway backend segfaults.
+ * Transparent windows are exprimental.
+ * Missing options in app.json will throw an error and crash you app.
+ * Theres no way of positioning windows in the screen that was not implemented yet but it will be.
  
 ## SUGESTIONS ARE WELCOME!
 
