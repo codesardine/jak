@@ -7,7 +7,8 @@
 
 Official documentation: [wiki](https://github.com/vmnlopes/Jade-Application-Kit/wiki)
 
-Have a look at some [Screenshoots](https://vmnlopes.github.io/Jade-Application-Kit/)
+Have a look at some: [screenshoots](https://vmnlopes.github.io/Jade-Application-Kit/)
+## [Contributing](https://github.com/vmnlopes/Jade-Application-Kit/blob/master/contributing.md)
 
 ## Introduction
 
