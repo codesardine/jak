@@ -1,5 +1,5 @@
-body {
-font-family: 'Quattrocento', serif;
+body, .quat{
+font-family: 'Quattrocento', serif !important;
 }
 h1 {
 font-family: "Suez One";
