@@ -1,9 +1,13 @@
 body {
-font-family: "Suez One";
+font-family: 'Quattrocento', serif;
+
 }
 h1 {
 font-family: "Suez One";
 }
-.jumbotron {padding-top: 20px;margin-bottom:10px;background-color:#fff;border-bottom: 20px solid;border-color:#fc3468;padding-bottom:10px;}
-h3, .bottom-margin{margin-bottom:20px;}
+h2, h3, .indie {font-family: 'Indie Flower', cursive;}
+.jumbotron {padding-top: 20px;padding-bottom:0px !important;margin-bottom:0px !important;background-color:#fff;border-bottom: 20px solid;border-color:#fc3468;padding-bottom:10px;}
+h3, .bottom-margin{margin-bottom:20px;m}
 h4 {margin-bottom:20px;}
+.jumbotron p {margin-bottom:6px;}
+h2 {margin-top: 10px;}
