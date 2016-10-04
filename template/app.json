@@ -1,0 +1,30 @@
+{
+  "app": {
+  
+  "name":        "Application Name",
+  "description": "Create desktop applications with\n Python, JavaScript and Webkit",
+  "version":     "0.1",
+  "author":      "Your Name",
+  "url":         "https://your-app-url",
+  "license":     "GPL",
+  "help":        "help button not implemented yet, text will go here. Transparent windows is experimental, read README.md"
+  
+  },
+  
+  "window": {
+    "icon":        "",
+    "hint_type":   "",
+    "width":       600,
+    "height":      400,
+    "fullscreen":  "",
+    "resizable":   "",
+    "decorated":   "",
+    "transparent": ""
+    
+  },
+  
+  "webkit": {
+  
+    "debug":  "no"
+  }
+}
