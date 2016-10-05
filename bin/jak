@@ -1,2 +1,8 @@
 #!/usr/bin/python
-from j import AK
+try:
+    from j import AK
+    AK.cmdl()
+
+except Exception as err:
+    print(err)
+    print("JAK is not in the python PATH, you can always copy this file to JAK folder instead!")

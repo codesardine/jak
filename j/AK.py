@@ -37,25 +37,29 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit2', '4.0')
 from gi.repository import Gtk, Gdk, WebKit2, Gio
 
-# Create command line options
-option = argparse.ArgumentParser(description='''\
-  Jade Application Kit
-  --------------------
-  Create desktop applications with
-  Python, JavaScript and Webkit2
+def cmdl():
+    # Create command line options
+    option = argparse.ArgumentParser(description='''\
+      Jade Application Kit
+      --------------------
+      Create desktop applications with
+      Python, JavaScript and Webkit2
 
-  Author: Vitor Lopes
-  Licence: GPLv2 or later
+      Author: Vitor Lopes
+      Licence: GPLv2 or later
 
-  url: https://github.com/vmnlopes/Jade-Application-kit''', epilog='''\
-  jak -d /path/to/my/app/folder
-  jak -d https://my-url.com
-  ''', formatter_class=argparse.RawTextHelpFormatter)
-option.add_argument("-d", "--debug", metavar='\b', help="enable developer extras in webkit2")
-option.add_argument('route', nargs="?", help='''\
-Point to your application folder or url!
-''')
-options = option.parse_args()
+      url: https://github.com/vmnlopes/Jade-Application-kit''', epilog='''\
+      jak -d /path/to/my/app/folder
+      jak -d https://my-url.com
+      ''', formatter_class=argparse.RawTextHelpFormatter)
+    option.add_argument("-d", "--debug", metavar='\b', help="enable developer extras in webkit2")
+    option.add_argument('route', nargs="?", help='''\
+    Point to your application folder or url!
+    ''')
+    return option.parse_args(), option.print_help()
+
+
+options = cmdl()
 
 w = Gtk.Window
 path = os.getcwd()
@@ -73,7 +77,7 @@ def open_file(fileName, accessMode):
 
 def sanitize_input():
 
-    get_route = options.route
+    get_route = options[0].route
     NOSSL_MSG = "You can only run unsecure url's in debug mode. Change "
     SSL_MSG   = " forcing SSL"
 
@@ -88,11 +92,11 @@ def sanitize_input():
     if os.path.isdir(get_route):
         get_route = "file://" + get_route + "index.html"
 
-    elif not options.debug and get_route.startswith("http://"):
+    elif not options[0].debug and get_route.startswith("http://"):
         get_route = get_route.replace("http:", "https:")
         print(NOSSL_MSG + "http: to https:" + SSL_MSG)
 
-    elif not options.debug and get_route.startswith("ws:"):
+    elif not options[0].debug and get_route.startswith("ws:"):
         get_route = get_route.replace("ws:", "wss:")
         print(NOSSL_MSG + "ws:// to wss://" + SSL_MSG)
 
@@ -177,8 +181,9 @@ class AppWindow(w):
                 w.set_icon(self, get_icon)
                 print("Icon not specified or incorrect path, loading default icon!")
 
-            except:
-                print("Stock icon not found in this GTK theme")
+            except Exception as err:
+                print(err)
+                print("something went wrong loading your icon")
                 pass
 
         if get_hint_type == "desktop":
@@ -272,7 +277,7 @@ class AppWindow(w):
         else:
               w.set_default_size(self, get_width, get_height)
 
-        if get_debug == "yes" or options.debug:
+        if get_debug == "yes" or options[0].debug:
               settings.set_property("enable-developer-extras", True)
               # disable all cache in debug mode
               settings.set_property("enable-offline-web-application-cache", False)
@@ -295,7 +300,7 @@ class AppWindow(w):
 
 def get_app_config():
 
-        if options.route:
+        if options[0].route:
             get_route = sanitize_input()[0]
 
         app_settings = sanitize_input()[1]
@@ -354,8 +359,8 @@ def get_app_config():
                is_decorated, is_transparent,\
                get_debug
 
-if options.debug:
-    options.route = sys.argv[2]
+if options[0].debug:
+    options[0].route = sys.argv[2]
 
 def main():
     w = AppWindow()
@@ -363,8 +368,8 @@ def main():
     w.show_all()  # maybe i should only show the window wen the webview finishes loading?
     Gtk.main()
 
-if options.route:
+if options[0].route:
     main()
 
 else:
-    option.print_help()
+    cmdl()[1]
