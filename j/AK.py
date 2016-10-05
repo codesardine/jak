@@ -328,14 +328,14 @@ def get_app_config():
             get_description   = "app.json missing using defaults"
             get_version       = "working on it just testing out!"
             get_author        = "Vitor Lopes"
-            get_licence       = "GPL"
+            get_licence       = "my license, GPL is a good choice"
             get_help_contents = "help contents goes here"
 
             get_url           = "i need to tink about that, maybe something starting with http?"
             get_icon          = ""
             get_hint_type     = ""
-            get_width         = 600
-            get_height        = 400
+            get_width         = 800
+            get_height        = 600
             is_fullscreen     = ""
             is_resizable      = ""
             is_decorated      = ""
