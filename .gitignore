@@ -60,3 +60,4 @@ target/
 jak
 index.html
 dist/
+test.py
