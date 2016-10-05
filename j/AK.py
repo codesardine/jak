@@ -359,8 +359,6 @@ def get_app_config():
                is_decorated, is_transparent,\
                get_debug
 
-if options[0].debug:
-    options[0].route = sys.argv[2]
 
 def main():
     w = AppWindow()
@@ -368,6 +366,9 @@ def main():
     w.show_all()  # maybe i should only show the window wen the webview finishes loading?
     Gtk.main()
 
+if options[0].debug:
+    options[0].route = sys.argv[2]
+    
 if options[0].route:
     main()
 
