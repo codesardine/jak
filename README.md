@@ -16,6 +16,7 @@ Development may be slow as i am busy!
 
  JAK is built in Python 3 on top of GTK3 and Webkit2.
  It is only dependent on PyGi module you should have it pre packaged in any linux distro!
+  * further reading about Pygi [here](https://wiki.gnome.org/Projects/PyGObject).
   
 You can write hybrid Web and Desktop applications on Linux in a webview, including but not limited to DOCKS, Widgets, or any other sort of apps.
  This works same way as Node Webkit or Electron with a few diferences.
