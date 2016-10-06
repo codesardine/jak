@@ -183,7 +183,6 @@ class AppWindow(w):
             except Exception as err:
                 print(err)
                 print("something went wrong loading your icon")
-                pass
 
         if get_hint_type == "desktop":
             w.set_name(self, 'jade-desktop')
