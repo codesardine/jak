@@ -29,11 +29,11 @@ You can write hybrid Web and Desktop applications on Linux in a webview, includi
  
 ## Known Issues
  * Broadway backend segfaults.
- * Transparent windows are exprimental.
+ * Transparent windows are experimental.
  * Missing options in app.json will throw an error and crash you app.
- * Theres no way of positioning windows in the screen that was not implemented yet but it will be.
+ * There is no way of positioning windows in the screen that was not implemented yet but it will be.
  
-## SUGESTIONS ARE WELCOME!
+## SUGGESTIONS ARE WELCOME!
 ## [Contributing](https://github.com/vmnlopes/Jade-Application-Kit/blob/master/contributing.md)
 
 ## License

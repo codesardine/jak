@@ -4,7 +4,7 @@ When contributing to this repository, please first discuss the change you wish t
 
 ## Pull Request Process
 
-1. Ensure you create a new branch for every issue and work on that instead that will make it easyer to merge back without interfering with other issues.
+1. Ensure you create a new branch for every issue and work on that instead that will make it easier to merge back without interfering with other issues.
 2. You may merge the Pull Request in once i have reviewed the code i will merge it for you.
 
 ### Our Pledge

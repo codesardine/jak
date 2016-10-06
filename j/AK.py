@@ -77,7 +77,7 @@ def open_file(fileName, accessMode):
 def sanitize_input():
 
     get_route = options.route
-    NOSSL_MSG = "You can only run unsecure url's in debug mode. Change "
+    NOSSL_MSG = "You can only run unsecured url's in debug mode. Change "
     SSL_MSG   = " forcing SSL"
 
     if get_route.endswith("/"):
@@ -335,7 +335,7 @@ def get_app_config():
             get_licence       = "my license, GPL is a good choice"
             get_help_contents = "help contents goes here"
 
-            get_url           = "i need to tink about that, maybe something starting with http?"
+            get_url           = "i need to think about that, maybe something starting with http?"
             get_icon          = ""
             get_hint_type     = ""
             get_width         = 800
