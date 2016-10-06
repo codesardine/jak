@@ -33,6 +33,5 @@ setup(
     package_data={"j":["window.css"]},
     data_files=[
     ("/usr/bin/", ["bin/jak"]),
-    
     ],
 )
