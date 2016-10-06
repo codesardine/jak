@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.7 "
+__version__   = " 0.8 "
 __author__    = " Vitor Lopes " 
 __copyright__ = " Copyright (c) 2016 Vitor Lopes "
 __email__     = " vmnlop@gmail.com "
@@ -39,6 +39,7 @@ gi.require_version('WebKit2', '4.0')
 from gi.repository import Gtk, Gdk, WebKit2, Gio
 
 def cml_options():
+
     # Create command line options
     option = argparse.ArgumentParser(description='''\
       Jade Application Kit
@@ -102,6 +103,7 @@ def sanitize_input():
     return get_route, app_settings, app_path
 
 def load_window_css(css):
+
     styles = Gtk.CssProvider()
 
     if os.path.isfile(css):
@@ -155,16 +157,16 @@ class AppWindow(w):
         if is_transparent == "yes":
 
             # EXPERIMENTAL FEATURE:
-            #TODO check if window manager supports composing
+            # TODO check if window manager supports composing
 
             css = b"""
             #jade-window, #jade-header, #jade-dock, #jade-desktop {
                 background-color: rgba(0,0,0,0);
             } """
 
-            #TODO hint type dock, remove box shadow, need to find the right css class.
-            #TODO hint type dock or desktop, transparent window appears black.
-            #TODO this needs more testing maybe using cairo is a better option.
+            # TODO hint type dock, remove box shadow, need to find the right css class.
+            # TODO hint type dock or desktop, transparent window appears black.
+            # TODO this needs more testing maybe using cairo is a better option.
 
             load_window_css(css)
             self.webview.set_background_color(Gdk.RGBA(0, 0, 0, 0))
@@ -360,12 +362,14 @@ def get_app_config():
 
 
 def run():
+
     w = AppWindow()
     w.connect("delete-event", Gtk.main_quit)
     w.show_all()  # maybe i should only show the window wen the webview finishes loading?
     Gtk.main()
 
 def cml():
+
     if options.debug:
         options.route = sys.argv[2]
 

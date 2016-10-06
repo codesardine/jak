@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
 	name         = 'jak',
-	version      = "0.7",
+	version      = "0.8",
 	packages     = ['j'],
 	url          = "https://vmnlopes.github.io/Jade-Application-Kit",
 	license      = 'GPL',
