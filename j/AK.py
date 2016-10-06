@@ -155,20 +155,26 @@ class AppWindow(w):
         if is_transparent == "yes":
 
             # EXPERIMENTAL FEATURE:
-            # TODO check if window manager supports composing
+            screen = w.get_screen(self)
+            color = screen.get_rgba_visual()
+            if color != None and screen.is_composited():
+                self.set_app_paintable(True) # not shure if i need this 
+                                
+                css = b"""
+                #jade-window, #jade-header, #jade-dock, #jade-desktop {
+                    background-color: rgba(0,0,0,0);
+                } """
 
-            css = b"""
-            #jade-window, #jade-header, #jade-dock, #jade-desktop {
-                background-color: rgba(0,0,0,0);
-            } """
+                # TODO hint type dock, remove box shadow, need to find the right css class.
+                # TODO hint type dock or desktop, transparent window appears black.
+                # TODO this needs more testing maybe using cairo is a better option.
 
-            # TODO hint type dock, remove box shadow, need to find the right css class.
-            # TODO hint type dock or desktop, transparent window appears black.
-            # TODO this needs more testing maybe using cairo is a better option.
-
-            load_window_css(css)
-            self.webview.set_background_color(Gdk.RGBA(0, 0, 0, 0))
-
+                load_window_css(css)
+                self.webview.set_background_color(Gdk.RGBA(0, 0, 0, 0))
+            
+            else:
+                print("Your system does not supports composited windows")
+                
         icontheme = Gtk.IconTheme.get_default()
 
         if os.path.exists(get_icon):
