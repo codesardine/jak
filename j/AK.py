@@ -71,9 +71,8 @@ def open_file(fileName, accessMode):
         input:  filename and path.
         output: file contents.
     """
-    file = open(fileName, accessMode, encoding='utf-8')
+    file = open(fileName, accessMode, encoding='utf-8') # fixme need a way of closing the file?
     return file
-    file.close()
 
 def sanitize_input():
 
@@ -145,7 +144,6 @@ class AppWindow(w):
 
         jak_window_css_path = jak_path + "/window.css"
         load_window_css(jak_window_css_path)
-        
         app_path = sanitize_input()[2]
         app_window_css_path = app_path + "window.css"
         if os.path.isfile(app_window_css_path):
@@ -185,7 +183,6 @@ class AppWindow(w):
             except Exception as err:
                 print(err)
                 print("something went wrong loading your icon")
-                pass
 
         if get_hint_type == "desktop":
             w.set_name(self, 'jade-desktop')
