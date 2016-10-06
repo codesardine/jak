@@ -27,6 +27,7 @@ import sys
 import json
 import os
 import argparse
+import subprocess
 try:
     import gi
 except ImportError:
@@ -37,7 +38,7 @@ gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit2', '4.0')
 from gi.repository import Gtk, Gdk, WebKit2, Gio
 
-def cmdl():
+def cml_options():
     # Create command line options
     option = argparse.ArgumentParser(description='''\
       Jade Application Kit
@@ -56,11 +57,9 @@ def cmdl():
     option.add_argument('route', nargs="?", help='''\
     Point to your application folder or url!
     ''')
-    return option.parse_args(), option.print_help()
+    return option.parse_args()
 
-
-options = cmdl()
-
+options = cml_options()
 w = Gtk.Window
 path = os.getcwd()
 jak_path = os.path.dirname(__file__)
@@ -77,7 +76,7 @@ def open_file(fileName, accessMode):
 
 def sanitize_input():
 
-    get_route = options[0].route
+    get_route = options.route
     NOSSL_MSG = "You can only run unsecure url's in debug mode. Change "
     SSL_MSG   = " forcing SSL"
 
@@ -92,11 +91,11 @@ def sanitize_input():
     if os.path.isdir(get_route):
         get_route = "file://" + get_route + "index.html"
 
-    elif not options[0].debug and get_route.startswith("http://"):
+    elif not options.debug and get_route.startswith("http://"):
         get_route = get_route.replace("http:", "https:")
         print(NOSSL_MSG + "http: to https:" + SSL_MSG)
 
-    elif not options[0].debug and get_route.startswith("ws:"):
+    elif not options.debug and get_route.startswith("ws:"):
         get_route = get_route.replace("ws:", "wss:")
         print(NOSSL_MSG + "ws:// to wss://" + SSL_MSG)
 
@@ -144,7 +143,7 @@ class AppWindow(w):
 
         jak_window_css_path = jak_path + "/window.css"
         load_window_css(jak_window_css_path)
-        print(jak_path)
+        
         app_path = sanitize_input()[2]
         app_window_css_path = app_path + "window.css"
         if os.path.isfile(app_window_css_path):
@@ -277,7 +276,7 @@ class AppWindow(w):
         else:
               w.set_default_size(self, get_width, get_height)
 
-        if get_debug == "yes" or options[0].debug:
+        if get_debug == "yes" or options.debug:
               settings.set_property("enable-developer-extras", True)
               # disable all cache in debug mode
               settings.set_property("enable-offline-web-application-cache", False)
@@ -295,12 +294,12 @@ class AppWindow(w):
         settings.set_property("javascript-can-access-clipboard", True)
         settings.set_property("javascript-can-open-windows-automatically", True)
         settings.set_property("enable-spatial-navigation", True) # this is good for usability
-
+        
         self.webview.load_uri(get_route)
 
 def get_app_config():
 
-        if options[0].route:
+        if options.route:
             get_route = sanitize_input()[0]
 
         app_settings = sanitize_input()[1]
@@ -360,17 +359,18 @@ def get_app_config():
                get_debug
 
 
-def main():
+def run():
     w = AppWindow()
     w.connect("delete-event", Gtk.main_quit)
     w.show_all()  # maybe i should only show the window wen the webview finishes loading?
     Gtk.main()
 
-if options[0].debug:
-    options[0].route = sys.argv[2]
-    
-if options[0].route:
-    main()
+def cml():
+    if options.debug:
+        options.route = sys.argv[2]
 
-else:
-    cmdl()[1]
+    if options.route:
+        run()
+
+    else:
+        subprocess.call("jak -h")
