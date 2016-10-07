@@ -380,4 +380,4 @@ def cml():
         run()
 
     else:
-        subprocess.call("jak -h")
+        subprocess.call(["jak", "-h"])
