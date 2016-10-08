@@ -38,3 +38,7 @@ border-color:#fc3468;
 .mb20 {
   margin-bottom: 20px;
 }
+ul li {
+list-style:none;
+margin-bottom: 14px;
+}
