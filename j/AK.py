@@ -6,7 +6,7 @@ __version__   = " 0.9 "
 __author__    = " Vitor Lopes " 
 __copyright__ = " Copyright (c) 2016 Vitor Lopes "
 __email__     = " vmnlop@gmail.com "
-__url__       = " https://vmnlopes.github.io/Jade-Application-Kit "
+__url__       = " https://codepenguim.github.io/Jade-Application-Kit "
 
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ def cml_options():
       Author: Vitor Lopes
       Licence: GPLv2 or later
 
-      url: https://github.com/vmnlopes/Jade-Application-kit''', epilog='''\
+      url: https://github.com/codepenguim/Jade-Application-kit''', epilog='''\
       jak -d /path/to/my/app/folder
       jak -d https://my-url.com
       ''', formatter_class=argparse.RawTextHelpFormatter)
