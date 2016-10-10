@@ -1,14 +1,14 @@
 from distutils.core import setup
 
 setup(
-	name         = 'Jade-Application-Kit',
-	version      = "0.9",
-	packages     = ['j'],
+	name         = "Jade-Application-Kit",
+	version      = "0.10dev",
+	packages     = ["j"],
 	url          = "https://codepenguim.github.io/Jade-Application-Kit",
-	license      = 'GPL',
+	license      = "GPL",
 	author       = "Vitor Lopes",
 	author_email = "vmnlop@gmail.com",
-	description  = 'Build desktop applications using web technologies on Linux, with Python, JavaScript, HTML5, and CSS3 and webkit.',
+	description  = "Build desktop applications using web technologies on Linux, with Python, JavaScript, HTML5, and CSS3 and webkit.",
     download_url = "https://github.com/codepenguim/Jade-Application-Kit/zipball/master",
     keywords     = ["Jade Application Kit", "gui", "webkit", "html5", "web technologies", "javascript", "python", "webgl", "css3", "pygobject", "gtk", "desktop", "gnome", "linux"],
     classifiers  = [

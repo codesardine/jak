@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.9 "
+__version__   = " 0.10dev"
 __author__    = " Vitor Lopes " 
 __copyright__ = " Copyright (c) 2016 Vitor Lopes "
 __email__     = " vmnlop@gmail.com "
@@ -50,9 +50,9 @@ def cml_options():
       Author: Vitor Lopes
       Licence: GPLv2 or later
 
-      url: https://github.com/codepenguim/Jade-Application-kit''', epilog='''\
-      jak -d /path/to/my/app/folder
-      jak -d https://my-url.com
+      url: https://codepenguim.github.io/Jade-Application-Kit''', epilog='''\
+      ex: jak /path/to/my/app/folder
+      ex: jak -d http://my-url.com
       ''', formatter_class=argparse.RawTextHelpFormatter)
     option.add_argument("-d", "--debug", metavar='\b', help="enable developer extras in webkit2")
     option.add_argument('route', nargs="?", help='''\

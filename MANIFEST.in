@@ -1,4 +1,4 @@
-include LICENSE
+include LICENSE README.md
 recursive-include docs *
 recursive-include j *
 recursive-include bin *
