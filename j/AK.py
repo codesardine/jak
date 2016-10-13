@@ -149,18 +149,11 @@ class AppWindow(w):
         app_window_css_path = app_path + "window.css"
         if os.path.isfile(app_window_css_path):
             load_window_css(app_window_css_path)
-            
-        else:
-            pass
         
         js_path = app_path + "app.js"
         if os.path.exists(js_path):
             app_js = open_file(fileName =  js_path, accessMode = "r").read()
-            print(app_js)
             self.webview.run_javascript(str(app_js))
-
-        else:
-            pass
 
         if is_transparent == "yes":
 
