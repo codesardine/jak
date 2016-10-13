@@ -2,8 +2,8 @@
 
 [![Join the chat at https://gitter.im/JadeApplicationKit/Lobby](https://badges.gitter.im/JadeApplicationKit/Lobby.svg)](https://gitter.im/Jade-Application-Kit/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c79991176d484d50960a36007749b6a6)](https://www.codacy.com/app/codeimbecile/Jade-Application-Kit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codeimbecile/Jade-Application-Kit&amp;utm_campaign=Badge_Grade)
-[![Build Status](https://travis-ci.org/codepenguim/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codeimbecile/Jade-Application-Kit)
-[![PyPI version](https://badge.fury.io/py/Jade-Application-Kit.svg)](https://badge.fury.io/py/Jade-Application-Kit)
+[![Build Status](https://travis-ci.org/codeimbecile/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codeimbecile/Jade-Application-Kit)
+[![PyPI version](https://badge.fury.io/py/jade-application-kit.svg)](https://badge.fury.io/py/jade-application-kit)
 
 Official documentation: [wiki](https://github.com/codeimbecile/Jade-Application-Kit/wiki)
 
