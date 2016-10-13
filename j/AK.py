@@ -141,13 +141,23 @@ class AppWindow(w):
         self.webview = WebKit2.WebView()
         self.add(self.webview)
         settings = self.webview.get_settings()
-
+        
         jak_window_css_path = jak_path + "/window.css"
         load_window_css(jak_window_css_path)
+        
         app_path = sanitize_input()[2]
         app_window_css_path = app_path + "window.css"
         if os.path.isfile(app_window_css_path):
             load_window_css(app_window_css_path)
+            
+        else:
+            pass
+        
+        js_path = app_path + "app.js"
+        if os.path.exists(js_path):
+            app_js = open_file(fileName =  js_path, accessMode = "r").read()
+            print(app_js)
+            self.webview.run_javascript(str(app_js))
 
         else:
             pass
@@ -283,6 +293,7 @@ class AppWindow(w):
 
         if get_debug == "yes" or options.debug:
               settings.set_property("enable-developer-extras", True)
+              settings.set_property("enable-write-console-messages-to-stdout", True)    
               # disable all cache in debug mode
               settings.set_property("enable-offline-web-application-cache", False)
               settings.set_property("enable-page-cache", False)
