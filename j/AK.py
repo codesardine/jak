@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.11dev"
+__version__   = " 0.12dev"
 __author__    = " Vitor Lopes " 
 __copyright__ = " Copyright (c) 2016 Vitor Lopes "
 __email__     = " vmnlop@gmail.com "

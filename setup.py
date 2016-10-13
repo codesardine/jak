@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
 	name         = "Jade-Application-Kit",
-	version      = "0.11dev",
+	version      = "0.12dev",
 	packages     = ["j"],
 	url          = "https://codeimbecile.github.io/Jade-Application-Kit",
 	license      = "GPL",
