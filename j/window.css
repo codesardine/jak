@@ -15,10 +15,13 @@
 padding: 20px;
 }
 
-#jade-about-box {
+#jade-about-box label {
 
 }
-
+#about-title {
+font-weight: bold;
+font-size:120%;
+}
 #jade-help-box {
 color:red;
 }

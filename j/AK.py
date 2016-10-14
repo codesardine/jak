@@ -147,7 +147,7 @@ class AppWindow(w):
         
         app_path = sanitize_input()[2]
         app_window_css_path = app_path + "window.css"
-        if os.path.isfile(app_window_css_path):
+        if os.path.exists(app_window_css_path):
             load_window_css(app_window_css_path)
         
         js_path = app_path + "app.js"
@@ -242,28 +242,36 @@ class AppWindow(w):
             popover = Gtk.Popover.new(about_button)
             popover.set_name("jade-popover")
 
-            get_name        = Gtk.Label(get_name)
-            get_author      = Gtk.Label("Author: " + get_author)
-            get_licence     = Gtk.Label("Licence: " + get_licence)
-            get_version     = Gtk.Label("Version: " + get_version)
-            get_description = Gtk.Label("Description:   " + get_description)
-            MADE_WITH       = Gtk.Label()
-            MADE_WITH_MSG   = "Made With --> "
-            MADE_WITH.set_markup(MADE_WITH_MSG + JAK + "<a href=" + "'" + __url__ + "'" + ">" + __url__ + "</a>")
-
-            app_url = Gtk.Label()
-            WEBSITE = "Website: "
+            name        = Gtk.Label(get_name)
+            author      = Gtk.Label()
+            licence     = Gtk.Label()
+            version     = Gtk.Label()
+            description = Gtk.Label()
+            MADE_WITH   = Gtk.Label()
+            app_url     = Gtk.Label()
+            
+            WEBSITE       = "<b>Website:</b> "
+            MADE_WITH_MSG = "<b>Made With:</b> "
+            
+            author.set_markup("<b>Author:</b>  " + get_author)
+            licence.set_markup("<b>Licence:</b> " + get_licence)
+            version.set_markup("<b>Version:</b> " + get_version)
+            description.set_markup("<b>Description:</b>   " + get_description)
+            MADE_WITH.set_markup(MADE_WITH_MSG + JAK + "<a href=" + "'" + __url__ + "'" + "> URL </a>")
             app_url.set_markup(WEBSITE  + "<a href=" + "'" + get_url + "'" + ">" + get_url + "</a>")
+            
+            name.set_name("about-title")
+            
             popover_box = Gtk.Box(name = "jade-about-box", spacing=12, orientation=Gtk.Orientation.VERTICAL)
 
             get_help_box_contents = Gtk.Label(get_help_contents)
             help_box = Gtk.Box(name = "jade-help-box", spacing=12, orientation=Gtk.Orientation.VERTICAL)
 
-            popover_box.add(get_name)
-            popover_box.add(get_version)
-            popover_box.add(get_description)
-            popover_box.add(get_author)
-            popover_box.add(get_licence)
+            popover_box.add(name)
+            popover_box.add(version)
+            popover_box.add(description)
+            popover_box.add(author)
+            popover_box.add(licence)
             popover_box.add(app_url)
             popover_box.add(MADE_WITH)
             help_box.add(get_help_box_contents)
