@@ -3,9 +3,7 @@
 
 JAK           = " Jade Application Kit "
 __version__   = " 0.13dev"
-__author__    = " Vitor Lopes " 
-__copyright__ = " Copyright (c) 2016 Vitor Lopes "
-__email__     = " vmnlop@gmail.com "
+__author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
 #       This program is free software; you can redistribute it and/or modify
