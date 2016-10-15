@@ -2,11 +2,11 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.12dev"
+__version__   = " 0.13dev"
 __author__    = " Vitor Lopes " 
 __copyright__ = " Copyright (c) 2016 Vitor Lopes "
 __email__     = " vmnlop@gmail.com "
-__url__       = " https://codeimbecile.github.io/Jade-Application-Kit "
+__url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
 #       This program is free software; you can redistribute it and/or modify
 #       it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ def cml_options():
       Author: Vitor Lopes
       Licence: GPLv2 or later
 
-      url: https://codeimbecile.github.io/Jade-Application-Kit''', epilog='''\
+      url: https://codesardine.github.io/Jade-Application-Kit''', epilog='''\
       ex: jak /path/to/my/app/folder
       ex: jak -d http://my-url.com
       ''', formatter_class=argparse.RawTextHelpFormatter)
