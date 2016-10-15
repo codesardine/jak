@@ -25,6 +25,9 @@ h3, h4, .bottom-margin {
 h2 {
 margin-top: 10px;
 }
+@media (min-width: 1200px) {
+nav {margin-right: 14%;}
+}
 @media (max-width: 767px) {
 .pink-border-top {
 padding-top:8px;
@@ -50,11 +53,16 @@ ul li {
 list-style:none;
 margin-bottom: 14px;
 }
-nav {float:right;padding-right: 20px;margin-top: -10px;margin-bottom:}
-nav a {background-color: #fc3468;color:#fff;font-weight: bold;}
+nav {float:right;padding-right: 0px;margin-top: -20px;margin-bottom:}
+nav a {background-color: #fc3468;color:#fff;font-weight: bold;border-radius: 0px !important;padding: 12px !important;}
 
 .pink-border-footer {
 padding-top:14px;
 border-top: 2px solid;
 border-color:#fc3468;
+}
+.btn {border-radius: 0px !important;padding: 12px;}
+.chat {margin-left: -3px;margin-right: 40px;}
+@media (max-width: 397px) {
+.bmt{margin-top: 10px !important;}
 }
