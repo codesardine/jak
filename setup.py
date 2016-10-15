@@ -1,6 +1,5 @@
 from distutils.core import setup
 from os import path
-from j import AK
 
 readme = path.abspath(path.dirname(__file__))
 
