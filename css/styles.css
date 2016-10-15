@@ -2,7 +2,7 @@ body, .quat{
 font-family: 'Quattrocento', serif !important;
 }
 h1 {
-font-family: "Suez One";
+font-family: "Suez One";margin-top: 80px;
 }
 h2, h3, .indie {
   font-family: 'Indie Flower', cursive;
@@ -25,15 +25,23 @@ h3, h4, .bottom-margin {
 h2 {
 margin-top: 10px;
 }
-.pink-border-left {
-padding-left:14px;
-border-left: 2px solid;
-border-color:#fc3468;
-}
+@media (max-width: 767px) {
 .pink-border-top {
 padding-top:8px;
 border-top: 2px solid;
 border-color:#fc3468;
+}
+    .pink-border-bottom {
+padding-bottom:14px;
+border-bottom: 2px solid;
+border-color:#fc3468;
+    }}
+@media (min-width: 768px) {
+    .pink-border-left {
+    padding-left:14px;
+    border-left: 2px solid;
+    border-color:#fc3468;
+    }
 }
 .mb20 {
   margin-bottom: 20px;
@@ -41,4 +49,12 @@ border-color:#fc3468;
 ul li {
 list-style:none;
 margin-bottom: 14px;
+}
+nav {float:right;padding-right: 20px;margin-top: -10px;margin-bottom:}
+nav a {background-color: #fc3468;color:#fff;font-weight: bold;}
+
+.pink-border-footer {
+padding-top:14px;
+border-top: 2px solid;
+border-color:#fc3468;
 }
