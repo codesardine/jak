@@ -10,9 +10,9 @@ with open(path.join(readme, 'README.rst'), encoding='utf-8') as f:
 
 setup(
 	name             = "Jade-Application-Kit",
-	version          = AK.__version__,
+	version          = "0.14dev",
 	packages         = ["j"],
-	url              = AK.__url__,
+	url              = "https://codesardine.github.io/Jade-Application-Kit",
 	license          = "GPL",
 	author           = "Vitor Lopes",
 	author_email     = "vmnlop@gmail.com",
