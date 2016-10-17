@@ -62,8 +62,10 @@ border-top: 2px solid;
 border-color:#fc3468;
 }
 .btn {border-radius: 0px !important;padding: 12px;}
-.chat {margin-left: -3px;margin-right: 40px;}
+.chat {margin-left: -4px;margin-right: 40px;}
 @media (max-width: 397px) {
 .bmt{margin-top: 10px !important;}
 }
-.pics img{}
+.gitter-icon {top:-6px;right: -6px;}
+.item img {width: ;}
+.item {height: ;}
