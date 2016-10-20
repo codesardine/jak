@@ -9,7 +9,7 @@ with open(path.join(readme, 'README.rst'), encoding='utf-8') as f:
 
 setup(
 	name             = "Jade-Application-Kit",
-	version          = "0.14dev",
+	version          = "0.15b1",
 	packages         = ["j"],
 	url              = "https://codesardine.github.io/Jade-Application-Kit",
 	license          = "GPL",
@@ -20,7 +20,7 @@ setup(
     download_url     = "https://github.com/codesardine/Jade-Application-Kit/zipball/master",
     keywords         = ["Jade Application Kit", "gui", "webkit", "html5", "web technologies", "javascript", "python", "webgl", "css3", "pygobject", "gtk", "desktop", "gnome", "linux"],
     classifiers      = [
-	    "Development Status :: 3 - Alpha",
+	    "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
         "Operating System :: OS Independent",

@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.14dev"
+__version__   = " 0.15dev"
 __author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
@@ -24,6 +24,7 @@ __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 import sys
 import json
 import os
+import inspect
 import argparse
 import subprocess
 try:
@@ -75,9 +76,14 @@ def open_file(fileName, accessMode):
 def sanitize_input():
 
     get_route = options.route
+    # if running as module
+    if get_route is None:
+        # returns the path of the file importing the module
+        get_route = os.path.dirname(os.path.abspath(sys.argv[0])) 
+          
     NOSSL_MSG = "You can only run unsecured url's in debug mode. Change "
     SSL_MSG   = " forcing SSL"
-
+      
     if get_route.endswith("/"):
         pass
 
@@ -128,7 +134,7 @@ class AppWindow(w):
         is_fullscreen, is_resizable,\
         is_decorated, is_transparent,\
         get_debug = get_app_config()
-
+        
         if get_hint_type == "desktop" or get_hint_type == "dock":
                 w.__init__(self, title = get_name, skip_pager_hint=True, skip_taskbar_hint=True)
 
@@ -314,8 +320,7 @@ class AppWindow(w):
 
 def get_app_config():
 
-        if options.route:
-            get_route = sanitize_input()[0]
+        get_route = sanitize_input()[0]
 
         app_settings = sanitize_input()[1]
         if os.path.exists(app_settings):
