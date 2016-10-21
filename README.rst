@@ -1,7 +1,7 @@
 Jade Application Kit
 ====================
 
-`Join the chat channel!<https://gitter.im/JadeApplicationKit/Lobby>`__
+`Join the chat channel! <https://gitter.im/JadeApplicationKit/Lobby>`__
 
 Official documentation:
 `wiki <https://github.com/codesardine/Jade-Application-Kit/wiki>`__
