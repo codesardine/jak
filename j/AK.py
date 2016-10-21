@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.15b1"
+__version__   = " 0.16b1"
 __author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
@@ -119,7 +119,11 @@ def load_window_css(css):
         Gdk.Screen.get_default(),
         styles,
         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-
+ 
+def get_html(html = '<!DOCTYPE html><html><head></head><body></body></html>'):
+    print("index.html not found loading default html")
+    return html
+        
 class AppWindow(w):
 
     def __init__(self):  # Create window frame
@@ -316,7 +320,17 @@ class AppWindow(w):
         settings.set_property("javascript-can-open-windows-automatically", True)
         settings.set_property("enable-spatial-navigation", True) # this is good for usability
         
-        self.webview.load_uri(get_route)
+
+        def load_html():
+            
+            html = get_html()
+            self.webview.load_html(html)
+                    
+        if os.path.exists(get_route):
+            self.webview.load_uri(get_route)
+        
+        else:
+            load_html()
 
 def get_app_config():
 
