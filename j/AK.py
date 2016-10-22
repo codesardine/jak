@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.16b1"
+__version__   = " 0.17b2"
 __author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
@@ -64,6 +64,9 @@ w = Gtk.Window
 path = os.getcwd()
 jak_path = os.path.dirname(__file__)
 
+class Api:
+    html = ""
+
 def open_file(fileName, accessMode):
 
     """
@@ -93,7 +96,7 @@ def sanitize_input():
     app_settings = get_route + "app.json"
     app_path = get_route
     if os.path.isdir(get_route):
-        get_route = "file://" + get_route + "index.html"
+        get_route = get_route + "index.html"
 
     elif not options.debug and get_route.startswith("http://"):
         get_route = get_route.replace("http:", "https:")
@@ -119,11 +122,7 @@ def load_window_css(css):
         Gdk.Screen.get_default(),
         styles,
         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
- 
-def get_html(html = '<!DOCTYPE html><html><head></head><body></body></html>'):
-    print("index.html not found loading default html")
-    return html
-        
+
 class AppWindow(w):
 
     def __init__(self):  # Create window frame
@@ -138,7 +137,7 @@ class AppWindow(w):
         is_fullscreen, is_resizable,\
         is_decorated, is_transparent,\
         get_debug = get_app_config()
-        
+
         if get_hint_type == "desktop" or get_hint_type == "dock":
                 w.__init__(self, title = get_name, skip_pager_hint=True, skip_taskbar_hint=True)
 
@@ -319,16 +318,16 @@ class AppWindow(w):
         settings.set_property("javascript-can-access-clipboard", True)
         settings.set_property("javascript-can-open-windows-automatically", True)
         settings.set_property("enable-spatial-navigation", True) # this is good for usability
-        
 
         def load_html():
-            
-            html = get_html()
-            self.webview.load_html(html)
-                    
-        if os.path.exists(get_route):
+            self.webview.load_html(Api.html)
+            if Api.html == "":
+                print("Python HTML string empty!")
+
+        if os.path.isfile(get_route):
+            get_route = "file://" + get_route
             self.webview.load_uri(get_route)
-        
+
         else:
             load_html()
 

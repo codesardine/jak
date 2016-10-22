@@ -4,8 +4,11 @@ try:
     
 except Exception as err:
     print("Ops something went wrong: " + str(err))
-    
-# 
-# your code here do some stuff.
-#   
+
+AK.Api.html = """
+
+<h1>jade Application Kit rocks</h1>
+<p>hey my app is great<p>
+
+"""
 AK.run()
