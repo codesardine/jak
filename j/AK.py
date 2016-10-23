@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.17b2"
+__version__   = " 0.18b2"
 __author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
@@ -65,16 +65,16 @@ path = os.getcwd()
 jak_path = os.path.dirname(__file__)
 
 class Api:
+
     html = ""
 
-def open_file(fileName, accessMode):
-
-    """
-        input:  filename and path.
-        output: file contents.
-    """
-    file = open(fileName, accessMode, encoding='utf-8') # fixme need a way of closing the file?
-    return file
+    def open_file(filename, accessmode="r"):
+        """
+            input:  filename and path.
+            output: file contents.
+        """
+        file = open(filename, accessmode, encoding='utf-8')  # fixme need a way of closing the file?
+        return file
 
 def sanitize_input():
 
@@ -159,7 +159,7 @@ class AppWindow(w):
         
         js_path = app_path + "app.js"
         if os.path.exists(js_path):
-            app_js = open_file(fileName =  js_path, accessMode = "r").read()
+            app_js = Api.open_file(js_path).read()
             self.webview.run_javascript(str(app_js))
 
         if is_transparent == "yes":
@@ -339,7 +339,7 @@ def get_app_config():
         if os.path.exists(app_settings):
             # Open app.json and return values
 
-            app_settings = json.load(open_file(fileName = app_settings, accessMode = "r"))
+            app_settings = json.load(Api.open_file(app_settings))
 
             get_name          = app_settings["app"]["name"]
             get_description   = app_settings["app"].get("description")
