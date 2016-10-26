@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.18b2"
+__version__   = " 0.19b2"
 __author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
@@ -24,7 +24,7 @@ __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 import sys
 import json
 import os
-import inspect
+import socket
 import argparse
 import subprocess
 try:
@@ -160,7 +160,7 @@ class AppWindow(w):
         js_path = app_path + "app.js"
         if os.path.exists(js_path):
             app_js = Api.open_file(js_path).read()
-            self.webview.run_javascript(str(app_js))
+            self.webview.run_javascript(str(app_js)) # i am not happy with this since i can only call run_javascript once?
 
         if is_transparent == "yes":
 
@@ -391,9 +391,23 @@ def get_app_config():
                is_decorated, is_transparent,\
                get_debug
 
+def run_sh():
+    # not shure if i am happy with this
+    sh_path = sanitize_input()[2]
+    sh = sh_path + "app.sh"
+    if os.path.exists(sh):
+        local = socket.gethostbyname(socket.gethostname()) # this only supports ipv4.
+        if sh.startswith("/") or sh == local: # prevent remote execution off shell scripts.
+            try:
+                subprocess.call([sh])
+
+            except Exception as err:
+                print("Ops something went wrong running app.sh: " + str(err))
+
 
 def run():
 
+    run_sh()
     w = AppWindow()
     w.connect("delete-event", Gtk.main_quit)
     w.show_all()  # maybe i should only show the window wen the webview finishes loading?
