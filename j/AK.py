@@ -396,8 +396,8 @@ def run_sh():
     sh_path = sanitize_input()[2]
     sh = sh_path + "app.sh"
     if os.path.exists(sh):
-        local = socket.gethostbyname(socket.gethostname()) # this only supports ipv4.
-        if sh.startswith("/") or sh == local: # prevent remote execution off shell scripts.
+        # local = socket.gethostbyname(socket.gethostname()) # this only supports ipv4.
+        if sh.startswith("/"): # or sh == local: # prevent remote execution off shell scripts.
             try:
                 subprocess.call([sh])
 
