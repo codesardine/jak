@@ -145,7 +145,7 @@ class AppWindow(w):
                 w.__init__(self, title = get_name)
 
         # create webview
-        self.webview = WebKit2.WebView()
+        self.webview = WebKit2.WebView.new()
         self.add(self.webview)
         settings = self.webview.get_settings()
         
