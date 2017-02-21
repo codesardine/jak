@@ -2,7 +2,7 @@
 # coding: utf-8
 
 JAK           = " Jade Application Kit "
-__version__   = " 0.19b2"
+__version__   = " 0.19b3"
 __author__    = " Copyright (c) 2016 Vitor Lopes " 
 __url__       = " https://codesardine.github.io/Jade-Application-Kit "
 
