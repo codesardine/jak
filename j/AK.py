@@ -301,7 +301,7 @@ class AppWindow(w):
 
         if get_debug == "yes" or options.debug:
               settings.set_property("enable-developer-extras", True)
-              settings.set_property("enable-write-console-messages-to-stdout", True)    
+
               # disable all cache in debug mode
               settings.set_property("enable-offline-web-application-cache", False)
               settings.set_property("enable-page-cache", False)
@@ -316,7 +316,7 @@ class AppWindow(w):
         settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
         settings.set_property("allow-file-access-from-file-urls", True)
         settings.set_property("javascript-can-access-clipboard", True)
-        settings.set_property("javascript-can-open-windows-automatically", True)
+        settings.set_property("enable-write-console-messages-to-stdout", True)
         settings.set_property("enable-spatial-navigation", True) # this is good for usability
 
         get_route = "file://" + get_route
