@@ -319,13 +319,16 @@ class AppWindow(w):
         settings.set_property("javascript-can-open-windows-automatically", True)
         settings.set_property("enable-spatial-navigation", True) # this is good for usability
 
+        get_route = "file://" + get_route
+
         def load_html():
-            self.webview.load_html(Api.html)
+
+            self.webview.load_html(Api.html, get_route)
             if Api.html == "":
                 print("Python HTML string empty!")
 
         if os.path.isfile(get_route):
-            get_route = "file://" + get_route
+
             self.webview.load_uri(get_route)
 
         else:
