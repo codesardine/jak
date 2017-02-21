@@ -93,7 +93,7 @@ def sanitize_input():
     else:
         get_route = get_route + "/"
 
-    app_settings = get_route + "app.json"
+    app_settings = get_route + "application-settings.json"
     app_path = get_route
     if os.path.isdir(get_route):
         get_route = get_route + "index.html"
@@ -340,7 +340,7 @@ def get_app_config():
 
         app_settings = sanitize_input()[1]
         if os.path.exists(app_settings):
-            # Open app.json and return values
+            # Open application-settings.json and return values
 
             app_settings = json.load(Api.open_file(app_settings))
 
@@ -365,7 +365,7 @@ def get_app_config():
 
         else:
             get_name          = JAK
-            get_description   = "app.json missing using defaults"
+            get_description   = "application-settings.json missing using defaults"
             get_version       = "working on it just testing out!"
             get_author        = "Vitor Lopes"
             get_licence       = "my license, GPL is a good choice"
@@ -397,7 +397,7 @@ def get_app_config():
 def run_sh():
     # not shure if i am happy with this
     sh_path = sanitize_input()[2]
-    sh = sh_path + "app.sh"
+    sh = sh_path + "startup.sh"
     if os.path.exists(sh):
         local = socket.gethostbyname(socket.gethostname()) # this only supports ipv4.
         if sh.startswith("/") or sh == local: # prevent remote execution off shell scripts.
@@ -405,7 +405,7 @@ def run_sh():
                 subprocess.call([sh])
 
             except Exception as err:
-                print("Ops something went wrong running app.sh: " + str(err))
+                print("Ops something went wrong running startup.sh: " + str(err))
 
 
 def run():
