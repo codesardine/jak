@@ -3,7 +3,7 @@
 pkgbase=('python-jade-application-kit')
 pkgname=('python-jade-application-kit')
 _module='Jade-Application-Kit'
-pkgver='0.19b3'
+pkgver='0.a23'
 pkgrel=1
 pkgdesc="Build desktop applications using web technologies on Linux, with Python, JavaScript, HTML5, and CSS3 and webkit."
 url="https://codesardine.github.io/Jade-Application-Kit"
