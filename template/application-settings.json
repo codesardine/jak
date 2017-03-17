@@ -1,0 +1,26 @@
+{
+    "app": {
+
+        "name": "Appication Name",
+        "description": "My description",
+        "version": "a0.1",
+        "author": "My Name",
+        "url": "application url",
+        "license": "GPL"
+    },
+
+    "window": {
+        "hint_type": "",
+        "width": "1024",
+        "height": "768",
+        "fullscreen": "",
+        "resizable": "",
+        "decorated": "",
+        "transparent": ""
+    },
+
+    "webkit": {
+
+        "debug": "yes"
+    }
+}

@@ -1,44 +1,31 @@
-
 # coding: utf-8
+"""
 
-JAK           = " Jade Application Kit "
-__version__   = " 0.19b3"
-__author__    = " Copyright (c) 2016 Vitor Lopes " 
-__url__       = " https://codesardine.github.io/Jade-Application-Kit "
+          Jade Application Kit
+ Author - Copyright (c) 2016 Vitor Lopes
+ url    - https://codesardine.github.io/Jade-Application-Kit
 
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 2 of the License, or
-#       (at your option) any later version.
-#
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#       GNU General Public License for more details.
-#
-#       You should have received a copy of the GNU General Public License
-#       along with this program; if not, write to the Free Software
-#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
+"""
 
-import sys
+import argparse
 import json
 import os
-import socket
-import argparse
 import subprocess
+import sys
+
 try:
     import gi
+
 except ImportError:
-    print("PyGObject not found")
+    print("PyGObject not found.")
     sys.exit(0)
 
 gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit2', '4.0')
-from gi.repository import Gtk, Gdk, WebKit2, Gio
+from gi.repository import Gtk, Gdk, WebKit2
+
 
 def cml_options():
-
     # Create command line options
     option = argparse.ArgumentParser(description='''\
       Jade Application Kit
@@ -46,7 +33,7 @@ def cml_options():
       Create desktop applications with
       Python, JavaScript and Webkit2
 
-      Author: Vitor Lopes
+      Author : Vitor Lopes
       Licence: GPLv2 or later
 
       url: https://codesardine.github.io/Jade-Application-Kit''', epilog='''\
@@ -59,57 +46,43 @@ def cml_options():
     ''')
     return option.parse_args()
 
+
 options = cml_options()
-w = Gtk.Window
 path = os.getcwd()
 jak_path = os.path.dirname(__file__)
+application_path = options.route
+
+# if running as module
+if application_path is None:
+    # returns the path of the file importing the module
+    application_path = os.path.dirname(os.path.abspath(sys.argv[0]))
+
+if application_path.endswith("/"):
+    pass
+
+else:
+    application_path += "/"
+
 
 class Api:
-
     html = ""
+    javascript = ""
 
-    def open_file(filename, accessmode="r"):
+    def openFile(file_name, access_mode="r"):
         """
             input:  filename and path.
             output: file contents.
         """
-        file = open(filename, accessmode, encoding='utf-8')  # fixme need a way of closing the file?
-        return file
+        try:
+            with open(file_name, access_mode, encoding='utf-8') as file:
+                return file.read()
 
-def sanitize_input():
+        except IOError:
+            print(file_name + " File not found.")
+            sys.exit(0)
 
-    get_route = options.route
-    # if running as module
-    if get_route is None:
-        # returns the path of the file importing the module
-        get_route = os.path.dirname(os.path.abspath(sys.argv[0])) 
-          
-    NOSSL_MSG = "You can only run unsecured url's in debug mode. Change "
-    SSL_MSG   = " forcing SSL"
-      
-    if get_route.endswith("/"):
-        pass
-
-    else:
-        get_route = get_route + "/"
-
-    app_settings = get_route + "application-settings.json"
-    app_path = get_route
-    if os.path.isdir(get_route):
-        get_route = get_route + "index.html"
-
-    elif not options.debug and get_route.startswith("http://"):
-        get_route = get_route.replace("http:", "https:")
-        print(NOSSL_MSG + "http: to https:" + SSL_MSG)
-
-    elif not options.debug and get_route.startswith("ws:"):
-        get_route = get_route.replace("ws:", "wss:")
-        print(NOSSL_MSG + "ws:// to wss://" + SSL_MSG)
-
-    return get_route, app_settings, app_path
 
 def load_window_css(css):
-
     styles = Gtk.CssProvider()
 
     if os.path.isfile(css):
@@ -123,55 +96,121 @@ def load_window_css(css):
         styles,
         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
 
-class AppWindow(w):
 
+def get_app_config():
+    application_settings = application_path + "application-settings.json"
+
+    if os.path.exists(application_settings):
+        # Open application-settings.json and return values
+
+        application_settings = Api.openFile(application_settings)
+        application_settings = json.loads(application_settings)
+
+        application_name        = application_settings["application"]["name"]
+        application_description = application_settings["application"].get("description")
+        application_version     = application_settings["application"].get("version")
+        application_author      = application_settings["application"].get("author")
+        application_licence     = application_settings["application"].get("license")
+        application_url         = application_settings["application"].get("url")
+
+        application_window_hint_type   = application_settings["window"].get("hint_type")
+        application_window_width       = application_settings["window"].get("width")
+        application_window_height      = application_settings["window"].get("height")
+        application_window_full_screen = application_settings["window"].get("fullscreen")
+        application_window_resizable   = application_settings["window"].get("resizable")
+        application_window_decorated   = application_settings["window"].get("decorated")
+        application_window_transparent = application_settings["window"].get("transparent")
+
+        application_debug = application_settings["webkit"].get("debug")
+
+    else:
+        application_name = \
+            application_description = \
+            application_version = \
+            application_author = \
+            application_licence = \
+            application_url = \
+            application_window_hint_type = \
+            application_window_width = \
+            application_window_height = \
+            application_window_resizable = \
+            application_window_decorated = \
+            application_window_transparent = ""
+        application_window_full_screen = "yes"
+        application_debug = "yes"
+
+    return application_name, \
+           application_description, \
+           application_version, \
+           application_author, \
+           application_licence, \
+           application_url, \
+           application_path, \
+           application_window_hint_type, \
+           application_window_width, \
+           application_window_height, \
+           application_window_full_screen, \
+           application_window_resizable, \
+           application_window_decorated, \
+           application_window_transparent, \
+           application_debug
+
+
+class AppWindow(Gtk.Window):
     def __init__(self):  # Create window frame
 
         # get tuple values from function
-        get_name, get_description,\
-        get_version, get_author,\
-        get_licence, get_help_contents,\
-        get_url, get_route,\
-        get_icon, get_hint_type,\
-        get_width, get_height,\
-        is_fullscreen, is_resizable,\
-        is_decorated, is_transparent,\
-        get_debug = get_app_config()
+        application_name, \
+        application_description, \
+        application_version, \
+        application_author, \
+        application_licence, \
+        application_url, \
+        application_path, \
+        application_window_hint_type, \
+        application_window_width, \
+        application_window_height, \
+        application_window_full_screen, \
+        application_window_resizable, \
+        application_window_decorated, \
+        application_window_transparent, \
+        application_debug = get_app_config()
 
-        if get_hint_type == "desktop" or get_hint_type == "dock":
-                w.__init__(self, title = get_name, skip_pager_hint=True, skip_taskbar_hint=True)
+        if application_window_hint_type == "desktop" or application_window_hint_type == "dock":
+            Gtk.Window.__init__(self, title=application_name, skip_pager_hint=True, skip_taskbar_hint=True)
 
         else:
-                w.__init__(self, title = get_name)
+            Gtk.Window.__init__(self, title=application_name)
 
         # create webview
         self.webview = WebKit2.WebView.new()
-        self.add(self.webview)
-        settings = self.webview.get_settings()
-        
-        jak_window_css_path = jak_path + "/window.css"
-        load_window_css(jak_window_css_path)
-        
-        app_path = sanitize_input()[2]
-        app_window_css_path = app_path + "window.css"
-        if os.path.exists(app_window_css_path):
-            load_window_css(app_window_css_path)
-        
-        js_path = app_path + "app.js"
-        if os.path.exists(js_path):
-            app_js = Api.open_file(js_path).read()
-            self.webview.run_javascript(str(app_js)) # i am not happy with this since i can only call run_javascript once?
+        test = Gtk.Widget.get_preferred_size(self.webview)
 
-        if is_transparent == "yes":
+        self.add(self.webview)
+        self.settings = self.webview.get_settings()
+
+        screen = Gtk.Window.get_screen(self)
+
+        #jak_window_style = jak_path + "/window.css"
+
+        #if os.path.isfile(jak_window_style):
+        #   load_window_css(jak_window_style)
+
+        application_window_style = application_path + "window.css"
+
+        if os.path.isfile(application_window_style):
+            load_window_css(application_window_style)
+
+        if application_window_transparent == "yes":
 
             # EXPERIMENTAL FEATURE:
-            screen = w.get_screen(self)
             color = screen.get_rgba_visual()
-            if color != None and screen.is_composited():
-                self.set_app_paintable(True) # not shure if i need this 
-                                
+
+            if color is not None and screen.is_composited():
+                self.set_app_paintable(True)  # not sure if i need this
+
                 css = b"""
-                #jade-window, #jade-header, #jade-dock, #jade-desktop {
+                #jade-window, #jade-dock, #jade-desktop {
                     background-color: rgba(0,0,0,0);
                 } """
 
@@ -181,248 +220,137 @@ class AppWindow(w):
 
                 load_window_css(css)
                 self.webview.set_background_color(Gdk.RGBA(0, 0, 0, 0))
-            
+
             else:
-                print("Your system does not supports composited windows")
-                
-        icontheme = Gtk.IconTheme.get_default()
+                print("Your system does not supports composite windows")
 
-        if os.path.exists(get_icon):
-            w.set_icon_from_file(self, get_icon )
+        if application_window_hint_type == "desktop":
+            Gtk.Window.set_name(self, 'jade-desktop')
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DESKTOP)
+            Gtk.Window.set_resizable(self, False)
 
-        else:
-            try:
-                get_icon = icontheme.load_icon(Gtk.STOCK_MISSING_IMAGE, 0, 0)
-                w.set_icon(self, get_icon)
-                print("Icon not specified or incorrect path, loading default icon!")
-
-            except Exception as err:
-                print(err)
-                print("something went wrong loading your icon")
-
-        if get_hint_type == "desktop":
-            w.set_name(self, 'jade-desktop')
-            w.set_type_hint(self, Gdk.WindowTypeHint.DESKTOP)
-            w.set_resizable(self, False)
-
-        elif get_hint_type == "dock":
-            w.set_type_hint(self, Gdk.WindowTypeHint.DOCK)
-            w.set_name(self, 'jade-dock')
+        elif application_window_hint_type == "dock":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DOCK)
+            Gtk.Window.set_name(self, 'jade-dock')
 
         else:
-            w.set_type_hint(self, Gdk.WindowTypeHint.NORMAL)
-            w.set_name(self, "jade-window")
-            header = Gtk.HeaderBar()
-            header.set_name("jade-header")
-            header.set_show_close_button(True)
-            header.props.title = get_name
-            w.set_titlebar(self, header)
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.NORMAL)
+            Gtk.Window.set_name(self, "jade-window")
 
-            def about_on_click(about_button):
-                # TODO this will be converted to javascript
-                    if popover.get_visible():
-                       popover.hide()
-                    else:
-                       popover.show_all()
+        Gtk.Window.set_position(self, Gtk.WindowPosition.CENTER)
 
-            def help_on_click(help_button):
-                # TODO this will be done in javascript
-                test = "alert('alert works')"
-                self.webview.run_javascript(test)
+        if application_window_resizable == "no":
+            Gtk.Window.set_resizable(self, False)
 
-            about_button = Gtk.Button(label = "About", relief = Gtk.ReliefStyle.NONE)
-            help_button = Gtk.Button(relief = Gtk.ReliefStyle.NONE)
+        if application_window_decorated == "no":
+            Gtk.Window.set_decorated(self, False)
 
-            icon = Gio.ThemedIcon(name = "help")
-            image = Gtk.Image.new_from_gicon(icon, Gtk.IconSize.BUTTON)
-            help_button.add(image)
+        if application_window_full_screen == "yes":
+            Gtk.Window.set_default_size(self, screen.width(), screen.height())
 
-            help_button.set_tooltip_text("HELP section, How to use " + get_name)
-            about_button.set_tooltip_text("Get more information about " + get_name)
-
-            #header.pack_start(help_button)
-            header.pack_end(about_button)
-
-            about_button.connect("clicked", about_on_click)
-            help_button.connect("clicked", help_on_click)
-
-            popover = Gtk.Popover.new(about_button)
-            popover.set_name("jade-popover")
-
-            name        = Gtk.Label(get_name)
-            author      = Gtk.Label()
-            licence     = Gtk.Label()
-            version     = Gtk.Label()
-            description = Gtk.Label()
-            MADE_WITH   = Gtk.Label()
-            app_url     = Gtk.Label()
-            
-            WEBSITE       = "<b>Website:</b> "
-            MADE_WITH_MSG = "<b>Made With:</b> "
-            
-            author.set_markup("<b>Author:</b>  " + get_author)
-            licence.set_markup("<b>Licence:</b> " + get_licence)
-            version.set_markup("<b>Version:</b> " + get_version)
-            description.set_markup("<b>Description:</b>   " + get_description)
-            MADE_WITH.set_markup(MADE_WITH_MSG + JAK + "<a href=" + "'" + __url__ + "'" + "> URL </a>")
-            app_url.set_markup(WEBSITE  + "<a href=" + "'" + get_url + "'" + ">" + get_url + "</a>")
-            
-            name.set_name("about-title")
-            
-            popover_box = Gtk.Box(name = "jade-about-box", spacing=12, orientation=Gtk.Orientation.VERTICAL)
-
-            get_help_box_contents = Gtk.Label(get_help_contents)
-            help_box = Gtk.Box(name = "jade-help-box", spacing=12, orientation=Gtk.Orientation.VERTICAL)
-
-            popover_box.add(name)
-            popover_box.add(version)
-            popover_box.add(description)
-            popover_box.add(author)
-            popover_box.add(licence)
-            popover_box.add(app_url)
-            popover_box.add(MADE_WITH)
-            help_box.add(get_help_box_contents)
-            popover.add(popover_box)
-
-            #self.add(help_box)
-
-        w.set_position(self, Gtk.WindowPosition.CENTER)
-        if is_resizable == "no":
-            w.set_resizable(self, False)
-
-        if is_decorated == "no":
-            w.set_decorated(self, False)
-
-        if is_fullscreen == "yes":
-              screen = w.get_screen(self)
-              w.set_default_size(self, screen.width(), screen.height())
         else:
-              w.set_default_size(self, get_width, get_height)
+            Gtk.Window.set_default_size(self, int(application_window_width), int(application_window_height))
 
-        if get_debug == "yes" or options.debug:
-              settings.set_property("enable-developer-extras", True)
+        if application_debug == "yes" or options.debug:
+            self.settings.set_property("enable-developer-extras", True)
 
-              # disable all cache in debug mode
-              settings.set_property("enable-offline-web-application-cache", False)
-              settings.set_property("enable-page-cache", False)
+            # disable all cache in debug mode
+            self.settings.set_property("enable-offline-web-application-cache", False)
+            self.settings.set_property("enable-page-cache", False)
 
         else:
             # Disable webview rigth click menu
-            def disable_menu(*args):  return True
+            def disable_menu(*args):
+                return True
+
             self.webview.connect("context-menu", disable_menu)
-            settings.set_property("enable-offline-web-application-cache", True)
+            self.settings.set_property("enable-offline-web-application-cache", True)
 
-        settings.set_property("default-charset", "utf-8")
-        settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
-        settings.set_property("allow-file-access-from-file-urls", True)
-        settings.set_property("javascript-can-access-clipboard", True)
-        settings.set_property("enable-write-console-messages-to-stdout", True)
-        settings.set_property("enable-spatial-navigation", True) # this is good for usability
+        self.settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
+        self.settings.set_enable_smooth_scrolling(self)
+        self.settings.set_property("default-charset", "utf-8")
+        self.settings.set_property("allow-file-access-from-file-urls", True)
+        self.settings.set_property("javascript-can-access-clipboard", True)
+        self.settings.set_property("enable-write-console-messages-to-stdout", True)
+        self.settings.set_property("enable-spatial-navigation", True)  # this is good for usability
+        self.settings.set_property("enable-java", False)
+        self.settings.set_property("enable-plugins", False)
 
-        get_route = "file://" + get_route
+        screen_width = screen.width()
+        screen_height = screen.height()
 
-        def load_html():
+        # TODO javascript Api
+        Api.javascript = '''
 
-            self.webview.load_html(Api.html, get_route)
-            if Api.html == "":
-                print("Python HTML string empty!")
+        var jadeApplication = {
 
-        if os.path.isfile(get_route):
+        'name'         : '%(application_name)s',
+        'description'  : '%(application_description)s',
+        'version'      : '%(application_version)s',
+        'author'       : '%(application_author)s',
+        'license'      : '%(application_licence)s',
+        'url'          : '%(application_url)s',
+        'windowWidth'  : '%(application_window_width)s',
+        'windowHeight' : '%(application_window_height)s',
+        'screenWidth'  : %(screen_width)s,
+        'screenHeight' : %(screen_height)s
 
-            self.webview.load_uri(get_route)
+        };
+        jadeApplication.windowWidth = parseInt(jadeApplication.windowWidth);
+        jadeApplication.windowHeight = parseInt(jadeApplication.windowHeight);
 
-        else:
-            load_html()
+        if (isNaN(jadeApplication.windowWidth) || isNaN(jadeApplication.windowHeight)) {
+            jadeApplication.windowWidth = jadeApplication.screenWidth;
+            jadeApplication.windowHeight = jadeApplication.screenHeight;
+        };
+        ''' % locals()
 
-def get_app_config():
+        self.webview.run_javascript(Api.javascript)
 
-        get_route = sanitize_input()[0]
+        if os.path.isdir(application_path):
 
-        app_settings = sanitize_input()[1]
-        if os.path.exists(app_settings):
-            # Open application-settings.json and return values
+            index = application_path + "index.html"
 
-            app_settings = json.load(Api.open_file(app_settings))
+            if os.path.isfile(index):
+                index = "file://" + index
+                self.webview.load_uri(index)
+                print("index.html loaded in the webview.")
 
-            get_name          = app_settings["app"]["name"]
-            get_description   = app_settings["app"].get("description")
-            get_version       = app_settings["app"].get("version")
-            get_author        = app_settings["app"].get("author")
-            get_licence       = app_settings["app"].get("license")
-            get_help_contents = app_settings["app"].get("help")
-            get_url           = app_settings["app"].get("url")
+            else:
+                application_path = "file://" + application_path
+                self.webview.load_html(Api.html, application_path)
+                print("Loaded webview as python module.")
 
-            get_icon          = app_settings["window"].get("icon")
-            get_hint_type     = app_settings["window"].get("hint_type")
-            get_width         = app_settings["window"].get("width")
-            get_height        = app_settings["window"].get("height")
-            is_fullscreen     = app_settings["window"].get("fullscreen")
-            is_resizable      = app_settings["window"].get("resizable")
-            is_decorated      = app_settings["window"].get("decorated")
-            is_transparent    = app_settings["window"].get("transparent")
+        elif application_path.startswith("w") or application_path.startswith("h"):
+            NOSSL_MSG = "You can only run unsecured url's in debug mode. Change "
+            SSL_MSG = " forcing SSL"
 
-            get_debug         = app_settings["webkit"].get("debug")
+            if not options.debug and application_path.startswith("http://"):
+                application_path = application_path.replace("http:", "https:")
+                print(NOSSL_MSG + "http: to https:" + SSL_MSG)
 
-        else:
-            get_name          = JAK
-            get_description   = "application-settings.json missing using defaults"
-            get_version       = "working on it just testing out!"
-            get_author        = "Vitor Lopes"
-            get_licence       = "my license, GPL is a good choice"
-            get_help_contents = "help contents goes here"
+            elif not options.debug and application_path.startswith("ws:"):
+                application_path = application_path.replace("ws:", "wss:")
+                print(NOSSL_MSG + "ws:// to wss://" + SSL_MSG)
 
-            get_url           = "i need to think about that, maybe something starting with http?"
-            get_icon          = ""
-            get_hint_type     = ""
-            get_width         = 800
-            get_height        = 600
-            is_fullscreen     = ""
-            is_resizable      = ""
-            is_decorated      = ""
-            is_transparent    = ""
-            get_debug         = "yes"
+            print("URL loaded in the webview.")
+            self.webview.load_uri(application_path)
 
-            print(get_description)
-
-        return get_name, get_description,\
-               get_version, get_author,\
-               get_licence, get_help_contents,\
-               get_url, get_route,\
-               get_icon, get_hint_type,\
-               get_width, get_height,\
-               is_fullscreen, is_resizable,\
-               is_decorated, is_transparent,\
-               get_debug
-
-def run_sh():
-    # not shure if i am happy with this
-    sh_path = sanitize_input()[2]
-    sh = sh_path + "startup.sh"
-    if os.path.exists(sh):
-        # local = socket.gethostbyname(socket.gethostname()) # this only supports ipv4.
-        if sh.startswith("/"): # or sh == local: # prevent remote execution off shell scripts.
-            try:
-                subprocess.call([sh])
-
-            except Exception as err:
-                print("Ops something went wrong running startup.sh: " + str(err))
+        self.connect("delete-event", Gtk.main_quit)
+        self.show_all()  # maybe i should only show the window wen the webview finishes loading?
 
 
-def run():
-
-    run_sh()
-    w = AppWindow()
-    w.connect("delete-event", Gtk.main_quit)
-    w.show_all()  # maybe i should only show the window wen the webview finishes loading?
+def main():
+    AppWindow()
     Gtk.main()
 
-def cml():
 
+def cml():
     if options.debug:
         options.route = sys.argv[2]
 
     if options.route:
-        run()
+        main()
 
     else:
         subprocess.call(["jak", "-h"])
