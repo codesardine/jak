@@ -29,13 +29,13 @@ h4,
 .bottom-margin {
     margin-bottom: 20px;
 }
-
+h3 {margin: 40px;}
 .jumbotron p {
     margin-bottom: 6px;
 }
 
 h2 {
-    margin-top: 10px;
+    margin: 80px;
 }
 
 @media (min-width: 1200px) {
@@ -122,9 +122,4 @@ nav a {
 
 a {
     cursor: pointer;
-}
-
-.pics {
-    background-color: #ccc;
-    padding: 10px;
 }
