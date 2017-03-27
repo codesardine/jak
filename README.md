@@ -1,6 +1,5 @@
 ## Jade Application Kit
 
-[![Join the chat at https://gitter.im/JadeApplicationKit/Lobby](https://badges.gitter.im/JadeApplicationKit/Lobby.svg)](https://gitter.im/Jade-Application-Kit/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c79991176d484d50960a36007749b6a6)](https://www.codacy.com/app/codesardine/Jade-Application-Kit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesardine/Jade-Application-Kit&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/codesardine/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codesardine/Jade-Application-Kit)
 [![PyPI version](https://badge.fury.io/py/jade-application-kit.svg)](https://badge.fury.io/py/jade-application-kit)
