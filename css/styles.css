@@ -55,10 +55,7 @@ h2 {
         border-bottom: 2px solid;
         border-color: #fc3468;
     }
-    .pics img {
-        width: 100%;
-    }
-}
+   }
 
 @media (min-width: 768px) {
     .pink-border-left {
