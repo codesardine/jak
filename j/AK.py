@@ -250,7 +250,19 @@ class AppWindow(Gtk.Window):
 
         else:
             Gtk.Window.set_default_size(self, int(application_window_width), int(application_window_height))
-
+            
+        self.settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
+        self.settings.set_enable_smooth_scrolling(self)
+        
+        self.settings.set_default_charset("UTF-8")
+        self.settings.set_property("allow-universal-access-from-file-urls", True)
+        self.settings.set_property("allow-file-access-from-file-urls", True)
+        self.settings.set_property("enable-write-console-messages-to-stdout", True)
+        self.settings.set_property("enable-spatial-navigation", True)  # this is good for usability
+        self.settings.set_property("enable-java", False)
+        self.settings.set_property("enable-plugins", False)
+        self.settings.set_property("enable-accelerated-2d-canvas", True)
+        
         if application_debug == "yes" or options.debug:
             self.settings.set_property("enable-developer-extras", True)
 
@@ -265,16 +277,7 @@ class AppWindow(Gtk.Window):
 
             self.webview.connect("context-menu", disable_menu)
             self.settings.set_property("enable-offline-web-application-cache", True)
-
-        self.settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
-        self.settings.set_enable_smooth_scrolling(self)
-        self.settings.set_property("default-charset", "utf-8")
-        self.settings.set_property("allow-file-access-from-file-urls", True)
-        self.settings.set_property("javascript-can-access-clipboard", True)
-        self.settings.set_property("enable-write-console-messages-to-stdout", True)
-        self.settings.set_property("enable-spatial-navigation", True)  # this is good for usability
-        self.settings.set_property("enable-java", False)
-        self.settings.set_property("enable-plugins", False)
+            self.settings.set_property("enable-dns-prefetching", True)
 
         screen_width = screen.width()
         screen_height = screen.height()
