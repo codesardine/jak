@@ -123,6 +123,7 @@ def get_app_config():
         application_window_icon        = application_settings["window"].get("window_icon")
 
         application_debug = application_settings["webkit"].get("debug")
+        application_cache = application_settings["webkit"].get("cache")
 
     else:
         application_name = \
@@ -141,6 +142,7 @@ def get_app_config():
 
         application_window_full_screen = "yes"
         application_debug = "yes"
+        application_cache = "none"
 
     return application_name, \
            application_description, \
@@ -157,7 +159,8 @@ def get_app_config():
            application_window_decorated, \
            application_window_transparent, \
            application_window_icon, \
-           application_debug
+           application_debug, \
+           application_cache
 
 
 class AppWindow(Gtk.Window):
@@ -179,7 +182,8 @@ class AppWindow(Gtk.Window):
         application_window_decorated, \
         application_window_transparent, \
         application_window_icon, \
-        application_debug = get_app_config()
+        application_debug, \
+        application_cache = get_app_config()
 
         if application_window_hint_type == "desktop" or application_window_hint_type == "dock":
             Gtk.Window.__init__(self, title=application_name, skip_pager_hint=True, skip_taskbar_hint=True)
@@ -192,6 +196,22 @@ class AppWindow(Gtk.Window):
 
         self.add(self.webview)
         self.settings = self.webview.get_settings()
+
+        context = WebKit2.WebContext.get_default()
+        
+        if application_cache == "local":
+            cache_model = WebKit2.CacheModel.DOCUMENT_BROWSER
+
+        elif application_cache == "online":
+            cache_model = WebKit2.CacheModel.WEB_BROWSER
+            self.settings.set_property("enable-offline-web-application-cache", True)
+            self.settings.set_property("enable-dns-prefetching", True)
+
+        else: 
+            cache_model = WebKit2.CacheModel.DOCUMENT_VIEWER
+            print("Cache model not set, default is NO CACHE")
+
+        context.set_cache_model(cache_model)
 
         screen = Gtk.Window.get_screen(self)
 
@@ -285,9 +305,7 @@ class AppWindow(Gtk.Window):
                 return True
 
             self.webview.connect("context-menu", disable_menu)
-            self.settings.set_property("enable-offline-web-application-cache", True)
-            self.settings.set_property("enable-dns-prefetching", True)
-
+        
         screen_width = screen.width()
         screen_height = screen.height()
 
