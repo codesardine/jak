@@ -34,7 +34,7 @@ def cml_options():
       Python, JavaScript and Webkit2
 
       Author : Vitor Lopes
-      Licence: GPLv2 or later
+      Licence: GPLv2
 
       url: https://codesardine.github.io/Jade-Application-Kit''', epilog='''\
       ex: jak /path/to/my/app/folder
