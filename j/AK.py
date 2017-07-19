@@ -120,6 +120,7 @@ def get_app_config():
         application_window_resizable   = application_settings["window"].get("resizable")
         application_window_decorated   = application_settings["window"].get("decorated")
         application_window_transparent = application_settings["window"].get("transparent")
+        application_window_icon        = application_settings["window"].get("window_icon")
 
         application_debug = application_settings["webkit"].get("debug")
 
@@ -135,7 +136,9 @@ def get_app_config():
             application_window_height = \
             application_window_resizable = \
             application_window_decorated = \
-            application_window_transparent = ""
+            application_window_transparent = \
+            application_window_icon = ""
+
         application_window_full_screen = "yes"
         application_debug = "yes"
 
@@ -153,6 +156,7 @@ def get_app_config():
            application_window_resizable, \
            application_window_decorated, \
            application_window_transparent, \
+           application_window_icon, \
            application_debug
 
 
@@ -174,6 +178,7 @@ class AppWindow(Gtk.Window):
         application_window_resizable, \
         application_window_decorated, \
         application_window_transparent, \
+        application_window_icon, \
         application_debug = get_app_config()
 
         if application_window_hint_type == "desktop" or application_window_hint_type == "dock":
@@ -184,7 +189,6 @@ class AppWindow(Gtk.Window):
 
         # create webview
         self.webview = WebKit2.WebView.new()
-        test = Gtk.Widget.get_preferred_size(self.webview)
 
         self.add(self.webview)
         self.settings = self.webview.get_settings()
@@ -239,6 +243,11 @@ class AppWindow(Gtk.Window):
 
         Gtk.Window.set_position(self, Gtk.WindowPosition.CENTER)
 
+        window_icon = application_path + application_window_icon
+        if os.path.isfile(window_icon):
+            Gtk.Window.set_icon_from_file(self, window_icon)
+            print(window_icon)
+
         if application_window_resizable == "no":
             Gtk.Window.set_resizable(self, False)
 
@@ -250,10 +259,10 @@ class AppWindow(Gtk.Window):
 
         else:
             Gtk.Window.set_default_size(self, int(application_window_width), int(application_window_height))
-            
+
         self.settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
         self.settings.set_enable_smooth_scrolling(self)
-        
+
         self.settings.set_default_charset("UTF-8")
         self.settings.set_property("allow-universal-access-from-file-urls", True)
         self.settings.set_property("allow-file-access-from-file-urls", True)
@@ -262,7 +271,7 @@ class AppWindow(Gtk.Window):
         self.settings.set_property("enable-java", False)
         self.settings.set_property("enable-plugins", False)
         self.settings.set_property("enable-accelerated-2d-canvas", True)
-        
+
         if application_debug == "yes" or options.debug:
             self.settings.set_property("enable-developer-extras", True)
 
