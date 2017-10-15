@@ -1,10 +1,8 @@
 # coding: utf-8
 """
-
           Jade Application Kit
  Author - Copyright (c) 2016 Vitor Lopes
  url    - https://codesardine.github.io/Jade-Application-Kit
-
 """
 
 import argparse
@@ -12,18 +10,10 @@ import json
 import os
 import subprocess
 import sys
-
-try:
-    import gi
-
-except ImportError:
-    print("PyGObject not found.")
-    sys.exit(0)
-
+import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('WebKit2', '4.0')
 from gi.repository import Gtk, Gdk, WebKit2
-
 
 def cml_options():
     # Create command line options
@@ -32,15 +22,14 @@ def cml_options():
       --------------------
       Create desktop applications with
       Python, JavaScript and Webkit2
-
       Author : Vitor Lopes
       Licence: GPLv2
-
       url: https://codesardine.github.io/Jade-Application-Kit''', epilog='''\
       ex: jak /path/to/my/app/folder
       ex: jak -d http://my-url.com
       ''', formatter_class=argparse.RawTextHelpFormatter)
-    option.add_argument("-d", "--debug", metavar='\b', help="enable developer extras in webkit2")
+    option.add_argument("-d", "--debug", metavar='\b', help="Enable Developer Tools")
+    option.add_argument("-vf", "--video", metavar='\b', help="Open a Video Floater on The screen corner")
     option.add_argument('route', nargs="?", help='''\
     Point to your application folder or url!
     ''')
@@ -50,6 +39,10 @@ def cml_options():
 options = cml_options()
 path = os.getcwd()
 jak_path = os.path.dirname(__file__)
+
+if options.debug or options.video:
+    options.route = sys.argv[2]
+
 application_path = options.route
 
 # if running as module
@@ -57,11 +50,12 @@ if application_path is None:
     # returns the path of the file importing the module
     application_path = os.path.dirname(os.path.abspath(sys.argv[0]))
 
-if application_path.endswith("/"):
-    pass
+if not application_path.startswith("http"):
+    if application_path.endswith("/"):
+        pass
 
-else:
-    application_path += "/"
+    else:
+        application_path += "/"
 
 
 class Api:
@@ -98,7 +92,14 @@ def load_window_css(css):
 
 
 def get_app_config():
-    application_settings = application_path + "application-settings.json"
+
+    if application_path.startswith("http"):
+        # web apps
+        application_settings = path + "/application-settings.json"
+        print(application_settings)
+
+    else:
+        application_settings = application_path + "application-settings.json"
 
     if os.path.exists(application_settings):
         # Open application-settings.json and return values
@@ -106,43 +107,64 @@ def get_app_config():
         application_settings = Api.openFile(application_settings)
         application_settings = json.loads(application_settings)
 
-        application_name        = application_settings["application"]["name"]
+        application_name = application_settings["application"]["name"]
         application_description = application_settings["application"].get("description")
-        application_version     = application_settings["application"].get("version")
-        application_author      = application_settings["application"].get("author")
-        application_licence     = application_settings["application"].get("license")
-        application_url         = application_settings["application"].get("url")
+        application_version = application_settings["application"].get("version")
+        application_author = application_settings["application"].get("author")
+        application_licence = application_settings["application"].get("license")
+        application_url = application_settings["application"].get("url")
 
-        application_window_hint_type   = application_settings["window"].get("hint_type")
-        application_window_width       = application_settings["window"].get("width")
-        application_window_height      = application_settings["window"].get("height")
+        application_window_hint_type = application_settings["window"].get("hint_type")
+        application_window_width = application_settings["window"].get("width")
+        application_window_height = application_settings["window"].get("height")
         application_window_full_screen = application_settings["window"].get("fullscreen")
-        application_window_resizable   = application_settings["window"].get("resizable")
-        application_window_decorated   = application_settings["window"].get("decorated")
+        application_window_resizable = application_settings["window"].get("resizable")
+        application_window_decorated = application_settings["window"].get("decorated")
         application_window_transparent = application_settings["window"].get("transparent")
-        application_window_icon        = application_settings["window"].get("window_icon")
+        application_window_icon = application_settings["window"].get("window_icon")
 
         application_debug = application_settings["webkit"].get("debug")
         application_cache = application_settings["webkit"].get("cache")
 
     else:
-        application_name = \
+        if options.video:
+            application_name = "Video"
+
             application_description = \
-            application_version = \
-            application_author = \
-            application_licence = \
-            application_url = \
-            application_window_hint_type = \
-            application_window_width = \
-            application_window_height = \
-            application_window_resizable = \
-            application_window_decorated = \
-            application_window_transparent = \
+                application_version = \
+                application_author = \
+                application_licence = \
+                application_url = \
+                application_window_full_screen = \
+                application_window_transparent = \
+                application_debug = \
+                application_window_resizable = ""
+
+            application_window_width = "640"
+            application_window_height = "360"
+            application_window_hint_type = "dialog"
+            application_window_decorated = "no"
+            application_cache = ""
             application_window_icon = ""
 
-        application_window_full_screen = "yes"
-        application_debug = "yes"
-        application_cache = "none"
+        else:
+            application_name = \
+                application_description = \
+                application_version = \
+                application_author = \
+                application_licence = \
+                application_url = \
+                application_window_hint_type = \
+                application_window_width = \
+                application_window_height = \
+                application_window_resizable = \
+                application_window_decorated = \
+                application_window_transparent = \
+                application_window_icon = \
+                application_debug = ""
+
+            application_window_full_screen = "yes"
+            application_cache = "none"
 
     return application_name, \
            application_description, \
@@ -164,8 +186,8 @@ def get_app_config():
 
 
 class AppWindow(Gtk.Window):
-    def __init__(self):  # Create window frame
 
+    def __init__(self):
         # get tuple values from function
         application_name, \
         application_description, \
@@ -192,13 +214,24 @@ class AppWindow(Gtk.Window):
             Gtk.Window.__init__(self, title=application_name)
 
         # create webview
-        self.webview = WebKit2.WebView.new()
+        context = WebKit2.WebContext.get_default()
+        sm = context.get_security_manager()
+
+
+        self.cookies = context.get_cookie_manager()
+        self.manager = WebKit2.UserContentManager()
+        self.webview = WebKit2.WebView.new_with_user_content_manager(self.manager)
 
         self.add(self.webview)
         self.settings = self.webview.get_settings()
 
-        context = WebKit2.WebContext.get_default()
-        
+        cookiesPath = '/tmp/cookies.txt'
+        storage = WebKit2.CookiePersistentStorage.TEXT
+        policy = WebKit2.CookieAcceptPolicy.ALWAYS
+
+        self.cookies.set_accept_policy(policy)
+        self.cookies.set_persistent_storage(cookiesPath, storage)
+
         if application_cache == "local":
             cache_model = WebKit2.CacheModel.DOCUMENT_BROWSER
 
@@ -206,19 +239,15 @@ class AppWindow(Gtk.Window):
             cache_model = WebKit2.CacheModel.WEB_BROWSER
             self.settings.set_property("enable-offline-web-application-cache", True)
             self.settings.set_property("enable-dns-prefetching", True)
+            self.settings.set_property("enable-page-cache", True)
 
-        else: 
+        else:
             cache_model = WebKit2.CacheModel.DOCUMENT_VIEWER
             print("Cache model not set, default is NO CACHE")
 
         context.set_cache_model(cache_model)
 
         screen = Gtk.Window.get_screen(self)
-
-        #jak_window_style = jak_path + "/window.css"
-
-        #if os.path.isfile(jak_window_style):
-        #   load_window_css(jak_window_style)
 
         application_window_style = application_path + "window.css"
 
@@ -253,6 +282,18 @@ class AppWindow(Gtk.Window):
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DESKTOP)
             Gtk.Window.set_resizable(self, False)
 
+        elif application_window_hint_type == "dialog":
+            Gtk.Window.set_name(self, 'jade-popup')
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DIALOG)
+
+        elif application_window_hint_type == "tooltip":
+            Gtk.Window.set_name(self, 'jade-tooltip')
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.TOOLTIP)
+
+        elif application_window_hint_type == "notification":
+            Gtk.Window.set_name(self, 'jade-notification')
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.NOTIFICATION)
+
         elif application_window_hint_type == "dock":
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DOCK)
             Gtk.Window.set_name(self, 'jade-dock')
@@ -262,11 +303,10 @@ class AppWindow(Gtk.Window):
             Gtk.Window.set_name(self, "jade-window")
 
         Gtk.Window.set_position(self, Gtk.WindowPosition.CENTER)
-
         window_icon = application_path + application_window_icon
+
         if os.path.isfile(window_icon):
             Gtk.Window.set_icon_from_file(self, window_icon)
-            print(window_icon)
 
         if application_window_resizable == "no":
             Gtk.Window.set_resizable(self, False)
@@ -280,7 +320,12 @@ class AppWindow(Gtk.Window):
         else:
             Gtk.Window.set_default_size(self, int(application_window_width), int(application_window_height))
 
-        self.settings.set_user_agent_with_application_details(get_app_config()[0], get_app_config()[2])
+        if options.video:
+            Gtk.Window.set_keep_above(self, True)
+            Gtk.Window.set_gravity(self, Gdk.Gravity.SOUTH_EAST)
+            #  in multi head setups this will be the last screen
+            Gtk.Window.move(self ,screen.width(), screen.height())
+
         self.settings.set_enable_smooth_scrolling(self)
 
         self.settings.set_default_charset("UTF-8")
@@ -305,15 +350,13 @@ class AppWindow(Gtk.Window):
                 return True
 
             self.webview.connect("context-menu", disable_menu)
-        
+
         screen_width = screen.width()
         screen_height = screen.height()
 
         # TODO javascript Api
         Api.javascript = '''
-
         var jadeApplication = {
-
         'name'         : '%(application_name)s',
         'description'  : '%(application_description)s',
         'version'      : '%(application_version)s',
@@ -324,11 +367,9 @@ class AppWindow(Gtk.Window):
         'windowHeight' : '%(application_window_height)s',
         'screenWidth'  : %(screen_width)s,
         'screenHeight' : %(screen_height)s
-
         };
         jadeApplication.windowWidth = parseInt(jadeApplication.windowWidth);
         jadeApplication.windowHeight = parseInt(jadeApplication.windowHeight);
-
         if (isNaN(jadeApplication.windowWidth) || isNaN(jadeApplication.windowHeight)) {
             jadeApplication.windowWidth = jadeApplication.screenWidth;
             jadeApplication.windowHeight = jadeApplication.screenHeight;
@@ -359,12 +400,10 @@ class AppWindow(Gtk.Window):
                 application_path = application_path.replace("http:", "https:")
                 print(NOSSL_MSG + "http: to https:" + SSL_MSG)
 
-            elif not options.debug and application_path.startswith("ws:"):
-                application_path = application_path.replace("ws:", "wss:")
-                print(NOSSL_MSG + "ws:// to wss://" + SSL_MSG)
-
             print("URL loaded in the webview.")
             self.webview.load_uri(application_path)
+            sm.register_uri_scheme_as_cors_enabled(application_path)
+            print(sm.uri_scheme_is_cors_enabled(application_path))
 
         self.connect("delete-event", Gtk.main_quit)
         self.show_all()  # maybe i should only show the window wen the webview finishes loading?
@@ -376,9 +415,6 @@ def main():
 
 
 def cml():
-    if options.debug:
-        options.route = sys.argv[2]
-
     if options.route:
         main()
 
