@@ -303,7 +303,7 @@ class AppWindow(Gtk.Window):
             Gtk.Window.set_name(self, "jade-window")
 
         Gtk.Window.set_position(self, Gtk.WindowPosition.CENTER)
-        window_icon = application_path + application_window_icon
+        window_icon = application_window_icon
 
         if os.path.isfile(window_icon):
             Gtk.Window.set_icon_from_file(self, window_icon)
