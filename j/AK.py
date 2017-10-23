@@ -113,6 +113,7 @@ def get_app_config():
         application_author = application_settings["application"].get("author")
         application_licence = application_settings["application"].get("license")
         application_url = application_settings["application"].get("url")
+        application_agent = application_settings["application"].get("user_agent")
 
         application_window_hint_type = application_settings["window"].get("hint_type")
         application_window_width = application_settings["window"].get("width")
@@ -135,6 +136,7 @@ def get_app_config():
                 application_author = \
                 application_licence = \
                 application_url = \
+                application_agent = \
                 application_window_full_screen = \
                 application_window_transparent = \
                 application_debug = \
@@ -154,6 +156,7 @@ def get_app_config():
                 application_author = \
                 application_licence = \
                 application_url = \
+                application_agent = \
                 application_window_hint_type = \
                 application_window_width = \
                 application_window_height = \
@@ -172,6 +175,7 @@ def get_app_config():
            application_author, \
            application_licence, \
            application_url, \
+           application_agent, \
            application_path, \
            application_window_hint_type, \
            application_window_width, \
@@ -195,6 +199,7 @@ class AppWindow(Gtk.Window):
         application_author, \
         application_licence, \
         application_url, \
+        application_agent, \
         application_path, \
         application_window_hint_type, \
         application_window_width, \
@@ -223,6 +228,10 @@ class AppWindow(Gtk.Window):
         self.webview = WebKit2.WebView.new_with_user_content_manager(self.manager)
 
         self.add(self.webview)
+        
+        if application_agent != "":
+          Webkit2.set_user_agent(application_agent)
+        
         self.settings = self.webview.get_settings()
 
         cookiesPath = '/tmp/cookies.txt'
@@ -363,6 +372,7 @@ class AppWindow(Gtk.Window):
         'author'       : '%(application_author)s',
         'license'      : '%(application_licence)s',
         'url'          : '%(application_url)s',
+        'user_agent'   : '%(application_agent)s',
         'windowWidth'  : '%(application_window_width)s',
         'windowHeight' : '%(application_window_height)s',
         'screenWidth'  : %(screen_width)s,

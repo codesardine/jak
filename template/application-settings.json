@@ -6,6 +6,7 @@
         "version": "a0.1",
         "author": "My Name",
         "url": "application url",
+        "user_agent": "",
         "license": "GPL"
     },
 
