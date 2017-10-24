@@ -234,7 +234,7 @@ class AppWindow(Gtk.Window):
         if application_agent != "":
             self.settings.set_user_agent(application_agent)
             
-            print("Identifying as " + self.settings.get_user_agent())
+        print("Identifying as " + self.settings.get_user_agent())
 
         cookiesPath = '/tmp/cookies.txt'
         storage = WebKit2.CookiePersistentStorage.TEXT
