@@ -229,10 +229,12 @@ class AppWindow(Gtk.Window):
 
         self.add(self.webview)
         
-        if application_agent != "":
-          Webkit2.set_user_agent(application_agent)
-        
         self.settings = self.webview.get_settings()
+        
+        if application_agent != "":
+            self.settings.set_user_agent(application_agent)
+            
+            print("Identifying as " + self.settings.get_user_agent())
 
         cookiesPath = '/tmp/cookies.txt'
         storage = WebKit2.CookiePersistentStorage.TEXT
