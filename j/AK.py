@@ -107,25 +107,25 @@ def get_app_config():
         application_settings = Api.openFile(application_settings)
         application_settings = json.loads(application_settings)
 
-        application_name = application_settings["application"]["name"]
+        application_name        = application_settings["application"]["name"]
         application_description = application_settings["application"].get("description")
-        application_version = application_settings["application"].get("version")
-        application_author = application_settings["application"].get("author")
-        application_licence = application_settings["application"].get("license")
-        application_url = application_settings["application"].get("url")
-        application_agent = application_settings["application"].get("user_agent")
+        application_version     = application_settings["application"].get("version")
+        application_author      = application_settings["application"].get("author")
+        application_licence     = application_settings["application"].get("license")
+        application_url         = application_settings["application"].get("url")
 
-        application_window_hint_type = application_settings["window"].get("hint_type")
-        application_window_width = application_settings["window"].get("width")
-        application_window_height = application_settings["window"].get("height")
+        application_window_hint_type   = application_settings["window"].get("hint_type")
+        application_window_width       = application_settings["window"].get("width")
+        application_window_height      = application_settings["window"].get("height")
         application_window_full_screen = application_settings["window"].get("fullscreen")
-        application_window_resizable = application_settings["window"].get("resizable")
-        application_window_decorated = application_settings["window"].get("decorated")
+        application_window_resizable   = application_settings["window"].get("resizable")
+        application_window_decorated   = application_settings["window"].get("decorated")
         application_window_transparent = application_settings["window"].get("transparent")
-        application_window_icon = application_settings["window"].get("window_icon")
+        application_window_icon        = application_settings["window"].get("window_icon")
 
-        application_debug = application_settings["webkit"].get("debug")
-        application_cache = application_settings["webkit"].get("cache")
+        application_debug      = application_settings["webkit"].get("debug")
+        application_cache      = application_settings["webkit"].get("cache")
+        application_user_agent = application_settings["webkit"].get("user_agent")
 
     else:
         if options.video:
@@ -136,7 +136,7 @@ def get_app_config():
                 application_author = \
                 application_licence = \
                 application_url = \
-                application_agent = \
+                application_user_agent = \
                 application_window_full_screen = \
                 application_window_transparent = \
                 application_debug = \
@@ -156,7 +156,7 @@ def get_app_config():
                 application_author = \
                 application_licence = \
                 application_url = \
-                application_agent = \
+                application_user_agent = \
                 application_window_hint_type = \
                 application_window_width = \
                 application_window_height = \
@@ -175,7 +175,7 @@ def get_app_config():
            application_author, \
            application_licence, \
            application_url, \
-           application_agent, \
+           application_user_agent, \
            application_path, \
            application_window_hint_type, \
            application_window_width, \
@@ -199,7 +199,7 @@ class AppWindow(Gtk.Window):
         application_author, \
         application_licence, \
         application_url, \
-        application_agent, \
+        application_user_agent, \
         application_path, \
         application_window_hint_type, \
         application_window_width, \
@@ -222,19 +222,16 @@ class AppWindow(Gtk.Window):
         context = WebKit2.WebContext.get_default()
         sm = context.get_security_manager()
 
-
         self.cookies = context.get_cookie_manager()
         self.manager = WebKit2.UserContentManager()
         self.webview = WebKit2.WebView.new_with_user_content_manager(self.manager)
-
         self.add(self.webview)
-        
         self.settings = self.webview.get_settings()
-        
-        if application_agent != "":
-            self.settings.set_user_agent(application_agent)
-            
-        print("Identifying as " + self.settings.get_user_agent())
+
+        if application_user_agent:
+            self.settings.set_user_agent(application_user_agent)
+
+        print("Identifying User Agent as - " + self.settings.get_user_agent())
 
         cookiesPath = '/tmp/cookies.txt'
         storage = WebKit2.CookiePersistentStorage.TEXT
@@ -374,7 +371,7 @@ class AppWindow(Gtk.Window):
         'author'       : '%(application_author)s',
         'license'      : '%(application_licence)s',
         'url'          : '%(application_url)s',
-        'user_agent'   : '%(application_agent)s',
+        'user_agent'   : '%(application_user_agent)s',
         'windowWidth'  : '%(application_window_width)s',
         'windowHeight' : '%(application_window_height)s',
         'screenWidth'  : %(screen_width)s,
