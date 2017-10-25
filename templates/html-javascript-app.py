@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 try:
     from j import AK
     
@@ -11,4 +11,10 @@ AK.Api.html = """
 <p>hey my app is great<p>
 
 """
-AK.run()
+
+AK.Api.javascript += """
+
+alert("Testing JavaScript");  
+
+"""
+AK.main()
