@@ -1,12 +1,12 @@
 {
-    "app": {
+    "application": {
 
         "name": "Appication Name",
         "description": "My description",
-        "version": "a0.1",
+        "version": "0.1",
         "author": "My Name",
         "url": "application url",
-        "license": "GPL"
+        "license": "My licence"
     },
 
     "window": {
@@ -16,11 +16,14 @@
         "fullscreen": "",
         "resizable": "",
         "decorated": "",
-        "transparent": ""
+        "transparent": "",
+        "window_icon": "/path/to/icon/icon.png"
     },
 
     "webkit": {
 
-        "debug": "yes"
+        "debug": "no",
+        "cache": "online",
+        "user_agent": ""
     }
 }
