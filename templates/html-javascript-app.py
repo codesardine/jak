@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+# coding: utf-8
 try:
-    from j import AK
-    
+    from j.AK import Api, AppWindow
+
 except Exception as err:
     print("Ops something went wrong: " + str(err))
+
 
 AK.Api.html = """
 
@@ -14,7 +16,7 @@ AK.Api.html = """
 
 AK.Api.javascript += """
 
-alert("Testing JavaScript");  
+alert("Testing JavaScript");
 
 """
 AK.main()
