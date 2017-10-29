@@ -6,24 +6,33 @@
         "version": "0.1",
         "author": "My Name",
         "url": "application url",
-        "license": "My licence"
+        "license": "My licence",
+        "_comment": "comments and uneeded values can be removed all values are of type string"
     },
 
     "window": {
         "hint_type": "",
+        "hint_type_comment": "default desktop, options = dock or dialog or tooltip or notification",
         "width": "1024",
         "height": "768",
         "fullscreen": "",
+        "fullscreen_comment": "default yes",
         "resizable": "",
+        "resizable_comment": "default yes",
         "decorated": "",
+        "decorated_comment": "default yes",
         "transparent": "",
+        "transparent_comment": "default no",
         "window_icon": "/path/to/icon/icon.png"
     },
 
     "webkit": {
 
-        "debug": "no",
+        "debug": "",
+        "debug_comment": "default no",
         "cache": "online",
-        "user_agent": ""
+        "cache_comment": "default no cache, options = local or online",
+        "user_agent": "",
+        "user_agent_comment": "default engine default"
     }
 }
