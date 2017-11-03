@@ -9,13 +9,13 @@ with open(path.join(readme, 'README.rst'), encoding='utf-8') as f:
 
 setup(
 name             = "Jade-Application-Kit",
-version          = "0.a28",
+version          = "0.a29",
 packages         = ["j"],
 url              = "https://codesardine.github.io/Jade-Application-Kit",
 license          = "GPLv2",
 author           = "Vitor Lopes",
 author_email     = "vmnlop@gmail.com",
-description      = "Build desktop applications using web technologies on Linux, with Python, JavaScript, HTML5, and CSS3 and webkit.",
+description      = "Create native web wrappers or write hybrid Web and Desktop applications on Linux, with Python, JavaScript, HTML5, and CSS3 and WebKit.",
 long_description = long_description,
 download_url     = "https://github.com/codesardine/Jade-Application-Kit/zipball/master",
 keywords         = ["Jade Application Kit", "gui", "webkit", "html5", "web technologies", "javascript", "python", "webgl", "css3", "pygobject", "gtk", "desktop", "gnome", "linux"],
