@@ -27,6 +27,8 @@ def cml_options():
       url: https://codesardine.github.io/Jade-Application-Kit''', epilog='''\
       ex: jak /path/to/my/app/folder
       ex: jak -d http://my-url.com
+      
+      Press F11 for distraction free mode
       ''', formatter_class=argparse.RawTextHelpFormatter)
     option.add_argument("-d", "--debug", metavar='\b', help="Enable Developer Tools")
     option.add_argument("-vf", "--video", metavar='\b', help="Open a Video Floater on The screen corner")
@@ -414,6 +416,21 @@ class AppWindow(Gtk.Window):
             sm.register_uri_scheme_as_cors_enabled(application_path)
             print(sm.uri_scheme_is_cors_enabled(application_path))
 
+        def on_key_press_event(self, event):
+
+            if event.keyval == Gdk.KEY_F11:
+
+                # distraction free mode, this only works on decorated windows
+                is_fullscreen = self.get_window().get_state() & Gdk.WindowState.FULLSCREEN != False
+                if is_fullscreen:
+                    Gtk.Window.unfullscreen(self)
+
+                else:
+                    Gtk.Window.fullscreen(self)
+
+                return True
+
+        self.connect("key-press-event", on_key_press_event)
         self.connect("delete-event", Gtk.main_quit)
         self.show_all()  # maybe i should only show the window wen the webview finishes loading?
 
