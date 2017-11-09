@@ -27,7 +27,7 @@ def cml_options():
       url: https://codesardine.github.io/Jade-Application-Kit''', epilog='''\
       ex: jak /path/to/my/app/folder
       ex: jak -d http://my-url.com
-      
+
       Press F11 for distraction free mode
       ''', formatter_class=argparse.RawTextHelpFormatter)
     option.add_argument("-d", "--debug", metavar='\b', help="Enable Developer Tools")
@@ -346,6 +346,7 @@ class AppWindow(Gtk.Window):
         self.settings.set_property("enable-java", False)
         self.settings.set_property("enable-plugins", False)
         self.settings.set_property("enable-accelerated-2d-canvas", True)
+        self.settings.set_property("enable-site-specific-quirks", True)
 
         if application_debug == "yes" or options.debug:
             self.settings.set_property("enable-developer-extras", True)
