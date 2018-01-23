@@ -301,30 +301,55 @@ class AppWindow(Gtk.Window):
             else:
                 print("Your system does not supports composite windows")
 
+        # https://lazka.github.io/pgi-docs/#Gdk-3.0/enums.html#Gdk.WindowTypeHint
         if application_window_hint_type == "desktop":
-            Gtk.Window.set_name(self, 'jade-desktop')
+            Gtk.Window.set_name(self, 'jade-window-desktop')
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DESKTOP)
             Gtk.Window.set_resizable(self, False)
 
         elif application_window_hint_type == "dialog":
-            Gtk.Window.set_name(self, 'jade-popup')
+            Gtk.Window.set_name(self, 'jade-window-dialog')
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DIALOG)
 
         elif application_window_hint_type == "tooltip":
-            Gtk.Window.set_name(self, 'jade-tooltip')
+            Gtk.Window.set_name(self, 'jade-window-tooltip')
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.TOOLTIP)
 
         elif application_window_hint_type == "notification":
-            Gtk.Window.set_name(self, 'jade-notification')
+            Gtk.Window.set_name(self, 'jade-window-notification')
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.NOTIFICATION)
 
         elif application_window_hint_type == "dock":
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DOCK)
-            Gtk.Window.set_name(self, 'jade-dock')
+            Gtk.Window.set_name(self, 'jade-window-dock')
+
+        elif application_window_hint_type == "menu":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.MENU)
+            Gtk.Window.set_name(self, 'jade-window-menu')
+
+        elif application_window_hint_type == "toolbar":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.TOOLBAR)
+            Gtk.Window.set_name(self, 'jade-window-toolbar')
+
+        elif application_window_hint_type == "utility":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.UTILITY)
+            Gtk.Window.set_name(self, 'jade-window-utility')
+
+        elif application_window_hint_type == "splashscreen":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.SPLASHSCREEN)
+            Gtk.Window.set_name(self, 'jade-window-splashscreen')
+
+        elif application_window_hint_type == "dropdownmenu":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.DROPDOWN_MENU)
+            Gtk.Window.set_name(self, 'jade-window-dropdownmenu')
+
+        elif application_window_hint_type == "popupmenu":
+            Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.POPUP_MENU)
+            Gtk.Window.set_name(self, 'jade-window-popupmenu')
 
         else:
             Gtk.Window.set_type_hint(self, Gdk.WindowTypeHint.NORMAL)
-            Gtk.Window.set_name(self, "jade-window")
+            Gtk.Window.set_name(self, "jade-window-normal")
 
         Gtk.Window.set_position(self, Gtk.WindowPosition.CENTER)
         window_icon = application_window_icon
