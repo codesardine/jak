@@ -421,7 +421,7 @@ class AppWindow(Gtk.Window):
         elif application_path.startswith("http"):
             NOSSL_MSG = "You can only run unsecured url's in debug mode. Change "
             SSL_MSG = " forcing SSL"
-            # some website features wont work without this  
+            # some website features wont work without this
             self.settings.set_property("enable-site-specific-quirks", True)
 
             if not options.debug and application_path.startswith("http://"):
@@ -430,15 +430,16 @@ class AppWindow(Gtk.Window):
 
             print("URL loaded in the webview.")
             self.webview.load_uri(application_path)
-
             sm.register_uri_scheme_as_cors_enabled(application_path)
-            print(sm.uri_scheme_is_cors_enabled(application_path))
 
-        def on_key_press_event(self, event):
+        def on_key_release_event(self, event):
 
+            # find keys
+            print("KeyPress = " + Gdk.keyval_name(event.keyval))
+
+            # distraction free mode, this only works on decorated windows
             if event.keyval == Gdk.KEY_F11:
 
-                # distraction free mode, this only works on decorated windows
                 is_fullscreen = self.get_window().get_state() & Gdk.WindowState.FULLSCREEN != False
                 if is_fullscreen:
                     Gtk.Window.unfullscreen(self)
@@ -448,7 +449,30 @@ class AppWindow(Gtk.Window):
 
                 return True
 
-        self.connect("key-press-event", on_key_press_event)
+            # webpage zoom keys
+            elif event.keyval == Gdk.KEY_equal and event.state == Gdk.ModifierType.CONTROL_MASK or event.keyval == Gdk.KEY_minus and event.state == Gdk.ModifierType.CONTROL_MASK:
+                zoom = self.webview.get_zoom_level()
+                value = 0.1
+
+                if event.keyval == Gdk.KEY_minus:
+                    if zoom <= 0.4:
+                        # reset value
+                        value = 1.0
+                    else:
+                        value = zoom - value
+
+                elif event.keyval == Gdk.KEY_equal:
+                  if zoom >= 1.8:
+                      # reset value
+                      value = 1.0
+                  else:
+                      value = zoom + value
+
+                self.webview.set_zoom_level(value)
+                print("zoom value")
+                print(value)
+
+        self.connect("key-release-event", on_key_release_event)
         self.connect("delete-event", Gtk.main_quit)
         self.show_all()  # maybe i should only show the window wen the webview finishes loading?
 
