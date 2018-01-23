@@ -224,7 +224,6 @@ class AppWindow(Gtk.Window):
         context = WebKit2.WebContext.get_default()
         sm = context.get_security_manager()
 
-        self.cookies = context.get_cookie_manager()
         self.manager = WebKit2.UserContentManager()
         self.webview = WebKit2.WebView.new_with_user_content_manager(self.manager)
         self.add(self.webview)
@@ -235,13 +234,6 @@ class AppWindow(Gtk.Window):
 
         print("Identifying User Agent as - " + self.settings.get_user_agent())
 
-        cookiesPath = '/tmp/cookies.txt'
-        storage = WebKit2.CookiePersistentStorage.TEXT
-        policy = WebKit2.CookieAcceptPolicy.ALWAYS
-
-        self.cookies.set_accept_policy(policy)
-        self.cookies.set_persistent_storage(cookiesPath, storage)
-
         if application_cache == "local":
             cache_model = WebKit2.CacheModel.DOCUMENT_BROWSER
 
@@ -250,6 +242,28 @@ class AppWindow(Gtk.Window):
             self.settings.set_property("enable-offline-web-application-cache", True)
             self.settings.set_property("enable-dns-prefetching", True)
             self.settings.set_property("enable-page-cache", True)
+
+            # we only need cookies if we are online
+            cookies_path = os.getenv("HOME") + "/.jak/"
+            cookies_filename = "cookies.txt"
+
+            try:
+              if not os.path.exists(cookies_path):
+                os.makedirs(cookies_path)
+
+            except OSError:
+              print ("Error: Creating cookies directory. " +  cookies_path)
+
+            self.session = context.get_cookie_manager()
+            storage = WebKit2.CookiePersistentStorage.TEXT
+            policy = WebKit2.CookieAcceptPolicy.ALWAYS
+            self.session.set_accept_policy(policy)
+            self.session.set_persistent_storage(cookies_path + cookies_filename, storage)
+
+            def cookies_change(self):
+                print("Updating Cookies")
+
+            self.session.connect("changed", cookies_change)
 
         else:
             cache_model = WebKit2.CacheModel.DOCUMENT_VIEWER
@@ -338,6 +352,7 @@ class AppWindow(Gtk.Window):
 
         self.settings.set_enable_smooth_scrolling(self)
 
+
         self.settings.set_default_charset("UTF-8")
         self.settings.set_property("allow-universal-access-from-file-urls", True)
         self.settings.set_property("allow-file-access-from-file-urls", True)
@@ -346,7 +361,6 @@ class AppWindow(Gtk.Window):
         self.settings.set_property("enable-java", False)
         self.settings.set_property("enable-plugins", False)
         self.settings.set_property("enable-accelerated-2d-canvas", True)
-        self.settings.set_property("enable-site-specific-quirks", True)
 
         if application_debug == "yes" or options.debug:
             self.settings.set_property("enable-developer-extras", True)
@@ -404,9 +418,11 @@ class AppWindow(Gtk.Window):
                 self.webview.load_html(Api.html, application_path)
                 print("Loaded webview as python module.")
 
-        elif application_path.startswith("w") or application_path.startswith("h"):
+        elif application_path.startswith("http"):
             NOSSL_MSG = "You can only run unsecured url's in debug mode. Change "
             SSL_MSG = " forcing SSL"
+            # some website features wont work without this  
+            self.settings.set_property("enable-site-specific-quirks", True)
 
             if not options.debug and application_path.startswith("http://"):
                 application_path = application_path.replace("http:", "https:")
@@ -414,6 +430,7 @@ class AppWindow(Gtk.Window):
 
             print("URL loaded in the webview.")
             self.webview.load_uri(application_path)
+
             sm.register_uri_scheme_as_cors_enabled(application_path)
             print(sm.uri_scheme_is_cors_enabled(application_path))
 
