@@ -489,7 +489,7 @@ class AppWindow(Gtk.Window):
             # webpage zoom keys
             elif event.keyval == Gdk.KEY_equal and event.state == Gdk.ModifierType.CONTROL_MASK or event.keyval == Gdk.KEY_minus and event.state == Gdk.ModifierType.CONTROL_MASK:
                 zoom = self.webview.get_zoom_level()
-                value = 0.1
+                value = 0.05
 
                 if event.keyval == Gdk.KEY_minus:
                     if zoom <= 0.4:
