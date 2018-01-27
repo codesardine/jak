@@ -449,6 +449,18 @@ class AppWindow(Gtk.Window):
             # some website features wont work without this
             self.settings.set_property("enable-site-specific-quirks", True)
 
+            # Get title from webview for http
+            def on_title_changed(webview, title):
+
+                """
+                :param webview:
+                :param title:
+                """
+                title = self.webview.get_title()
+                Gtk.Window.set_title(self, title)
+
+            self.webview.connect("notify::title", on_title_changed)
+
             if not options.debug and application_path.startswith("http://"):
                 application_path = application_path.replace("http:", "https:")
                 print(NOSSL_MSG + "http: to https:" + SSL_MSG)
