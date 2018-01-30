@@ -449,18 +449,6 @@ class AppWindow(Gtk.Window):
             # some website features wont work without this
             self.settings.set_property("enable-site-specific-quirks", True)
 
-            # Get title from webview for http
-            def on_title_changed(webview, title):
-
-                """
-                :param webview:
-                :param title:
-                """
-                title = self.webview.get_title()
-                Gtk.Window.set_title(self, title)
-
-            self.webview.connect("notify::title", on_title_changed)
-
             if not options.debug and application_path.startswith("http://"):
                 application_path = application_path.replace("http:", "https:")
                 print(NOSSL_MSG + "http: to https:" + SSL_MSG)
@@ -468,6 +456,19 @@ class AppWindow(Gtk.Window):
             print("URL loaded in the webview.")
             self.webview.load_uri(application_path)
             sm.register_uri_scheme_as_cors_enabled(application_path)
+
+        # Get title from webview for http
+        def on_title_changed(webview, title):
+
+            """
+            :param webview:
+            :param title:
+            """
+            url = self.webview.get_uri()
+            if url.startswith("http"):
+                title = self.webview.get_title()
+                Gtk.Window.set_title(self, title)
+
 
         def on_key_release_event(self, event):
 
@@ -509,6 +510,8 @@ class AppWindow(Gtk.Window):
                 print("zoom value")
                 print(value)
 
+
+        self.webview.connect("notify::title", on_title_changed)
         self.connect("key-release-event", on_key_release_event)
         self.connect("delete-event", Gtk.main_quit)
         self.show_all()  # maybe i should only show the window wen the webview finishes loading?
