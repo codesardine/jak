@@ -472,8 +472,8 @@ class AppWindow(Gtk.Window):
 
         def on_key_release_event(self, event):
 
-            # find keys
-            print("KeyPress = " + Gdk.keyval_name(event.keyval))
+            if application_debug == "yes" or options.debug:
+                print("KeyPress = " + Gdk.keyval_name(event.keyval))
 
             # distraction free mode, this only works on decorated windows
             if event.keyval == Gdk.KEY_F11:
