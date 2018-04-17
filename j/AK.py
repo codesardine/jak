@@ -357,6 +357,7 @@ class AppWindow(Gtk.Window):
                 W.set_title(self, title)
 
         def on_key_release_event(self, event):
+
             if settings("webkit", "debug") or options.debug:
                 # this can be used to find out key names
                 print("KeyPress = " + Gdk.keyval_name(event.keyval))
