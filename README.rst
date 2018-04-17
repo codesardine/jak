@@ -48,8 +48,8 @@ Known Issues
 SUGGESTIONS ARE WELCOME!
 ------------------------
 
-`Contributing <https://github.com/codesardine/Jade-Application-Kit/blob/master/contributing.md>`__
---------------------------------------------------------------------------------------------------
+`Contributing <https://github.com/codesardine/Jade-Application-Kit/blob/master/contributing.md>`
+------------------------------------------------------------------------------------------------
 
 License
 -------
