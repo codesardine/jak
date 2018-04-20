@@ -9,7 +9,7 @@ with open(path.join(readme, 'README.rst'), encoding='utf-8') as f:
 
 setup(
 name             = "Jade-Application-Kit",
-version          = "0.36",
+version          = "v1.2.1",
 packages         = ["j"],
 url              = "https://codesardine.github.io/Jade-Application-Kit",
 license          = "GPLv2",
