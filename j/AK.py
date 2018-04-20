@@ -138,33 +138,40 @@ class AppWindow(Gtk.Window):
             # some website features wont work without this
             self.settings.set_property("enable-site-specific-quirks", True)
 
+        def get_storage_path():
+            storage_path = os.getenv("HOME") + "/.jak/"
+            return storage_path
+
+        def set_storage():
+            context.set_favicon_database_directory(get_storage_path())
+            context.get_favicon_database()
+
         if settings("webkit", "cache") == "local":
             cache_model = WebKit2.CacheModel.DOCUMENT_BROWSER
+            set_storage()
 
         elif settings("webkit", "cache") == "online":
             cache_model = WebKit2.CacheModel.WEB_BROWSER
             self.settings.set_property("enable-offline-web-application-cache", True)
             self.settings.set_property("enable-dns-prefetching", True)
             self.settings.set_property("enable-page-cache", True)
-
             # we only need cookies if we are online
-            # isolate cookies by application name
             app_name = settings("app", "name")
-            cookies_path = os.getenv("HOME") + "/.jak/"
             cookies_filename = "cookies.txt"
+            set_storage()
 
             try:
-                if not os.path.exists(cookies_path):
-                    os.makedirs(cookies_path)
+                if not os.path.exists(get_storage_path()):
+                    os.makedirs(get_storage_path())
 
             except OSError:
-                print("Error: Creating cookies directory. " + cookies_path)
+                print("Error: Creating cookies directory. " + get_storage_path())
 
             self.session = context.get_cookie_manager()
             storage = WebKit2.CookiePersistentStorage.TEXT
             policy = WebKit2.CookieAcceptPolicy.ALWAYS
             self.session.set_accept_policy(policy)
-            self.session.set_persistent_storage(cookies_path + cookies_filename, storage)
+            self.session.set_persistent_storage(get_storage_path() + cookies_filename, storage)
 
             def cookies_change(self):
                 pass
@@ -288,26 +295,26 @@ class AppWindow(Gtk.Window):
 
         if settings("webkit", "cache") != "online" and app_mode != "url":
             # only for local application
-            name = settings("app", "name")
-            description = settings("app", "description")
-            version = settings("app", "version")
-            author = settings("app", "author")
-            applicense = settings("app", "license")
-            url = settings("app", "url")
-            screen_width = screen.width()
-            screen_height = screen.height()
+            _name = settings("app", "name")
+            _description = settings("app", "description")
+            _version = settings("app", "version")
+            _author = settings("app", "author")
+            _license = settings("app", "license")
+            _url = settings("app", "url")
+            _screen_width = screen.width()
+            _screen_height = screen.height()
             # TODO javascript Api
             Api.js = '''
             var JAK = {
             'app': {
-            'getName'            : '%(name)s',
-            'getDescription'     : '%(description)s',
-            'getVersion'         : '%(version)s',
-            'getAuthor'          : '%(author)s',
-            'getLicense'         : '%(applicense)s',
-            'getUrl'             : '%(url)s',
-            'getScreenWidth'     :  %(screen_width)s,
-            'getScreenHeight'    :  %(screen_height)s
+            'getName'            : '%(_name)s',
+            'getDescription'     : '%(_description)s',
+            'getVersion'         : '%(_version)s',
+            'getAuthor'          : '%(_author)s',
+            'getLicense'         : '%(_license)s',
+            'getUrl'             : '%(_url)s',
+            'getScreenWidth'     :  %(_screen_width)s,
+            'getScreenHeight'    :  %(_screen_height)s
             }};
         
             ''' % locals()
@@ -332,21 +339,19 @@ class AppWindow(Gtk.Window):
                 self.webview.load_uri(route)
 
             elif mode is "module":
-                route = "file://" + route
-                self.webview.load_html(Api.html, route)
+                self.webview.load_html(Api.html, "file://" + route)
 
             elif mode is "folder":
-                route = route + "index.html"
-                self.webview.load_uri("file://" + route)
+                self.webview.load_uri("file://" + route + "/index.html")
 
             register_app(route)
 
         load_app(app_mode, options.route)
 
         # Get title from webview for http
-        def on_title_changed(webview, title):
+        def on_title_changed(view, title):
             """
-            :param webview:
+            :param view:
             :param title:
             """
             url = self.webview.get_uri()
@@ -360,6 +365,7 @@ class AppWindow(Gtk.Window):
 
             if settings("webkit", "debug") or options.debug:
                 # this can be used to find out key names
+
                 print("KeyPress = " + Gdk.keyval_name(event.keyval))
 
             # distraction free mode, this only works on decorated windows
@@ -398,6 +404,13 @@ class AppWindow(Gtk.Window):
 
                 self.webview.set_zoom_level(value)
 
+        def favicon_changed(view, event):
+            # webpage icon changed
+            icon = view.get_favicon()
+            # set as window icon
+            W.set_icon(self, Gdk.pixbuf_get_from_surface(icon, 0, 0, icon.get_width(), icon.get_height()))
+
+        self.webview.connect("notify::favicon", favicon_changed)
         self.webview.connect("notify::title", on_title_changed)
         self.connect("key-release-event", on_key_release_event)
         self.connect("delete-event", Gtk.main_quit)
