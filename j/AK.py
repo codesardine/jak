@@ -404,12 +404,23 @@ class AppWindow(Gtk.Window):
 
                 self.webview.set_zoom_level(value)
 
+        def on_decide_policy(view, decision, decision_type):
+            """
+            :param view:
+            :param decision:
+            :param decision_type:
+            """
+            if decision_type == WebKit2.PolicyDecisionType.RESPONSE:
+                decision.use()
+                return False
+
         def favicon_changed(view, event):
             # webpage icon changed
             icon = view.get_favicon()
             # set as window icon
             W.set_icon(self, Gdk.pixbuf_get_from_surface(icon, 0, 0, icon.get_width(), icon.get_height()))
 
+        self.webview.connect("decide-policy", on_decide_policy)
         self.webview.connect("notify::favicon", favicon_changed)
         self.webview.connect("notify::title", on_title_changed)
         self.connect("key-release-event", on_key_release_event)
