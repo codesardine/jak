@@ -405,12 +405,21 @@ class AppWindow(Gtk.Window):
                 self.webview.set_zoom_level(value)
 
         def on_decide_policy(view, decision, decision_type):
+
             """
             :param view:
             :param decision:
             :param decision_type:
             """
-            if decision_type == WebKit2.PolicyDecisionType.RESPONSE:
+            if decision_type == WebKit2.PolicyDecisionType.NAVIGATION_ACTION or \
+               decision_type == WebKit2.PolicyDecisionType.NEW_WINDOW_ACTION:
+
+                if decision.get_navigation_action().get_request().get_uri() == "about:blank":
+                    # ignore blank pages
+                    decision.ignore()
+                    return True
+
+            elif decision_type == WebKit2.PolicyDecisionType.RESPONSE:
                 decision.use()
                 return False
 
