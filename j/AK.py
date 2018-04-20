@@ -386,7 +386,7 @@ class AppWindow(Gtk.Window):
                     event.keyval == Gdk.KEY_minus and event.state == Gdk.ModifierType.CONTROL_MASK:
 
                 zoom = self.webview.get_zoom_level()
-                value = 0.05
+                value = 0.1
 
                 if event.keyval == Gdk.KEY_minus:
                     if zoom <= 0.4:
@@ -401,8 +401,8 @@ class AppWindow(Gtk.Window):
                         value = 1.0
                     else:
                         value = zoom + value
-
-                self.webview.set_zoom_level(value)
+                
+                self.webview.set_zoom_level(round(value, 2))
 
         def on_decide_policy(view, decision, decision_type):
 
