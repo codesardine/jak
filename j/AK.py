@@ -43,7 +43,6 @@ def load_window_css(css):
 
     if os.path.isfile(css):
         styles.load_from_path(css)
-
     else:
         styles.load_from_data(css)
 
@@ -56,11 +55,8 @@ def load_window_css(css):
 def settings(key1, key2):
     if app_mode is "url":
         settings_file = os.getcwd() + "/settings.json"
-
     else:
-
         settings_file = options.route + "settings.json"
-        print(settings_file)
 
     if os.path.exists(settings_file):
         # Open settings.json and return values
@@ -89,7 +85,6 @@ def settings(key1, key2):
         }
 
     else:
-        print("settings.json not found, running defaults.")
         data = {
             "app": {
                 "name": ""
@@ -436,10 +431,9 @@ class AppWindow(Gtk.Window):
 
         def on_show_notification(view, notification):
             self.set_urgency_hint(True)
-            notify = Gio.Notification.new(view.get_title())
+            notify = Gio.Notification.new(notification.get_title())
             notify.set_body(notification.get_body())
-            #notify.set_icon(view.get_favicon()) TODO notification icon from page
-            return True
+            return False
 
         def on_permission_request(view, request):
             if isinstance(request, WebKit2.NotificationPermissionRequest):
