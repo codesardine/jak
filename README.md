@@ -20,9 +20,7 @@ Documentation: [wiki](https://github.com/codesardine/Jade-Application-Kit/wiki)
 Create native web wrappers or write hybrid Web and Desktop applications on Linux using a webview, including but not limited to DOCKS, Widgets, or any other sort of apps.
 
 ## Features
- * Use HTML5, CSS3 or Webgl.
- * Use any backend server or none at all!
- * Have your applications run in the browser with websockets using the GTK Broadway backend.
+ * JavaScript, HTML5, CSS3 for the UI.
  
 ## Known Issues
  * Broadway backend segfaults.
