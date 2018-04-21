@@ -23,9 +23,14 @@ if options.debug or options.video:
 
 # if running as module
 if options.route is None:
-    # returns the path of the file importing the module
-    options.route = os.path.dirname(os.path.abspath(sys.argv[0]))
     app_mode = "module"
+    # check if is symlink return the path of the file importing the module
+    file = os.getcwd() + "/" + os.path.basename(sys.argv[0])
+    if os.path.islink(file):
+        options.route = os.readlink(file).rpartition("/")[0]
+    else:
+        # returns the path of the file importing the module
+        options.route = os.path.dirname(os.path.abspath(sys.argv[0]))
 
 elif options.route.startswith("http"):
     app_mode = "url"
