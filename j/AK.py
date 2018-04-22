@@ -325,13 +325,16 @@ class AppWindow(Gtk.Window):
             self.webview.run_javascript(Api.js)
 
         def register_app(route):
+            context.register_uri_scheme(route, scheme_callback, None, None)
             sm.register_uri_scheme_as_cors_enabled(route)
-            sm.register_uri_scheme_as_secure(route)
 
             if settings("webkit", "same_frame") is not None:
                 for domain in settings("webkit", "same_frame"):
+                    context.register_uri_scheme(domain, scheme_callback, None, None)
                     sm.register_uri_scheme_as_cors_enabled(domain)
-                    sm.register_uri_scheme_as_secure(domain)
+
+        def scheme_callback(self, request):
+            pass
 
         def load_app(mode, route):
             if mode is "url":
