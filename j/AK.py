@@ -34,7 +34,7 @@ else:
     app_mode = "folder"
 
 
-if app_mode is not "url" and not options.route.endswith("/"):
+if app_mode != "url" and not options.route.endswith("/"):
     options.route += "/"
 
 
@@ -53,7 +53,7 @@ def load_window_css(css):
 
 
 def settings(key1, key2):
-    if app_mode is "url":
+    if app_mode == "url":
         settings_file = os.getcwd() + "/settings.json"
     else:
         settings_file = options.route + "settings.json"
@@ -110,8 +110,8 @@ def settings(key1, key2):
 class AppWindow(Gtk.Window):
     def __init__(self):
         W = Gtk.Window
-        if settings("window", "hint_type") is "desktop" or \
-           settings("window", "hint_type") is "dock":
+        if settings("window", "hint_type") == "desktop" or \
+           settings("window", "hint_type") == "dock":
 
             W.__init__(self, title=settings("app", "name"),
                        skip_pager_hint=True, skip_taskbar_hint=True)
@@ -206,37 +206,37 @@ class AppWindow(Gtk.Window):
                 print("Your system does not supports composite windows")
 
         # https://lazka.github.io/pgi-docs/#Gdk-3.0/enums.html#Gdk.WindowTypeHint
-        if settings("window", "hint_type") is "desktop":
+        if settings("window", "hint_type") == "desktop":
             W.set_type_hint(self, Gdk.WindowTypeHint.DESKTOP)
 
-        elif settings("window", "hint_type") is "dialog":
+        elif settings("window", "hint_type") == "dialog":
            W.set_type_hint(self, Gdk.WindowTypeHint.DIALOG)
 
-        elif settings("window", "hint_type") is "tooltip":
+        elif settings("window", "hint_type") == "tooltip":
             W.set_type_hint(self, Gdk.WindowTypeHint.TOOLTIP)
 
-        elif settings("window", "hint_type") is "notification":
+        elif settings("window", "hint_type") == "notification":
             W.set_type_hint(self, Gdk.WindowTypeHint.NOTIFICATION)
 
-        elif settings("window", "hint_type") is "dock":
+        elif settings("window", "hint_type") == "dock":
             W.set_type_hint(self, Gdk.WindowTypeHint.DOCK)
 
-        elif settings("window", "hint_type") is "menu":
+        elif settings("window", "hint_type") == "menu":
             W.set_type_hint(self, Gdk.WindowTypeHint.MENU)
 
-        elif settings("window", "hint_type") is "toolbar":
+        elif settings("window", "hint_type") == "toolbar":
             W.set_type_hint(self, Gdk.WindowTypeHint.TOOLBAR)
 
-        elif settings("window", "hint_type") is "utility":
+        elif settings("window", "hint_type") == "utility":
             W.set_type_hint(self, Gdk.WindowTypeHint.UTILITY)
 
-        elif settings("window", "hint_type") is "splashscreen":
+        elif settings("window", "hint_type") == "splashscreen":
             W.set_type_hint(self, Gdk.WindowTypeHint.SPLASHSCREEN)
 
-        elif settings("window", "hint_type") is "dropdownmenu":
+        elif settings("window", "hint_type") == "dropdownmenu":
             W.set_type_hint(self, Gdk.WindowTypeHint.DROPDOWN_MENU)
 
-        elif settings("window", "hint_type") is "popupmenu":
+        elif settings("window", "hint_type") == "popupmenu":
             W.set_type_hint(self, Gdk.WindowTypeHint.POPUP_MENU)
 
         else:
@@ -332,17 +332,17 @@ class AppWindow(Gtk.Window):
             pass
 
         def load_app(mode, route):
-            if mode is "url":
+            if mode == "url":
                 # force ssl
                 if not options.debug and route.startswith("http:"):
                     route = route.replace("http:", "https:")
 
                 self.webview.load_uri(route)
 
-            elif mode is "module":
+            elif mode == "module":
                 self.webview.load_html(Api.html, "file://" + route)
 
-            elif mode is "folder":
+            elif mode == "folder":
                 self.webview.load_uri("file://" + route + "/index.html")
 
             register_app(route)
@@ -367,7 +367,7 @@ class AppWindow(Gtk.Window):
             if settings("webkit", "debug") or options.debug:
                 # this can be used to find out key names
 
-                print("KeyPress = " + Gdk.keyval_name(event.keyval))
+                #print("KeyPress = " + Gdk.keyval_name(event.keyval))
 
             # distraction free mode, this only works on decorated windows
             if event.keyval == Gdk.KEY_F11:
