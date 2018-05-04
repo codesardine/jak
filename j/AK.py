@@ -367,7 +367,7 @@ class AppWindow(Gtk.Window):
             if settings("webkit", "debug") or options.debug:
                 # this can be used to find out key names
 
-                #print("KeyPress = " + Gdk.keyval_name(event.keyval))
+                print("KeyPress = " + Gdk.keyval_name(event.keyval))
 
             # distraction free mode, this only works on decorated windows
             if event.keyval == Gdk.KEY_F11:
