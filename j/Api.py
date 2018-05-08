@@ -1,5 +1,5 @@
 import sys
-# TODO
+# TODO Decide what is going to be exposed to javascript
 html = ""
 js = ""
 
