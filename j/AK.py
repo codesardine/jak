@@ -314,7 +314,7 @@ class AppWindow(Gtk.Window):
             'getScreenWidth'     :  %(_screen_width)s,
             'getScreenHeight'    :  %(_screen_height)s
             }};
-        
+
             ''' % locals()
 
             self.webview.run_javascript(Api.js)
@@ -367,7 +367,7 @@ class AppWindow(Gtk.Window):
             if settings("webkit", "debug") or options.debug:
                 # this can be used to find out key names
 
-                #print("KeyPress = " + Gdk.keyval_name(event.keyval))
+                print("KeyPress = " + Gdk.keyval_name(event.keyval))
 
             # distraction free mode, this only works on decorated windows
             if event.keyval == Gdk.KEY_F11:
@@ -421,7 +421,21 @@ class AppWindow(Gtk.Window):
                     return True
 
             elif decision_type == WebKit2.PolicyDecisionType.RESPONSE:
-                decision.use()
+                MIMES = (
+                    "application/vnd.oasis.opendocument.text", 
+                    "application/pdf", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", 
+                    "application/vnd.openxmlformats-officedocument.presentationml.presentation", 
+                    "application/zip", 
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+                    "application/vnd.oasis.opendocument.spreadsheet")
+
+                response = decision.get_response()
+                mime_type = response.props.mime_type
+                
+                if mime_type in MIMES:
+                    decision.download()
+                else:
+                    decision.use()   
                 return False
 
         def favicon_changed(view, event):
