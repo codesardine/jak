@@ -22,7 +22,7 @@ Installing
 ```
 git clone this_repo_address
 cd this_repo_directory_on_your_local_machine
-pip install - requirements.txt
+pip install -r requirements.txt
 ~/.virtualenv/python setup.py install
 ```
 or
@@ -41,7 +41,7 @@ TODO
 
 ## Versioning
 
-[SemVer](http://semver.org/) is used for versioning. For the versions available, see the [tags on this repository](https://github.com/codesardine/Jadesktop/tags).
+[SemVer](http://semver.org/) is used for versioning. For the versions available, see the [tags on this repository](https://github.com/codesardine/Jade-Application-Kit/tags).
 
 ## Authors
 
