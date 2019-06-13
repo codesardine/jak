@@ -1,3 +1,0 @@
-#!/bin/sh
-cd /path/to/application-settings.json
-jak https://your-url.com

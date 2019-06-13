@@ -1,4 +1,8 @@
-## Jade Application Kit
+## Jade Application Kit(JAK)
+
+JAK is built in Python and QTWebEngine.
+Hybrid web/desktop applications on Linux.
+
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c79991176d484d50960a36007749b6a6)](https://www.codacy.com/app/codesardine/Jade-Application-Kit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesardine/Jade-Application-Kit&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/codesardine/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codesardine/Jade-Application-Kit)
@@ -7,33 +11,56 @@
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/python:jade-application-kit.svg)](https://repology.org/metapackage/python:jade-application-kit)
 
-Documentation: [wiki](https://github.com/codesardine/Jade-Application-Kit/wiki)
+## Getting Started
 
-## Introduction
+* Prerequisites
+* Python  >= 3.6
+* PySide2 >= 5.12.3
+* QTWebEngine
 
- JAK is built in Python GTK3 toolkit and Webkit2 Browser engine.
- It is dependent on Python Gobject introspection module and Webkit2Gtk.
- 
- It should be pre packaged in any linux distro!
-  * further reading about Pygi [here](https://wiki.gnome.org/Projects/PyGObject)
-  * Pygi API [here](https://lazka.github.io/pgi-docs/)
-  * Pygi Webkit2 API [here](https://lazka.github.io/pgi-docs/#WebKit2-4.0)
-  
-Create native web wrappers or write hybrid Web and Desktop applications on Linux using a webview, including but not limited to DOCKS, Widgets, or any other sort of apps.
+Installing
+```
+git clone this_repo_address
+cd this_repo_directory_on_your_local_machine
+pip install - requirements.txt
+~/.virtualenv/python setup.py install
+```
+or
+```
+sudo setup.py install
+```
 
-## Features
- * JavaScript, HTML5, CSS3 for the UI.
- 
-## Known Issues
- * Broadway backend segfaults.
- * Transparent windows are not working.
- * There is no way of positioning windows in the screen.
- 
-## SUGGESTIONS ARE WELCOME!
-## [Contributing](https://github.com/codesardine/Jade-Application-Kit/blob/master/contributing.md)
+## Contributing
+Please read [CONTRIBUTING.md](https://github.com/codesardine/Jade-Application-Kit/blob/master/CONTRIBUTING.md) for details on code of conduct, and the process for submitting pull requests.
+
+## Usage
+TODO
+
+## Development
+TODO
+
+## Versioning
+
+[SemVer](http://semver.org/) is used for versioning. For the versions available, see the [tags on this repository](https://github.com/codesardine/Jadesktop/tags).
+
+## Authors
+
+* **Vitor Lopes** - [Twitter Codesardine](https://twitter.com/codesardine)
+
+See also the list of [contributors](https://github.com/codesardine/Jade-Application-Kit/graphs/contributors) who participated in this project.
+
+
+##Acknowledgments
+
+* Applications
+* Ms [Office online](https://gitlab.manjaro.org/applications/ms-office-online-launcher) for Manjaro
+* [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
+* Missing yours?, let me know
+
+Using web technologies we can create beautiful User Interfaces using a diverse amount of available web library's.
 
 ## License
 Jade Application Kit is covered by the GPL license.
 
-Copyright (c) 2015-2018, Vitor Lopes. All rights reserved.
+Copyright (c) 2015-2019, Vitor Lopes. All rights reserved.
 

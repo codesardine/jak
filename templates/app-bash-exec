@@ -1,4 +1,0 @@
-#!/bin/sh
-jak /path/to/index.html
-
-jak /path/to/folder/ 

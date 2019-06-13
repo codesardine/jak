@@ -1,0 +1,128 @@
+#!/usr/bin/env python
+import argparse
+import os
+import sys
+import subprocess
+"""
+ App Name   - Jade Application Kit
+ App Url    - https://codesardine.github.io/Jade-Application-Kit
+ Author     - Vitor Lopes -> Copyright (c) 2016 - 2019
+ Author Url - https://vitorlopes.me
+"""
+try:
+    # Testing locally
+    from Application import JWebApp
+except ImportError:
+    # Production
+    from JAK.Application import JWebApp
+
+
+def run(url, title, icon, transparent, online, url_rules,
+        cookies_path, user_agent, custom_css, custom_js, toolbar, debug):
+
+    app = JWebApp(title=title, icon=icon, web_contents=url, debug=debug, transparent=transparent, online=online,
+                  url_rules=url_rules, cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
+                  custom_js=custom_js, toolbar=toolbar)
+
+    app.run()
+
+
+def command_line_options():
+    """Parse commandline arguments."""
+    options = argparse.ArgumentParser(description='''\
+      -------------------------------------------------------
+      Jade Application Kit
+      -------------------------------------------------------
+      Toggle Full Screen    [  F11     ] 
+      Zoom In               [  CTRL +  ] 
+      Zoom Out              [  CTRL -  ]
+      -------------------------------------------------------
+      Create hybrid desktop applications
+      with Python, JavaScript or Shell
+      Author : Vitor Lopes
+      Licence: GPL
+      url: https://codesardine.github.io/Jade-Application-Kit
+      -------------------------------------------------------''', epilog='''\
+      ''', formatter_class=argparse.RawTextHelpFormatter)
+
+    options.add_argument(
+        "--url",
+        required=True,
+        help="Url or path to HTML file."
+    )
+    options.add_argument(
+        "--title",
+        help="Application Title.",
+        required=True,
+
+    )
+    options.add_argument(
+        "--icon",
+        default="",
+        help="Path to app icon, if omitted, uses url icon.",
+    )
+    options.add_argument(
+        "--transparent",
+        default="",
+        help="Transparent Background.",
+    )
+    options.add_argument(
+        "--online",
+        default="",
+        help="cache/cookies/dns prefetch ON.",
+    )
+    options.add_argument(
+        "--cookies_path",
+        default="",
+        help="Set path, /home/username/.jak/cookies-path.",
+    )
+    options.add_argument(
+        "--user_agent",
+        default="",
+        help="Set WebEngine user agent",
+    )
+    options.add_argument(
+        "--css",
+        default="",
+        help='Inject CSS, file path or string.',
+    )
+    options.add_argument(
+        "--js",
+        default="",
+        help='Inject JavaScript, file path or string.',
+    )
+    options.add_argument(
+        "--toolbar",
+        default="",
+        help='Define toolbar links, set in quotes -> "CSS"',
+    )
+    options.add_argument(
+        "--dev",
+        default=False,
+        action='store_true',
+        help="Debug On",
+    )
+    # Todo pass dictionary as argument, this one is tricky
+    """
+    options.add_argument(
+        "--url_rules",
+        default="",
+        help="if online, allowed url's.",
+    )
+    """
+
+    return options.parse_args()
+
+
+if len(sys.argv) == 1:
+    # if no arguments are passed run help message
+    process = subprocess.Popen([os.path.realpath(__file__), "--help"])
+    process.wait()
+    process.terminate()
+
+option = command_line_options()
+
+if option.url and option.title:
+    run(option.url, option.title, option.icon, option.transparent, option.online, option.url_rules, option.cookies_path,
+        option.user_agent, option.css, option.js, option.toolbar, option.dev)
+
