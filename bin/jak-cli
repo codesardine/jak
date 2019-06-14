@@ -17,11 +17,11 @@ except ImportError:
     from JAK.Application import JWebApp
 
 
-def run(url, title, icon, transparent, online, url_rules,
-        cookies_path, user_agent, custom_css, custom_js, toolbar, debug):
+def run(url, title, icon="", transparent="", online="", cookies_path="", user_agent="", custom_css="",
+        custom_js="", toolbar="", debug=""):
 
     app = JWebApp(title=title, icon=icon, web_contents=url, debug=debug, transparent=transparent, online=online,
-                  url_rules=url_rules, cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
+                  cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
                   custom_js=custom_js, toolbar=toolbar)
 
     app.run()
@@ -123,6 +123,6 @@ if len(sys.argv) == 1:
 option = command_line_options()
 
 if option.url and option.title:
-    run(option.url, option.title, option.icon, option.transparent, option.online, option.url_rules, option.cookies_path,
+    run(option.url, option.title, option.icon, option.transparent, option.online, option.cookies_path,
         option.user_agent, option.css, option.js, option.toolbar, option.dev)
 

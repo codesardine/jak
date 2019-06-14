@@ -11,7 +11,7 @@ with open(path.join(readme, 'README.md'), encoding='utf-8') as f:
 
 setup(
 name             = "Jade-Application-Kit",
-version          = "v2.0.0",
+version          = "v2.0.1",
 packages         = ["j", "JAK"],
 python_requires  = ">=3.6",
 url              = "https://codesardine.github.io/Jade-Application-Kit",
@@ -20,8 +20,8 @@ author           = "Vitor Lopes",
 author_email     = "vmnlop@gmail.com",
 description      = "Create native web wrappers or write hybrid Desktop applications on Linux,"
                    " with Python, JavaScript, HTML, and Blink",
-long_description = long_description,
 long_description_content_type='text/markdown',
+long_description = long_description,
 download_url     = "https://github.com/codesardine/Jade-Application-Kit/zipball/master",
 keywords         = ["Jade Application Kit", "gui", "blink", "html5", "web technologies", "javascript", "python",
                     "webgl", "css3", "QTWebEngine", "PySide2", "linux"],
