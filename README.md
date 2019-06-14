@@ -1,4 +1,4 @@
-## Jade Application Kit(JAK)
+## Jade Application Kit ( JAK )
 
 JAK is built in Python and QTWebEngine.
 Hybrid web/desktop applications on Linux.
@@ -16,28 +16,83 @@ Hybrid web/desktop applications on Linux.
 * Prerequisites
 * Python  >= 3.6
 * PySide2 >= 5.12.3
-* QTWebEngine
 
 Installing
 ```
 git clone this_repo_address
+
 cd this_repo_directory_on_your_local_machine
+
 pip install -r requirements.txt
-~/.virtualenv/python setup.py install
+
+pip install Jade-Application-Kit
 ```
-or
+
+Install manually
 ```
-sudo setup.py install
+~/.virtualenv/python setup.py install or sudo setup.py install
 ```
 
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/codesardine/Jade-Application-Kit/blob/master/CONTRIBUTING.md) for details on code of conduct, and the process for submitting pull requests.
 
 ## Usage
-TODO
+With the command line utility you can create a self-contained web wrapper's in a question of seconds.
+```
+jak-cli --url https://my-web-app-url  --title Mytitle
+```
+For more options.
+```
+jak-cli --help
+```
 
-## Development
-TODO
+Using Python
+```
+#!/usr/bin/env python
+from JAK.Application import JWebApp
+
+url = "https://my-web-app-url"
+
+webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
+
+webapp.run()
+```
+* arguments:
+* title= 
+* type: boolean
+
+* icon=""
+* type: string
+
+* web_contents=
+* type: string
+
+* debug=
+* type: boolean
+
+* transparent=
+* type: boolean
+
+* online=
+* type: boolean
+
+* url_rules=
+* type: dictionary
+
+* cookies_path=
+* type: string
+
+* user_agent=
+* type: string
+
+* custom_css=
+* type: string
+
+* custom_js=
+* type: string
+
+* toolbar=
+* type: dictionary
 
 ## Versioning
 
@@ -53,9 +108,12 @@ See also the list of [contributors](https://github.com/codesardine/Jade-Applicat
 ##Acknowledgments
 
 * Applications
-* Ms [Office online](https://gitlab.manjaro.org/applications/ms-office-online-launcher) for Manjaro
 * [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
-* Missing yours?, let me know
+
+* Wrappers
+* [Microsoft Office online](https://gitlab.manjaro.org/applications/ms-office-online-launcher) for Manjaro
+
+Missing yours?, let me know
 
 Using web technologies we can create beautiful User Interfaces using a diverse amount of available web library's.
 
