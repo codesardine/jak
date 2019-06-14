@@ -4,7 +4,6 @@
  Author     - Vitor Lopes -> Copyright (c) 2016 - 2019
  Author Url - https://vitorlopes.me
 """
-from functools import partial
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox
@@ -177,30 +176,3 @@ class InfoDialog(QWidget):
         self.setWindowTitle(title)
         QMessageBox.information(parent, title, msg, QMessageBox.Ok)
         self.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-

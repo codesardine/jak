@@ -8,12 +8,10 @@ import os
 import time
 try:
     # Testing locally
-    from Utils import Instance
     from Utils import JavaScript
     from RequestInterceptor import Interceptor
 except ImportError:
     # Production
-    from JAK.Utils import Instance
     from JAK.Utils import JavaScript
     from JAK.RequestInterceptor import Interceptor
 
