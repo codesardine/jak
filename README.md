@@ -57,42 +57,19 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
-* arguments:
-* title= 
-* type: boolean
-
-* icon=""
-* type: string
-
-* web_contents=
-* type: string
-
-* debug=
-* type: boolean
-
-* transparent=
-* type: boolean
-
-* online=
-* type: boolean
-
-* url_rules=
-* type: dictionary
-
-* cookies_path=
-* type: string
-
-* user_agent=
-* type: string
-
-* custom_css=
-* type: string
-
-* custom_js=
-* type: string
-
-* toolbar=
-* type: dictionary
+Arguments
+* title=boolean
+* icon=string
+* web_contents=string
+* debug=boolean
+* transparent=boolean
+* online=boolean
+* url_rules=dictionary
+* cookies_path=string
+* user_agent=string
+* custom_css=string
+* custom_js=string
+* toolbar=dictionary
 
 ## Versioning
 
@@ -105,12 +82,12 @@ webapp.run()
 See also the list of [contributors](https://github.com/codesardine/Jade-Application-Kit/graphs/contributors) who participated in this project.
 
 
-##Acknowledgments
+## Acknowledgments
 
-* Applications
+Applications
 * [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
 
-* Wrappers
+Wrappers
 * [Microsoft Office online](https://gitlab.manjaro.org/applications/ms-office-online-launcher) for Manjaro
 
 Missing yours?, let me know
