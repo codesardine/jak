@@ -1,7 +1,7 @@
 #!/usr/bin/python
 try:
     from j import AK
-
+    print("Deprecated Use [ jak-cli ] instead.")
     AK.cml()
 
 except Exception as err:
