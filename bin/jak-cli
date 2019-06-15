@@ -17,12 +17,12 @@ except ImportError:
     from JAK.Application import JWebApp
 
 
-def run(url, title, icon="", transparent="", online="", cookies_path="", user_agent="", custom_css="",
-        custom_js="", toolbar="", debug=""):
+def run(url, title,  online,  transparent, debug, icon, cookies_path, user_agent, custom_css, custom_js):
 
-    app = JWebApp(title=title, icon=icon, web_contents=url, debug=debug, transparent=transparent, online=online,
+
+    app = JWebApp(title=title, online=online, icon=icon, web_contents=url, debug=debug, transparent=transparent,
                   cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
-                  custom_js=custom_js, toolbar=toolbar)
+                  custom_js=custom_js)
 
     app.run()
 
@@ -33,8 +33,8 @@ def command_line_options():
       -------------------------------------------------------
       Jade Application Kit
       -------------------------------------------------------
-      Toggle Full Screen    [  F11     ] 
-      Zoom In               [  CTRL +  ] 
+      Toggle Full Screen    [  F11     ]
+      Zoom In               [  CTRL +  ]
       Zoom Out              [  CTRL -  ]
       -------------------------------------------------------
       Create hybrid desktop applications
@@ -47,11 +47,13 @@ def command_line_options():
 
     options.add_argument(
         "--url",
+        type=str,
         required=True,
         help="Url or path to HTML file."
     )
     options.add_argument(
         "--title",
+        type=str,
         help="Application Title.",
         required=True,
 
@@ -59,42 +61,44 @@ def command_line_options():
     options.add_argument(
         "--icon",
         default="",
+        type=str,
         help="Path to app icon, if omitted, uses url icon.",
     )
     options.add_argument(
         "--transparent",
-        default="",
+        default=False,
+        type=bool,
         help="Transparent Background.",
     )
     options.add_argument(
         "--online",
-        default="",
+        default=False,
+        type=bool,
         help="cache/cookies/dns prefetch ON.",
     )
     options.add_argument(
         "--cookies_path",
         default="",
+        type=str,
         help="Set path, /home/username/.jak/cookies-path.",
     )
     options.add_argument(
         "--user_agent",
         default="",
+        type=str,
         help="Set WebEngine user agent",
     )
     options.add_argument(
         "--css",
         default="",
+        type=str,
         help='Inject CSS, file path or string.',
     )
     options.add_argument(
         "--js",
         default="",
+        type=str,
         help='Inject JavaScript, file path or string.',
-    )
-    options.add_argument(
-        "--toolbar",
-        default="",
-        help='Define toolbar links, set in quotes -> "CSS"',
     )
     options.add_argument(
         "--dev",
@@ -104,6 +108,12 @@ def command_line_options():
     )
     # Todo pass dictionary as argument, this one is tricky
     """
+    options.add_argument(
+        "--toolbar",
+        default="",
+        type=dict,
+        help='Define toolbar links, set in quotes -> "CSS"',
+    )
     options.add_argument(
         "--url_rules",
         default="",
@@ -123,6 +133,6 @@ if len(sys.argv) == 1:
 option = command_line_options()
 
 if option.url and option.title:
-    run(option.url, option.title, option.icon, option.transparent, option.online, option.cookies_path,
-        option.user_agent, option.css, option.js, option.toolbar, option.dev)
+    run(option.url, option.title, option.online, option.transparent, option.dev, option.icon, option.cookies_path,
+        option.user_agent, option.css, option.js)
 
