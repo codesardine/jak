@@ -1,8 +1,6 @@
 ## Jade Application Kit ( JAK )
 
-JAK is built in Python and QTWebEngine.
-Hybrid web/desktop applications on Linux.
-
+Build web wrappers or hybrid web/desktop applications on Linux, using Python/JavaScript/HTML5/CSS3 powered by [QTWebengine](https://wiki.qt.io/QtWebEngine)
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c79991176d484d50960a36007749b6a6)](https://www.codacy.com/app/codesardine/Jade-Application-Kit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesardine/Jade-Application-Kit&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/codesardine/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codesardine/Jade-Application-Kit)
@@ -58,18 +56,18 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 webapp.run()
 ```
 Arguments
-* title=boolean
-* icon=string
-* web_contents=string
-* debug=boolean
-* transparent=boolean
-* online=boolean
-* url_rules=dictionary
-* cookies_path=string
-* user_agent=string
-* custom_css=string
-* custom_js=string
-* toolbar=dictionary
+* title        = boolean
+* icon         = string
+* web_contents = string
+* debug        = boolean
+* transparent  = boolean
+* online       = boolean
+* url_rules    = dictionary
+* cookies_path = string
+* user_agent   = string
+* custom_css   = string
+* custom_js    = string
+* toolbar      = dictionary
 
 ## Versioning
 
