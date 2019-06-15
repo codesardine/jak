@@ -1,1 +1,1 @@
-print("Deprecated Use [ from JAK import something] instead.")
+print("Deprecated Use [ JAK module ] instead.")
