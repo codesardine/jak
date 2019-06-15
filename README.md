@@ -15,12 +15,14 @@ Build web wrappers or hybrid web/desktop applications on Linux, using Python/Jav
 * Python  >= 3.6
 * PySide2 >= 5.12.3
 
-Installing
 ```
 git clone this_repo_address
 
 cd this_repo_directory_on_your_local_machine
+```
 
+Install pip
+```
 pip install -r requirements.txt
 
 pip install Jade-Application-Kit
@@ -29,6 +31,11 @@ pip install Jade-Application-Kit
 Install manually
 ```
 ~/.virtualenv/python setup.py install or sudo setup.py install
+```
+
+Install Manjaro
+```
+pacman -S python-jade-application-kit
 ```
 
 ## Contributing
