@@ -1,22 +1,27 @@
 sudo: required
 language: python
-
 python:
-  - "3.6"
-  - "3.7"
-
-install:
-  - pip install .
-  - pip install -r requirements.txt
-
-# Tests
-script: nosetests
-
+- '3.6'
+- '3.7'
 notifications:
   webhooks:
     urls:
-      - https://webhooks.gitter.im/e/9da87f9fb77e9c13620d
-    on_success: change  # options: [always|never|change] default: always
-    on_failure: always  # options: [always|never|change] default: always
-    on_start: never     # options: [always|never|change] default: always
-export PATH=$PATH:/home/vlopes/.gem/ruby/2.6.0/gems/travis-1.8.10/bin/
+    - https://webhooks.gitter.im/e/9da87f9fb77e9c13620d
+    on_success: change
+    on_failure: always
+    on_start: never
+cache:
+- pip
+install:
+- pip install .
+- make requirements
+deploy:
+  provider: pypi
+  user: codesardine
+  password:
+    secure: etAjJfwFBg8/gzzV9ZkiBXQyDnDzG5QevKy/4SmGeXphl/USCIpBuXH0kxvVkE+DFv6OdiW2eiJk/xFP5LZpA6P9AgJtWmgqoKIkF/0oh/fRHzqwIXgYJJMQpq4ZrwmEEYYNuU5oQaz8wOu/g9EaJ2bo3ACXjsl0PsPyZv7+QBzoV6y3lfnuOYgfcxu3H0OYCfLz2cHER3747n5Fm/9OZZ2LpAgJks9a6AeYujrDNt+7GNIp8LT5W2VIdBCwz3RVazQwHpCHREgoGfVzRWz3Rj/hXUcQygY+ogEUjKMHHJfePuoX+MYP6MMYtvOtUH/P96ltO5kv8Bx8SDzet1HYV2fLNnIiuV5cTA4ChhLD1bdcS3qoom+gwJikY/zgc6gNz0qqzBwnTYJa/0ZcNf+Tw6NrO3Kkd0jE5dfx/di2xrTSyL7lbXxGSKo1ELlbgm+nPdegGp0aTje1Qe2SWFWqcqyB5eYc0B1/4V1m4iORaEsbUEEDLTm+N5PBXOxJ5lXgrvHmgz+N5CzbKYMHoAreuqFo3/vUDf7dVuSAHdnCfZ1N2x2YDZxrSn9gxpStTaE/XvtxM+1VNX55X8+cR/BmkS37avDKM1rASwTpCVwXnZCrRYMwFEBmTMQXjhg/uGX81RZ55Q8chiLTKELSFTRbDOIk87GEdm4019eR1fJJZB8=
+  distributions: sdist bdist_wheel
+  on:
+    tags: true
+    python: 3.6
+script: nosetests
