@@ -24,7 +24,7 @@ class Instance:
         :usage: Instance.record("name", object)
         """
         register[name] = _type
-        print(f"object ['{name}'] registered")
+        print(f"Registering ['{name}'] Instance")
 
     @staticmethod
     def retrieve(name: str) -> object or str:
@@ -49,7 +49,7 @@ class Instance:
         except KeyError:
             register[name] = _type
         finally:
-            print(f"object ['{name}'] registered and retrieved")
+            print(f"Registering and Retrieving ['{name}'] Instance")
             return register[name]
 
 

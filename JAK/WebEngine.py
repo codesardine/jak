@@ -87,7 +87,8 @@ class JWebPage(QWebEnginePage):
 
         elif not self.online and url.startswith("ipc:"):
             # Clicking a link that starts with [ ipc:somefunction() ] triggers the communication system
-            print("Engine interprocess communication (IPC) up and running:")
+            if self.debug:
+                print(f"IPC call: {url}")
             try:
                 from IPC import _Communication
             except ImportError:
@@ -197,6 +198,7 @@ class JWebView(QWebEngineView):
             self.profile.setHttpUserAgent(user_agent)
 
         print(self.profile.httpUserAgent())
+        print(online)
 
         if online:
             print("Engine online (IPC) Disabled")
