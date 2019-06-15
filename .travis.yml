@@ -14,7 +14,7 @@ cache:
 - pip
 install:
 - pip install .
-- make requirements
+- pip install -r requirements.txt
 deploy:
   provider: pypi
   user: codesardine
