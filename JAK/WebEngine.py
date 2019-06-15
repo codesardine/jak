@@ -229,12 +229,10 @@ class JWebView(QWebEngineView):
 
         if transparent:
             # Activates webview background transparency
-            # FIXME background transparency not working
-            # https://bugreports.qt.io/browse/QTBUG-41960
             self.setAttribute(Qt.WA_TranslucentBackground)
             self.page().setBackgroundColor(Qt.transparent)
-            #self.setWindowFlags(Qt.FramelessWindowHint)
             self.setStyleSheet("background:transparent;")
+            print("Transparency detected, make sure you set [ body {background:transparent;} ]")
 
         settings = self.settings()
         # TODO allow settings per application
