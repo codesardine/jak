@@ -27,8 +27,9 @@ class JWebApp(QApplication):
     """
     Open a web page in a desktop application
     """
-    def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False, url_rules="",
-                 cookies_path="", user_agent="", custom_css="", custom_js="", toolbar=""):
+    def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False,
+                 disable_gpu=False, url_rules="", cookies_path="", user_agent="", custom_css="", custom_js="",
+                 toolbar=""):
         """
         Create an application which loads a URL into a window
         """
@@ -41,16 +42,20 @@ class JWebApp(QApplication):
         else:
             print("Production Mode On, use (--dev) for debugging")
 
-        # Detect virtual machine using systemd and disable GPU acceleration
-        detect_virtual_machine = subprocess.Popen(['systemd-detect-virt'], stdout=subprocess.PIPE,
-                                                  stderr=subprocess.STDOUT)
-        is_virtual = detect_virtual_machine.communicate()
-
-        if is_virtual[-1] is not None:
-            print(f"Virtual machine detected:{is_virtual}")
-            sys.argv.append("--disable-gpu")
-        else:
-            print(f"Virtual Machine:{is_virtual[-1]}")
+        if not disable_gpu:
+            # Only run if we are not passing --disable-gpu argument
+            # Detect virtual machine using systemd and disable GPU acceleration
+            detect_virtual_machine = subprocess.Popen(
+                ['systemd-detect-virt'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+            )
+            # FIXME more reliable way of detecting NVIDIA cards
+            detect_nvidia_pci = subprocess.Popen(
+                'lspci | grep NVIDIA', stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                shell=True
+            )
+            virtual = detect_virtual_machine.communicate()
+            nvidia_pci = detect_nvidia_pci.communicate()
+            nvidia_pci = nvidia_pci[0].decode("utf-8").lower()
 
         # Command line arguments MUST BE before creating QApplication
         super(JWebApp, self).__init__(sys.argv)
@@ -69,6 +74,24 @@ class JWebApp(QApplication):
         # Enable automatic HDPI scale
         self.setAttribute(Qt.AA_UseHighDpiPixmaps)
         self.setAttribute(Qt.AA_EnableHighDpiScaling)
+        if disable_gpu:
+            self.disable_gpu()
+            print("Disabling GPU, Software Rendering explicitly activated")
+        else:
+            if virtual[-1]:
+                print(f"Virtual machine detected:{virtual}")
+                self.disable_gpu()
+
+            elif nvidia_pci:
+                if "nvidia" in nvidia_pci:
+                    print("NVIDIA detected:Known bug - kernel rejected pushbuf")
+                    print("Falling back to Software Rendering")
+                    self.disable_gpu()
+            else:
+                print(f"Virtual Machine:{virtual[-1]}")
+
+    def disable_gpu(self):
+        self.setAttribute(Qt.AA_UseSoftwareOpenGL, True)
 
     def run(self):
         Instance.record("view", JWebView(self.title, self.icon, self.web_contents, self.debug, self.transparent,

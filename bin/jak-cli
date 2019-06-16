@@ -12,16 +12,17 @@ import subprocess
 try:
     # Testing locally
     from Application import JWebApp
+    print("Testing: modules imported locally")
 except ImportError:
     # Production
     from JAK.Application import JWebApp
 
 
-def run(url, title,  online,  transparent, debug, icon, cookies_path, user_agent, custom_css, custom_js):
+def run(url, title,  online,  transparent, debug, disable_gpu, icon, cookies_path, user_agent, custom_css, custom_js):
 
 
-    app = JWebApp(title=title, online=online, icon=icon, web_contents=url, debug=debug, transparent=transparent,
-                  cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
+    app = JWebApp(title=title, online=online, icon=icon, web_contents=url, debug=debug, disable_gpu=disable_gpu,
+                  transparent=transparent, cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
                   custom_js=custom_js)
 
     app.run()
@@ -106,6 +107,12 @@ def command_line_options():
         action='store_true',
         help="Debug On",
     )
+    options.add_argument(
+        "--disable-gpu",
+        default=False,
+        action='store_true',
+        help="Disable GPU acceleration, use this if you have a NVIDIA card",
+    )
     # Todo pass dictionary as argument, this one is tricky
     """
     options.add_argument(
@@ -133,6 +140,6 @@ if len(sys.argv) == 1:
 option = command_line_options()
 
 if option.url and option.title:
-    run(option.url, option.title, option.online, option.transparent, option.dev, option.icon, option.cookies_path,
+    run(option.url, option.title, option.online, option.transparent, option.dev, option.disable_gpu, option.icon, option.cookies_path,
         option.user_agent, option.css, option.js)
 

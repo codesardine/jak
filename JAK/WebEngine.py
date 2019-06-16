@@ -198,7 +198,6 @@ class JWebView(QWebEngineView):
             self.profile.setHttpUserAgent(user_agent)
 
         print(self.profile.httpUserAgent())
-        print(online)
 
         if online:
             print("Engine online (IPC) Disabled")
