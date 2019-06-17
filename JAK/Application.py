@@ -94,6 +94,9 @@ class JWebApp(QApplication):
         self.setAttribute(Qt.AA_UseSoftwareOpenGL, True)
 
     def run(self):
+        if "://" not in self.web_contents:
+            self.web_contents = f"https://{self.web_contents}"
+
         Instance.record("view", JWebView(self.title, self.icon, self.web_contents, self.debug, self.transparent,
                                          self.online, self.url_rules, self.cookies_path, self.user_agent,
                                          self.custom_css, self.custom_js))
