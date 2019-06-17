@@ -68,6 +68,10 @@ class JWebPage(QWebEnginePage):
         msg = "Open In Your Browser"
 
         JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
+        from JAK.Utils import Instance
+        win = Instance.retrieve("win")
+        if win.windowTitle() == "about:blank":
+            self.view.back()
 
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
@@ -82,10 +86,7 @@ class JWebPage(QWebEnginePage):
         # Redirect new tabs to same window
         self.page.urlChanged.connect(self._on_url_changed)
 
-        if url == "about:blank":
-            return False
-
-        elif not self.online and url.startswith("ipc:"):
+        if not self.online and url.startswith("ipc:"):
             # Clicking a link that starts with [ ipc:somefunction() ] triggers the communication system
             if self.debug:
                 print(f"IPC call: {url}")
@@ -161,7 +162,10 @@ class JWebPage(QWebEnginePage):
 
     def _on_url_changed(self, url: str) -> None:
         url = url.toString()
-        validate_url(self, url)
+        if url == "about:blank":
+            return False
+        else:
+            validate_url(self, url)
 
 
 class JWebView(QWebEngineView):
