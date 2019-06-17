@@ -6,9 +6,13 @@ def skype():
     # v1.0.0
     url = "web.skype.com"
 
-    rules = {"WebBrowserTab": url}
-    
-    webapp = JWebApp(title="Slack Online", web_contents=url, url_rules=rules, online=True, cookies_path="microsoft")
+    allow = url, "login.skype.com", "login.live.com"
+
+    deny = "privacy.", "feedback."
+
+    rules = {"WebBrowserTab": allow, "WebBrowserWindow": deny}
+
+    webapp = JWebApp(title="Skype Online", web_contents=url, url_rules=rules, online=True, cookies_path="microsoft")
 
     return webapp
 
