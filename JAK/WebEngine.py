@@ -145,7 +145,10 @@ class JWebPage(QWebEnginePage):
             url_rules = self.url_rules["WebBrowserTab"]
 
         elif request_type is "WebBrowserWindow":
-            url_rules = self.url_rules["WebBrowserWindow"]
+            try:
+                url_rules = self.url_rules["WebBrowserWindow"]
+            except KeyError:
+                url_rules = ""
 
         return (f"{SCHEME}{url}" for url in url_rules)
 
@@ -187,8 +190,12 @@ class JWebView(QWebEngineView):
             print("Custom JavaScript detected")
 
         if url_rules:
-            self.block_rules = url_rules["block"]
-            self.interceptor = Interceptor(debug, self.block_rules)
+            try:
+                self.block_rules = url_rules["block"]
+            except KeyError:
+                self.block_rules = ""
+            finally:
+                self.interceptor = Interceptor(debug, self.block_rules)
         else:
             self.interceptor = Interceptor(debug)
         self.profile.setRequestInterceptor(self.interceptor)
