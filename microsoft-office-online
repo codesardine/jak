@@ -1,0 +1,44 @@
+#!/usr/bin/env python
+try:
+    # Testing locally
+    from Application import JWebApp
+except ImportError:
+    # Production
+    from JAK.Application import JWebApp
+
+
+def office():
+    start = "https://office.live.com"
+    icon = "/usr/share/pixmaps/ms-office.png"
+
+    adverts = "tpc.googlesyndication.com", "googleads.g.doubleclick.net", "tag.sp.advertising.com",\
+              "banner.advertising.com", "cdn.bannerflow.com", "acdn.adnxs.com"
+
+    tab_only_allow = "office.live.com", "www.office.com", "forms.office.", "people.live.com", "onedrive.",\
+                     "d.docs.live.", "www.onenote.", "outlook.", "www.outlook.", "sway.office.com", "1drv.ms/", \
+                     "to-do.microsoft.com/", "word-edit.officeapps.live", "calendar.live.", "login.live.com",\
+                     "login.microsoftonline.com/", "onenote"
+
+    css_hide = ".hero-section, .tiles-section, a[href*='skype'], a[href*='bing'], a[href*='msn'], \
+               a[href*='https://g.live.com'], ._14PqNbws6gkP3kvU8nzH0G {display:none !important;}"
+
+    deny = "account", "support", "web.skype", "www.microsoft", "store.office.com", "msn.com", "bing.",\
+           "products.office", "go.microsoft.com", "privacy."
+
+    rules = {"WebBrowserTab": tab_only_allow, "WebBrowserWindow": deny, "block": adverts}
+    """
+    toolbar = ({"name": "Office", "url": "https://office.live.com", "icon": "icon/ms-office.png"},
+               {"name": "Excel", "url": "https://office.live.com/start/Excel.aspx?", "icon": "icon/ms-excel.png"},
+               {"name": "Word", "url": "https://office.live.com/start/Word.aspx?", "icon": "icon/ms-word.png"},
+               {"name": "PowerPoint", "url": "https://office.live.com/start/PowerPoint.aspx?", "icon": "icon/ms-powerpoint.png"},
+               {"name": "OutLook", "url": "https://outlook.com", "icon": "icon/ms-outlook.png"},
+               {"name": "OneNote", "url": "https://www.onenote.com", "icon": "icon/ms-onenote.png"})
+    """
+    webapp = JWebApp(title="Microsoft Office Online", icon=icon, web_contents=start, online=True,
+                     cookies_path="microsoft", url_rules=rules, custom_css=css_hide)
+
+    return webapp
+
+
+office().run()
+
