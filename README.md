@@ -103,6 +103,9 @@ Wrappers
 
 Missing yours?, let me know
 
+## Known Issues
+Does not like NVIDIA cards and as such falls back to software rendering, so if you use one of them you have to do without GPU accelaration. Only PCI devices. 
+
 ## License
 Jade Application Kit is covered by the GPL license.
 
