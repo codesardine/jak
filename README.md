@@ -1,11 +1,13 @@
-## Jade Application Kit ( JAK )
+Jade Application Kit ( JAK )
 
-Build web wrappers or hybrid web/desktop applications on Linux, using Python/JavaScript/HTML5/CSS3 powered by [QTWebengine](https://wiki.qt.io/QtWebEngine)
+Build web wrappers or hybrid web/desktop applications on Linux, using Python/JavaScript/HTML5/CSS3 powered by [QTWebengine](https://wiki.qt.io/QtWebEngine). Using web technologies we can create beautiful User Interfaces using a diverse amount of available library's and frameworks.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c79991176d484d50960a36007749b6a6)](https://www.codacy.com/app/codesardine/Jade-Application-Kit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesardine/Jade-Application-Kit&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/codesardine/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codesardine/Jade-Application-Kit)
 [![PyPI version](https://badge.fury.io/py/Jade-Application-Kit.svg)](https://badge.fury.io/py/Jade-Application-Kit)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/JustAnotherDesktopEnviroment/Lobby)
+![release](https://img.shields.io/github/release/codesardine/jade-application-kit.svg)
+![License](https://img.shields.io/github/license/codesardine/jade-application-kit.svg)
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/python:jade-application-kit.svg)](https://repology.org/metapackage/python:jade-application-kit)
 
@@ -41,7 +43,7 @@ pacman -S python-jade-application-kit
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/codesardine/Jade-Application-Kit/blob/master/CONTRIBUTING.md) for details on code of conduct, and the process for submitting pull requests.
 
-## Usage
+## Using from the command line
 With the command line utility you can create a self-contained web wrapper's in a question of seconds.
 ```
 jak-cli --url https://my-web-app-url  --title Mytitle
@@ -51,7 +53,7 @@ For more options.
 jak-cli --help
 ```
 
-Using Python
+## Using Python
 ```
 #!/usr/bin/env python
 from JAK.Application import JWebApp
@@ -62,6 +64,8 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
+Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
+
 Arguments
 * title        = boolean
 * icon         = string
@@ -93,11 +97,9 @@ Applications
 * [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
 
 Wrappers
-* [Microsoft Office online](https://gitlab.manjaro.org/applications/ms-office-online-launcher) for Manjaro
+* [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for Manjaro
 
 Missing yours?, let me know
-
-Using web technologies we can create beautiful User Interfaces using a diverse amount of available web library's.
 
 ## License
 Jade Application Kit is covered by the GPL license.
