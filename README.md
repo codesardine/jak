@@ -43,7 +43,7 @@ pacman -S python-jade-application-kit
 ## Contributing
 Please read [CONTRIBUTING.md](https://github.com/codesardine/Jade-Application-Kit/blob/master/CONTRIBUTING.md) for details on code of conduct, and the process for submitting pull requests.
 
-## Usage
+## Using from the command line
 With the command line utility you can create a self-contained web wrapper's in a question of seconds.
 ```
 jak-cli --url https://my-web-app-url  --title Mytitle
@@ -53,7 +53,7 @@ For more options.
 jak-cli --help
 ```
 
-Using Python
+## Using Python
 ```
 #!/usr/bin/env python
 from JAK.Application import JWebApp
@@ -64,6 +64,8 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
+Looking for examples check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
+
 Arguments
 * title        = boolean
 * icon         = string
@@ -95,7 +97,7 @@ Applications
 * [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
 
 Wrappers
-* [Microsoft Office online](https://gitlab.manjaro.org/applications/ms-office-online-launcher) for Manjaro
+* [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for Manjaro
 
 Missing yours?, let me know
 
