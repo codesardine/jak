@@ -68,11 +68,7 @@ class JWebPage(QWebEnginePage):
         msg = "Open In Your Browser"
 
         JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
-        from JAK.Utils import Instance
-        win = Instance.retrieve("win")
-        if win.windowTitle() == "about:blank":
-            self.view.back()
-
+        
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
         Decide if we go to a url and what to do next
