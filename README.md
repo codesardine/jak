@@ -97,7 +97,7 @@ Applications
 * [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
 
 Wrappers
-* [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for Manjaro
+* [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for [Manjaro](https://manjaro.org)
 * [Slack online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/slack-online)
 * [Skype online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/skype-online)
 
