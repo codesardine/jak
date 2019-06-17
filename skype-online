@@ -3,7 +3,7 @@ from JAK.Application import JWebApp
 
 
 def skype():
-    # v1.0.1
+    # v1.0.0
     url = "web.skype.com"
 
     rules = {"WebBrowserTab": url}
