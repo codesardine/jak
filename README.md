@@ -1,6 +1,6 @@
-## Jade Application Kit ( JAK )
+Jade Application Kit ( JAK )
 
-Build web wrappers or hybrid web/desktop applications on Linux, using Python/JavaScript/HTML5/CSS3 powered by [QTWebengine](https://wiki.qt.io/QtWebEngine)
+Build web wrappers or hybrid web/desktop applications on Linux, using Python/JavaScript/HTML5/CSS3 powered by [QTWebengine](https://wiki.qt.io/QtWebEngine). Using web technologies we can create beautiful User Interfaces using a diverse amount of available library's and frameworks.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c79991176d484d50960a36007749b6a6)](https://www.codacy.com/app/codesardine/Jade-Application-Kit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=codesardine/Jade-Application-Kit&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/codesardine/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codesardine/Jade-Application-Kit)
@@ -64,7 +64,7 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
-Looking for examples check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
+Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
 
 Arguments
 * title        = boolean
@@ -100,8 +100,6 @@ Wrappers
 * [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for Manjaro
 
 Missing yours?, let me know
-
-Using web technologies we can create beautiful User Interfaces using a diverse amount of available web library's.
 
 ## License
 Jade Application Kit is covered by the GPL license.
