@@ -10,11 +10,23 @@ I would love for you to contribute to JAK and help making it better! Here are so
 
 * Make sure you test your changes.
 
-* Don't break existing functionality or the interface as I try to maintain Master Branch always in a working order.
+* Don't break existing functionality I try to maintain the Master Branch in a working order.
 
 ## Pull Request Process
 
 * Ensure you create separate pull requests on another branch for each issue or feature, that will accelerate the merging process without interfering with other issues, once I have tested the code I will merge back.<br/><br/>
+
+## Adding a wrapper
+clone the repository
+```
+git checkout --orphan wrapper/my-wrapper-name-online
+git rm -rf .
+```
+Commit your wrapper
+```
+git push -u origin wrapper/my-wrapper-name-online
+```
+All done send pull request
 
 ### Our Pledge
 
