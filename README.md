@@ -6,6 +6,8 @@ Build web wrappers or hybrid web/desktop applications on Linux, using Python/Jav
 [![Build Status](https://travis-ci.org/codesardine/Jade-Application-Kit.svg?branch=master)](https://travis-ci.org/codesardine/Jade-Application-Kit)
 [![PyPI version](https://badge.fury.io/py/Jade-Application-Kit.svg)](https://badge.fury.io/py/Jade-Application-Kit)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/JustAnotherDesktopEnviroment/Lobby)
+![release](https://img.shields.io/github/release/codesardine/jade-application-kit.svg)
+![License](https://img.shields.io/github/license/codesardine/jade-application-kit.svg)
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/python:jade-application-kit.svg)](https://repology.org/metapackage/python:jade-application-kit)
 
