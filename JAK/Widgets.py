@@ -106,31 +106,32 @@ class JToolbar(QToolBar):
             about = QAction(self.about_title, self)
 
         about_msg = f"""
-        <b>
+        <body style='margin-right:68px;color:#454545;'><b>
             {title}
         </b>
         <br><br>
         <small>
              This online application is copyright and ownership of their respective authors.
-             <br>
-             The wrapper offers the ability to run it, as a self contained desktop application.
+             <br><br>
+             This wrapper offers the ability to run web applications, as a self contained native desktop application.
+              Enjoy.
         </small>
         <br>
         <center>
-           <br>
+           <br><b>
              Toggle Full Screen    [  F11  ] 
            <br><br>
              Zoom In    [  CTRL +  ] 
            <br><br>
              Zoom Out    [  CTRL -  ] 
-           <br><br><br>
-           <b>
+           <br><br><br></b>
+           <b><small>
               Powered by:
-           </b> 
+           </b></small>
            <a href='https://github.com/codesardine/Jade-Application-Kit'>Jade Application Kit</a><center>
+           <small>
            Native Hybrid Apps on Linux.
            <br>
-           <small>
                <b>
                    Using QT WebEngine
                <b>
@@ -138,13 +139,12 @@ class JToolbar(QToolBar):
            <br>
            <small>
                <br>
-                   JAK: Comes with absolutely no warranty. License: GPL
+                   This application comes with no warranty. License: <b>GPL</b>
                <br>
-               <b>
-                   JAK: Author: Vitor Lopes
-               <b>
+                   Author:<b>Vitor Lopes<b>
            </small>
-        </center>        
+        </center>
+        </body> 
         """
 
         about.triggered.connect(self._on_click(about_msg, self.about_title))
@@ -175,4 +175,5 @@ class InfoDialog(QWidget):
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(title)
         QMessageBox.information(parent, title, msg, QMessageBox.Ok)
+        self.setStyleSheet("margin: 50px;color:white;")
         self.show()
