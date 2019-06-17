@@ -3,13 +3,12 @@ from JAK.Application import JWebApp
 
 
 def slack():
-    # v1.0.0
-    start = "https://slack.com"
-    icon = "/usr/share/pixmaps/ms-office.png"
-    ur = "slack.com", "slack.com"
-    rules = {"WebBrowserTab": ur}
+    # v1.0.1
+    url = "slack.com"
+
+    rules = {"WebBrowserTab": url}
     
-    webapp = JWebApp(title="Slack Online", web_contents=start, icon=icon, url_rules=rules, online=True)
+    webapp = JWebApp(title="Slack Online", web_contents=url, url_rules=rules, online=True)
 
     return webapp
 
