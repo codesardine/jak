@@ -98,6 +98,8 @@ Applications
 
 Wrappers
 * [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for Manjaro
+* [Slack online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/slack-online)
+* [Skype online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/skype-online)
 
 Missing yours?, let me know
 
