@@ -64,7 +64,7 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
-Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
+Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) starting with wrapper/
 
 #### Api
 * [Application](https://codesardine.github.io/Jade-Application-Kit/docs/Application.html)
