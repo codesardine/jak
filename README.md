@@ -67,13 +67,13 @@ webapp.run()
 Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
 
 #### Api
-* [Application](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/Application.html)
-* [IPC](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/IPC.html)
-* [KeyBindings](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/KeyBindings.html)
-* [RequestInterceptor](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/RequestInterceptor.html)
-* [Utils](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/Utils.html)
-* [WebEngine](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/WebEngine.html)
-* [Widgets](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/Widgets.html)
+* [Application](https://codesardine.github.io/Jade-Application-Kit/docs/Application.html)
+* [IPC](https://codesardine.github.io/Jade-Application-Kit/docs/IPC.html)
+* [KeyBindings](https://codesardine.github.io/Jade-Application-Kit/docs/KeyBindings.html)
+* [RequestInterceptor](https://codesardine.github.io/Jade-Application-Kit/docs/RequestInterceptor.html)
+* [Utils](https://codesardine.github.io/Jade-Application-Kit/docs/Utils.html)
+* [WebEngine](https://codesardine.github.io/Jade-Application-Kit/docs/WebEngine.html)
+* [Widgets](https://codesardine.github.io/Jade-Application-Kit/docs/Widgets.html)
 
 ## Versioning
 
