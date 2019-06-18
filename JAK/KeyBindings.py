@@ -1,25 +1,19 @@
-"""
- App Name   - Jade Application Kit
- App Url    - https://codesardine.github.io/Jade-Application-Kit
- Author     - Vitor Lopes -> Copyright (c) 2016 - 2019
- Author Url - https://vitorlopes.me
-"""
-from PySide2.QtCore import Qt
+#### Jade Application Kit
+# * https://codesardine.github.io/Jade-Application-Kit
+# * Vitor Lopes Copyright (c) 2016 - 2019
+# * https://vitorlopes.me
 
-try:
-    # Testing locally
-    from Utils import Instance
-except ImportError:
-    # Production
-    from JAK.Utils import Instance
+from PySide2.QtCore import Qt
+from JAK.Utils import Instance
 
 
 class KeyPressEvent:
-    """
-    Define Key Bindings
-    """
+    """ #### Imports: from JAK.KeyBindings import KeyPressEvent """
 
     def __init__(self, event):
+        # * self.win = QMainWindow Instance
+        # * self.view = QTWebEngine Instance
+
         self.win = Instance.retrieve("win")
         self.view = Instance.retrieve("view")
 

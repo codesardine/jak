@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>IPC.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>IPC.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Testing locally</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="kn">from</span> <span class="nn">Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Production</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>ipc testing</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JavaScriptBindings</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>Browser build in IPC communication allows for calling a python function from JavaScript, this needs rework</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">bind</span><span class="p">():</span>
+        <span class="n">functions</span> <span class="o">=</span> <span class="s2">&quot;test()&quot;</span><span class="p">,</span> <span class="s2">&quot;failtest()&quot;</span>
+        <span class="k">return</span> <span class="n">functions</span>
+
+    <span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;send test from JavaScriptBindings.test()&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">_Communication</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_ipc_call</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>remove ipc:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">call</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">call</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>:param page: QWebEnginePage</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">activate</span><span class="p">(</span><span class="n">page</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">for</span> <span class="n">_function</span> <span class="ow">in</span> <span class="n">JavaScriptBindings</span><span class="o">.</span><span class="n">bind</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>If there is a match between clicked url and a python function,
+that function is executed as long as is added to the tuple in ( Bindings.bind() )</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">_Communication</span><span class="o">.</span><span class="n">_ipc_call</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="o">==</span> <span class="n">_function</span><span class="p">:</span>
+                <span class="n">function</span> <span class="o">=</span> <span class="n">_function</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;()&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">error_msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;This method: {_function} is Not Implemented yet&quot;</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;(IPC) invoking: {_function} from JavaScript&quot;</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">view</span><span class="p">(),</span> <span class="n">msg</span><span class="p">)</span>
+                    <span class="n">method</span> <span class="o">=</span> <span class="n">JavaScriptBindings</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">function</span><span class="p">]</span>
+                    <span class="n">method</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;KeyError: {error}/{error_msg}&quot;</span><span class="p">)</span>
+
+                <span class="k">except</span> <span class="ne">NameError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;NameError {error}/{error_msg}&quot;</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -66,19 +66,14 @@ webapp.run()
 ```
 Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) that start with wrapper/
 
-Arguments
-* title        = boolean
-* icon         = string
-* web_contents = string
-* debug        = boolean
-* transparent  = boolean
-* online       = boolean
-* url_rules    = dictionary
-* cookies_path = string
-* user_agent   = string
-* custom_css   = string
-* custom_js    = string
-* toolbar      = dictionary
+#### Api
+* [Application](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/Application.html)
+* [IPC](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/IPC.html)
+* [KeyBindings](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/KeyBindings.html)
+* [RequestInterceptor](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/RequestInterceptor.html)
+* [Utils](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/Utils.html)
+* [WebEngine](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/WebEngine.html)
+* [Widgets](https://github.com/codesardine/Jade-Application-Kit/blob/master/docs/Widgets.html)
 
 ## Versioning
 

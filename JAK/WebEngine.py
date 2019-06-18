@@ -1,19 +1,11 @@
-"""
- App Name   - Jade Application Kit
- App Url    - https://codesardine.github.io/Jade-Application-Kit
- Author     - Vitor Lopes -> Copyright (c) 2016 - 2019
- Author Url - https://vitorlopes.me
-"""
+#### Jade Application Kit
+# * https://codesardine.github.io/Jade-Application-Kit
+# * Vitor Lopes Copyright (c) 2016 - 2019
+# * https://vitorlopes.me
 import os
 import time
-try:
-    # Testing locally
-    from Utils import JavaScript
-    from RequestInterceptor import Interceptor
-except ImportError:
-    # Production
-    from JAK.Utils import JavaScript
-    from JAK.RequestInterceptor import Interceptor
+from JAK.Utils import JavaScript
+from JAK.RequestInterceptor import Interceptor
 
 from PySide2.QtCore import QUrl, Qt
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
@@ -21,12 +13,9 @@ from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEn
 
 def validate_url(self, web_contents: str) -> None:
     """
-    Check if is a url or HTML
-    Check if url is valid
-
-    :param self: QWebEnginePage
-    :param web_contents: url or HTML
-    :return:
+    * Check if is a URL or HTML and if is valid
+    * :param self: QWebEnginePage
+    * :param web_contents: URL or HTML
     """
     if "!doctype html" in web_contents.lower():
         self.setHtml(web_contents)
@@ -39,8 +28,14 @@ def validate_url(self, web_contents: str) -> None:
 
 
 class JWebPage(QWebEnginePage):
-
+    """ #### Imports: from JAK.WebEngine import JWebPage """
     def __init__(self, icon, debug, online, url_rules="", ):
+        """
+        * :param icon: str
+        * :param debug: bool
+        * :param online: bool
+        * :param url_rules: dict
+        """
         super(JWebPage, self).__init__()
         self.debug = debug
         self.online = online
@@ -49,17 +44,13 @@ class JWebPage(QWebEnginePage):
         self.icon = icon
 
     def _open_in_browser(self) -> None:
-        """
-        Open url in a external browser
-        """
+        """ Open url in a external browser """
         print("Open above^ tab in Browser")
         import webbrowser
         webbrowser.open(self.url().toString())
 
     def _dialog_open_in_browser(self) -> None:
-        """
-        Opens a dialog to confirm if user wants to open url in external browser
-        """
+        """ Opens a dialog to confirm if user wants to open url in external browser """
         try:
             from Widgets import JCancelConfirmDialog
         except ImportError:
@@ -71,11 +62,10 @@ class JWebPage(QWebEnginePage):
         
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
-        Decide if we go to a url and what to do next
-
-        :param url: PySide2.QtCore.QUrl
-        :param _type: QWebEnginePage.NavigationType
-        :param is_main_frame: bool
+        * Decide if we navigate to a URL
+        * :param url: PySide2.QtCore.QUrl
+        * :param _type: QWebEnginePage.NavigationType
+        * :param is_main_frame:bool
         """
         url = url.toString()
         self.page = JWebPage(self.icon, self.debug, self.online, self.url_rules)
@@ -83,7 +73,9 @@ class JWebPage(QWebEnginePage):
         self.page.urlChanged.connect(self._on_url_changed)
 
         if not self.online and url.startswith("ipc:"):
-            # Clicking a link that starts with [ ipc:somefunction() ] triggers the communication system
+            # * Link's that starts with [ ipc:somefunction() ] trigger's the two way communication system bettwen HTML
+            # and Python
+            # * This only works if online is set to false
             if self.debug:
                 print(f"IPC call: {url}")
             try:
@@ -96,7 +88,7 @@ class JWebPage(QWebEnginePage):
 
         elif _type == QWebEnginePage.WebWindowType.WebBrowserTab:
             if self.url_rules and self.online:
-                # check url list an only load a tab if there is a match
+                # Check for URL rules on new tabs
                 if url.startswith(tuple(self.scheme_logic("WebBrowserTab"))):
                     print(f"Redirecting WebBrowserTab^ to same window")
                     return True
@@ -115,7 +107,7 @@ class JWebPage(QWebEnginePage):
 
         elif _type == QWebEnginePage.WebBrowserWindow:
             if self.url_rules and self.online:
-                # check url list an only deny if there is a match
+                # Check URL rules on new windows
                 if url.startswith(tuple(self.scheme_logic("WebBrowserWindow"))):
                     print(f"Deny WebBrowserWindow:{url}")
                     self._dialog_open_in_browser()
@@ -133,8 +125,8 @@ class JWebPage(QWebEnginePage):
 
     def scheme_logic(self, request_type):
         """
-        :param request_type: WebWindowType
-        :return: a function that check against a list of urls
+        * :param request_type: WebWindowType
+        * :return: function, checks against a list of urls
         """
         SCHEME = "https://"
 
@@ -151,8 +143,8 @@ class JWebPage(QWebEnginePage):
 
     def createWindow(self, _type: object) -> QWebEnginePage:
         """
-        Redirect any new window or tab to same window
-        :param _type: PySide2.QtWebEngineWidgets.QWebEnginePage.WebWindowType
+        * Redirect new window's or tab's to same window
+        * :param _type: QWebEnginePage.WebWindowType
         """
         return self.page
 
@@ -165,12 +157,24 @@ class JWebPage(QWebEnginePage):
 
 
 class JWebView(QWebEngineView):
-    """
-    Create the browser view
-    """
+    """ #### Imports: from JAK.WebEngine import JWebView """
     def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False, url_rules="",
                  cookies_path="", user_agent="", custom_css="", custom_js=""):
-
+        """
+        * :param title:str
+        * :param icon:str
+        * :param web_contents:str
+        * :param debug:bool
+        * :param transparent:bool
+        * :param online:bool
+        * :param disable_gpu:bool
+        * :param url_rules:dict
+        * :param cookies_path:str
+        * :param user_agent:str
+        * :param custom_css:str
+        * :param custom_js:str
+        * :param toolbar:dict
+        """
         super(JWebView, self).__init__()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.debug = debug
@@ -182,14 +186,17 @@ class JWebView(QWebEngineView):
         self.page().fullScreenRequested.connect(self._full_screen_requested)
         self.page().loadFinished.connect(self._page_load_finish)
         if custom_css:
+            # Check for custom CSS
             self.custom_css = custom_css
             print("Custom CSS detected")
 
         if custom_js:
+            # Check for custom JavaScript
             self.custom_js = custom_js
             print("Custom JavaScript detected")
 
         if url_rules:
+            # Check for URL rules
             try:
                 self.block_rules = url_rules["block"]
             except KeyError:
@@ -201,6 +208,7 @@ class JWebView(QWebEngineView):
         self.profile.setRequestInterceptor(self.interceptor)
 
         if user_agent:
+            # Set user agent
             self.user_agent = user_agent
             self.profile.setHttpUserAgent(user_agent)
 
@@ -236,14 +244,15 @@ class JWebView(QWebEngineView):
             self.setContextMenuPolicy(Qt.PreventContextMenu)
 
         if transparent:
-            # Activates webview background transparency
+            # Activates background transparency
             self.setAttribute(Qt.WA_TranslucentBackground)
             self.page().setBackgroundColor(Qt.transparent)
             self.setStyleSheet("background:transparent;")
             print("Transparency detected, make sure you set [ body {background:transparent;} ]")
 
         settings = self.settings()
-        # TODO allow settings per application
+        # * Set Engine options
+        # * TODO: allow to set settings per application by passing a list
         settings.setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
         settings.setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
         settings.setAttribute(QWebEngineSettings.FullScreenSupportEnabled, False)  # Disabled BUG
@@ -281,9 +290,8 @@ class JWebView(QWebEngineView):
 
     def _download_requested(self, download_item)-> None:
         """
-        If a download is requested call a confirmation dialog
-
-        :param download_item: file to be downloaded
+        * If a download is requested call a save file dialog
+        * :param download_item: file to be downloaded
         """
         from PySide2.QtWidgets import QFileDialog
         self.download_item = download_item
@@ -302,8 +310,7 @@ class JWebView(QWebEngineView):
 
     def _download_finished(self) -> None:
         """
-        Goes to previous page and pops an alert informing the
-        user that the download is finish and were the file is
+        Goes to previous page and pops an alert informing the user that the download is finish and were to find it
         """
         file_path = self.download_item.path()
         msg = f"File Downloaded to: {file_path}"

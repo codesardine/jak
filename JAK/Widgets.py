@@ -1,28 +1,26 @@
-"""
- App Name   - Jade Application Kit
- App Url    - https://codesardine.github.io/Jade-Application-Kit
- Author     - Vitor Lopes -> Copyright (c) 2016 - 2019
- Author Url - https://vitorlopes.me
-"""
+#### Jade Application Kit
+# * https://codesardine.github.io/Jade-Application-Kit
+# * Vitor Lopes Copyright (c) 2016 - 2019
+# * https://vitorlopes.me
+
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox
-try:
-    # Testing locally
-    from Utils import Instance
-    from KeyBindings import KeyPressEvent
-except ImportError:
-    # Production
-    from JAK.Utils import Instance
-    from JAK.KeyBindings import KeyPressEvent
-
-#test
+from JAK.Utils import Instance
+from JAK.KeyBindings import KeyPressEvent
 from PySide2.QtWidgets import QAction, QToolBar
 
 
 class JWindow(QMainWindow):
-
+    """ #### Imports: from JAK.Widgets import JWindow """
     def __init__(self, title="Jade Application Kit", icon="", transparent=False, toolbar="", parent=None):
+        """
+        * :param title:str
+        * :param icon:str
+        * :param transparent:bool
+        * :param toolbar:dict
+        * :param parent: Parent widget
+        """
 
         QMainWindow.__init__(self)
         self.setAttribute(Qt.WA_DeleteOnClose, True)
@@ -44,6 +42,7 @@ class JWindow(QMainWindow):
                 self.view.iconChanged.connect(self._icon_changed)
 
         if transparent:
+            # Set Background Transparency
             self.setAttribute(Qt.WA_TranslucentBackground, True)
             self.setAutoFillBackground(True)
 
@@ -54,18 +53,19 @@ class JWindow(QMainWindow):
         self.setWindowIcon(self.view.icon())
 
     def status_message(self):
+        # Show status message
         self.statusbar = self.statusBar()
         self.statusbar.showMessage(self.view.page().title(), 10000)
 
 
 class JCancelConfirmDialog(QWidget):
-
+    """ #### Imports: from JAK.Widgets import JCancelConfirmDialog """
     def __init__(self, parent, window_title, msg, on_confirm):
         """
-
-        :param parent: Parent window or None
-        :param msg: Message
-        :param on_confirm: Function to execute omit parenthesis ()
+        * :param parent: Parent window
+        * :param window_title:str
+        * :param msg:str
+        * :param on_confirm: Function to execute omit parenthesis ()
         """
         super().__init__()
         reply = QMessageBox.question(parent, window_title, msg, QMessageBox.Yes | QMessageBox.Cancel, QMessageBox.Cancel)
@@ -77,14 +77,20 @@ class JCancelConfirmDialog(QWidget):
         self.show()
 
         if reply == QMessageBox.Yes:
-            print("yes")
             on_confirm()
         else:
             self.destroy()
 
 
 class JToolbar(QToolBar):
+    """ #### Imports: from JAK.Widgets import JToolbar """
     def __init__(self, parent, toolbar, icon, title):
+        """
+        * :param parent: Parent window
+        * :param toolbar:dict
+        * :param icon:str
+        * :param title:str
+        """
         super(JToolbar, self).__init__(parent)
         self.icon = icon
         self.setMovable(False)
@@ -92,6 +98,7 @@ class JToolbar(QToolBar):
         self.about_title = "About"
 
         for button in range(len(toolbar)):
+            # If a dict is passed generate buttons from dict
             if toolbar[button]["icon"]:
                 about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
                 item = QAction(QIcon(toolbar[button]["icon"]), toolbar[button]["name"], self)
@@ -151,9 +158,6 @@ class JToolbar(QToolBar):
         self.addAction(about)
 
     def _on_click(self, url: str, title=""):
-        """
-        :return: function
-        """
         view = Instance.retrieve("view")
         if url.startswith("https"):
             return lambda: view.setUrl(url)
@@ -163,13 +167,12 @@ class JToolbar(QToolBar):
 
 
 class InfoDialog(QWidget):
-
+    """ #### Imports: from JAK.Widgets import InfoDialog """
     def __init__(self, parent, title, msg):
         """
-
-        :param parent: Parent window or None
-        :param msg: Message
-        :param on_confirm: Function to execute omit parenthesis ()
+        * :param parent: Parent window
+        * :param msg:str
+        * :param on_confirm: Function to execute omit parenthesis ()
         """
         super().__init__()
         self.setAttribute(Qt.WA_DeleteOnClose, True)

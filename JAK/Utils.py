@@ -1,27 +1,31 @@
-# import weakref
+#### Jade Application Kit
+# * https://codesardine.github.io/Jade-Application-Kit
+# * Vitor Lopes Copyright (c) 2016 - 2019
+# * https://vitorlopes.me
+
 import os
 register = {}
 
 
 class Instance:
     """
-    Adds created object instances or values in a dictionary, it can be used to point
+    #### :Imports: from JAK.Utils import Instance
+    Add object instances in a dictionary, it can be used to point
     to references we don,t want to be garbage collected, for usage later
-    :usage: from Jak import Instance
     """
 
     @staticmethod
     def get_instances() -> dict:
         """
-        :usage: Instance.get_instances()
+        * :Usage: Instance.get_instances()
         """
         return register
 
     @staticmethod
     def record(name: str, _type: object) -> None:
         """
-        Should only be used once per instance
-        :usage: Instance.record("name", object)
+        * :Usage: Instance.record("name", object)
+        * Should only be used once per instance
         """
         register[name] = _type
         print(f"Registering ['{name}'] Instance")
@@ -29,7 +33,7 @@ class Instance:
     @staticmethod
     def retrieve(name: str) -> object or str:
         """
-        :usage: Instance.retrieve("name")
+        * :Usage: Instance.retrieve("name")
         """
         try:
             return register[name]
@@ -40,9 +44,10 @@ class Instance:
     @staticmethod
     def auto(name: str, _type: object) -> object:
         """
-        Automatically detects if the key is present and retrieves it, if not present, creates it and retrieves it,
-        should only be used once per instance
-        :usage: Instance.auto("name", object)
+        * :Usage: Instance.auto("name", object)
+        * Automatically detects if an instance is active with that name and retrieves it.
+        If not present, creates it creates a new one and retrieves it.
+        * Should only be used once per instance
         """
         try:
             return register[name]
@@ -55,29 +60,26 @@ class Instance:
 
 class JavaScript:
     """
-    Run javascript in the webview after load is complete
-    Injects will be logged in the inspector
-
-    :imports: from Jak.Utils import JavaScript
-    :usage: JavaScript.log(webview:instance, msg)
+    * Run javascript in the webview after load is complete Injects will be logged in the inspector
+    * :Imports: from Jak.Utils import JavaScript
+    * :Usage: JavaScript.log(webview:instance, msg)
     """
 
     @staticmethod
     def log(webview, message: str) -> None:
         """
-        Outputs console.log() messages in the inspector
-
-        :param webview: instance
-        :param message: foo has finish
+        * Outputs console.log() messages in the inspector
+        * :param webview: QWebengineView instance
+        * :param message: Log message
         """
         JavaScript.send(webview, f"console.log('JAK log:{message}');")
 
     @staticmethod
     def css(webview, styles: str) -> None:
         """
-        Insert custom styles
-        :param webview: instance
-        :param styles: CSS -> a { color: red; }
+        * Insert custom styles
+        * :param webview: QWebengineView instance
+        * :param styles: CSS -> a { color: red; }
         """
         javascript = f"""
              var style = document.createElement('style');
@@ -92,25 +94,25 @@ class JavaScript:
     @staticmethod
     def alert(webview, message: str) -> None:
         """
-        Triggers an alert message
-        :param webview: instance
-        :param message: your popcorn is ready enjoy
+        * Triggers an alert message
+        * :param webview: QWebengineView instance
+        * :param message: your popcorn is ready enjoy
         """
         JavaScript.send(webview, f"alert('{message}');")
         JavaScript.log(webview, f"JAK Alert:[{message}]")
 
     def send(self, javascript: str) -> None:
         """
-        Send custom JavaScript
-        :param self: webview instance
+        * Send custom JavaScript
+        * :param self: QWebengineView instance
         """
         self.page().runJavaScript(f"{JavaScript.detect_type(javascript)}")
 
     @staticmethod
     def detect_type(inbound) -> str:
         """
-        Detect if is file or string, convert to string
-        :param inbound: file or string
+        * Detect if is file or string, convert to string
+        * :param inbound: file or string
         """
         if os.path.exists(inbound) and os.path.isfile(inbound):
             try:
