@@ -29,7 +29,6 @@
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span>
 <span class="kn">from</span> <span class="nn">JAK.RequestInterceptor</span> <span class="kn">import</span> <span class="n">Interceptor</span>
-
 <span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
 <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span></pre></div>
     </div>
@@ -445,7 +444,6 @@ and Python</li>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">QWebEngineProfile</span><span class="p">()</span><span class="o">.</span><span class="n">defaultProfile</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">webpage</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">webpage</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">fullScreenRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_full_screen_requested</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">loadFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_page_load_finish</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">custom_css</span><span class="p">:</span></pre></div>
     </div>
@@ -682,30 +680,6 @@ and Python</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-38'>#</a>
       </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_full_screen_requested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-39'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-39'>#</a>
-      </div>
-      <p>FIXME https://bugreports.qt.io/browse/PYSIDE-930</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="n">request</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-40'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-40'>#</a>
-      </div>
       <ul>
 <li>If a download is requested call a save file dialog</li>
 <li>:param download_item: file to be downloaded</li>
@@ -716,10 +690,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-41'>
+  <div class='section' id='section-39'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-41'>#</a>
+        <a class='octothorpe' href='#section-39'>#</a>
       </div>
       
     </div>
@@ -741,10 +715,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-42'>
+  <div class='section' id='section-40'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-42'>#</a>
+        <a class='octothorpe' href='#section-40'>#</a>
       </div>
       <p>Goes to previous page and pops an alert informing the user that the download is finish and were to find it</p>
     </div>
@@ -753,10 +727,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-43'>
+  <div class='section' id='section-41'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-43'>#</a>
+        <a class='octothorpe' href='#section-41'>#</a>
       </div>
       
     </div>
@@ -774,10 +748,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-44'>
+  <div class='section' id='section-42'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-44'>#</a>
+        <a class='octothorpe' href='#section-42'>#</a>
       </div>
       <p>Goes back to original application url</p>
     </div>
@@ -786,10 +760,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-45'>
+  <div class='section' id='section-43'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-45'>#</a>
+        <a class='octothorpe' href='#section-43'>#</a>
       </div>
       
     </div>

@@ -6,7 +6,6 @@ import os
 import time
 from JAK.Utils import JavaScript
 from JAK.RequestInterceptor import Interceptor
-
 from PySide2.QtCore import QUrl, Qt
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
 
@@ -59,7 +58,7 @@ class JWebPage(QWebEnginePage):
         msg = "Open In Your Browser"
 
         JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
-        
+
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
         * Decide if we navigate to a URL
@@ -183,7 +182,6 @@ class JWebView(QWebEngineView):
         self.profile = QWebEngineProfile().defaultProfile()
         self.webpage = JWebPage(icon, debug, online, url_rules)
         self.setPage(self.webpage)
-        self.page().fullScreenRequested.connect(self._full_screen_requested)
         self.page().loadFinished.connect(self._page_load_finish)
         if custom_css:
             # Check for custom CSS
@@ -283,10 +281,6 @@ class JWebView(QWebEngineView):
                 JavaScript.send(self, self.custom_js)
         except AttributeError:
             pass
-
-    def _full_screen_requested(self, request) -> None:
-        # FIXME https://bugreports.qt.io/browse/PYSIDE-930
-        request.accept()
 
     def _download_requested(self, download_item)-> None:
         """

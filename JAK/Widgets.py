@@ -7,7 +7,7 @@ from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox
 from JAK.Utils import Instance
-from JAK.KeyBindings import KeyPressEvent
+from JAK.KeyBindings import KeyPress
 from PySide2.QtWidgets import QAction, QToolBar
 
 
@@ -47,7 +47,7 @@ class JWindow(QMainWindow):
             self.setAutoFillBackground(True)
 
     def keyPressEvent(self, event):
-        KeyPressEvent(event)
+        KeyPress(event)
 
     def _icon_changed(self):
         self.setWindowIcon(self.view.icon())
@@ -97,19 +97,20 @@ class JToolbar(QToolBar):
         self.setIconSize(QSize(32, 32))
         self.about_title = "About"
 
-        for button in range(len(toolbar)):
+        if toolbar:
             # If a dict is passed generate buttons from dict
-            if toolbar[button]["icon"]:
-                about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
-                item = QAction(QIcon(toolbar[button]["icon"]), toolbar[button]["name"], self)
-            else:
-                about = QAction("About", self)
-                item = QAction(toolbar[button]["name"], self)
+            for index, value in enumerate(toolbar):
+                btn = toolbar[index]
+                if btn["icon"]:
+                    about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
+                    item = QAction(QIcon(btn["icon"]), btn["name"], self)
+                else:
+                    about = QAction("About", self)
+                    item = QAction(btn["name"], self)
 
-            item.triggered.connect(self._on_click(toolbar[button]["url"]))
-            self.addAction(item)
-
-        if not toolbar:
+                item.triggered.connect(self._on_click(btn["url"]))
+                self.addAction(item)
+        else:
             about = QAction(self.about_title, self)
 
         about_msg = f"""

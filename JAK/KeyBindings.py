@@ -7,8 +7,8 @@ from PySide2.QtCore import Qt
 from JAK.Utils import Instance
 
 
-class KeyPressEvent:
-    """ #### Imports: from JAK.KeyBindings import KeyPressEvent """
+class KeyPress:
+    """ #### Imports: from JAK.KeyBindings import KeyPress """
 
     def __init__(self, event):
         # * self.win = QMainWindow Instance
