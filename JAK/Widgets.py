@@ -175,5 +175,4 @@ class InfoDialog(QWidget):
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(title)
         QMessageBox.information(parent, title, msg, QMessageBox.Ok)
-        self.setStyleSheet("margin: 50px;color:white;")
         self.show()
