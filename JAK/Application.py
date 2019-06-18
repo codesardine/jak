@@ -46,11 +46,11 @@ class JWebApp(QApplication):
             # Only run if we are not passing --disable-gpu argument
             # Detect virtual machine using systemd and disable GPU acceleration
             detect_virtual_machine = subprocess.Popen(
-                ['systemd-detect-virt'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+                ["systemd-detect-virt"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
             )
             # FIXME more reliable way of detecting NVIDIA cards
             detect_nvidia_pci = subprocess.Popen(
-                'lspci | grep NVIDIA', stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                "lspci | grep -i --color 'vga\|3d\|2d'", stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                 shell=True
             )
             virtual = detect_virtual_machine.communicate()
