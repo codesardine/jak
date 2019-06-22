@@ -228,7 +228,6 @@ class JWebView(QWebEngineView):
                 title = title.lower().replace(" ", "-")
                 _cookies_path = f"{os.getenv('HOME')}/.jak/{title}"
 
-            self.profile.setCachePath(_cookies_path)
             self.profile.setPersistentStoragePath(_cookies_path)
             print(f"Cookies PATH:{_cookies_path}")
         else:
