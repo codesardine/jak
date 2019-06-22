@@ -15,7 +15,7 @@ Build web wrappers or hybrid web/desktop applications on Linux, using Python/Jav
 
 * Prerequisites
 * Python  >= 3.6
-* PySide2 >= 5.12.3
+* PySide2 >= 5.12.4
 
 ```bash
 git clone https://github.com/codesardine/Jade-Application-Kit.git
