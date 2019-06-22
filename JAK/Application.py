@@ -6,7 +6,8 @@
 import sys
 import time
 import subprocess
-from PySide2.QtCore import Qt
+from PySide2.QtWebEngine import QtWebEngine
+from PySide2.QtCore import Qt, QCoreApplication
 from PySide2.QtWidgets import QApplication
 from JAK.Utils import Instance
 from JAK.Widgets import JWindow
@@ -39,9 +40,8 @@ class JWebApp(QApplication):
         """
         if debug or "--dev" in sys.argv:
             # Adding some command line arguments for testing purposes,
-            # this MUST BE done before creating QApplication
+            # this MUST BE done before initializing QApplication
             sys.argv.append("--remote-debugging-port=8000")
-            sys.argv.append("--single-process")
             print("Debugging Mode On")
             if not debug:
                 debug = True
@@ -61,8 +61,36 @@ class JWebApp(QApplication):
             virtual = detect_virtual_machine.communicate()
             nvidia_pci = detect_nvidia_pci.communicate()
             nvidia_pci = nvidia_pci[0].decode("utf-8").lower()
+        
+        # Enable automatic HDPI scale
+        QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
+        QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
+
+        def disable_opengl():
+            # Disable GPU acceleration
+            # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307
+            QCoreApplication.setAttribute(Qt.AA_UseSoftwareOpenGL, True)
+
+        if disable_gpu:
+            disable_opengl()
+            print("Disabling GPU, Software Rendering explicitly activated")
+        else:
+            if virtual[-1]:
+                # Detect virtual machine
+                print(f"Virtual machine detected:{virtual}")
+                disable_opengl()
+
+            elif nvidia_pci:
+                # Detect NVIDIA cards
+                if "nvidia" in nvidia_pci:
+                    print("NVIDIA detected:Known bug - kernel rejected pushbuf")
+                    print("Falling back to Software Rendering")
+                    disable_opengl()
+            else:
+                print(f"Virtual Machine:{virtual[-1]}")
 
         super(JWebApp, self).__init__(sys.argv)
+        QtWebEngine.initialize()
         self.title = title
         self.web_contents = web_contents
         self.debug = debug
@@ -75,30 +103,6 @@ class JWebApp(QApplication):
         self.custom_js = custom_js
         self.icon = icon
         self.toolbar = toolbar
-        # Enable automatic HDPI scale
-        self.setAttribute(Qt.AA_UseHighDpiPixmaps)
-        self.setAttribute(Qt.AA_EnableHighDpiScaling)
-        if disable_gpu:
-            self.disable_gpu()
-            print("Disabling GPU, Software Rendering explicitly activated")
-        else:
-            if virtual[-1]:
-                # Detect virtual machine
-                print(f"Virtual machine detected:{virtual}")
-                self.disable_gpu()
-
-            elif nvidia_pci:
-                # Detect NVIDIA cards
-                if "nvidia" in nvidia_pci:
-                    print("NVIDIA detected:Known bug - kernel rejected pushbuf")
-                    print("Falling back to Software Rendering")
-                    self.disable_gpu()
-            else:
-                print(f"Virtual Machine:{virtual[-1]}")
-
-    def disable_gpu(self):
-        # Disable GPU acceleration
-        self.setAttribute(Qt.AA_UseSoftwareOpenGL, True)
 
     def run(self):
         if "://" not in self.web_contents:
