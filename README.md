@@ -17,27 +17,33 @@ Build web wrappers or hybrid web/desktop applications on Linux, using Python/Jav
 * Python  >= 3.6
 * PySide2 >= 5.12.3
 
-```
-git clone this_repo_address
+```bash
+git clone https://github.com/codesardine/Jade-Application-Kit.git
 
-cd this_repo_directory_on_your_local_machine
+cd Jade-Application-Kit
 ```
 
-Install pip
-```
+Install using pip
+```bash
 pip install -r requirements.txt
-
+```
+or
+```bash
 pip install Jade-Application-Kit
 ```
 
 Install manually
+```bash
+~/.virtualenv/python setup.py install
 ```
-~/.virtualenv/python setup.py install or sudo setup.py install
+or
+```bash
+sudo setup.py install
 ```
 
-Install Manjaro
-```
-pacman -S python-jade-application-kit
+Install in Manjaro
+```bash
+sudo pacman -S python-jade-application-kit
 ```
 
 ## Contributing
@@ -64,7 +70,7 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
-Looking for wrapper's examples, check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) starting with wrapper/
+Looking for wrapper's examples? Check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) starting with `wrapper/`.
 
 #### Api
 * [Application](https://codesardine.github.io/Jade-Application-Kit/docs/Application.html)
@@ -96,7 +102,7 @@ Wrappers
 * [Slack online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/slack-online)
 * [Skype online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/skype-online)
 
-Missing yours?, let me know
+Missing yours?, let me know.
 
 ## Known Issues
 Does not like NVIDIA cards and as such falls back to software rendering, so if you use one of them you have to do without GPU accelaration. Only PCI devices. 
