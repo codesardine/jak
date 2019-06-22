@@ -11,7 +11,7 @@ with open(path.join(readme, 'README.md'), encoding='utf-8') as f:
 
 setup(
 name             = "Jade-Application-Kit",
-version          = "v2.0.4",
+version          = "v2.0.5",
 packages         = ["j", "JAK"],
 python_requires  = ">=3.6",
 url              = "https://codesardine.github.io/Jade-Application-Kit",
