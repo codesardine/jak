@@ -3,13 +3,17 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 import os
+import re
 import time
+from functools import lru_cache as cache
 from JAK.Utils import JavaScript
+from JAK.Utils import check_url_rules
 from JAK.RequestInterceptor import Interceptor
 from PySide2.QtCore import QUrl, Qt
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
 
 
+@cache(maxsize=5)
 def validate_url(self, web_contents: str) -> None:
     """
     * Check if is a URL or HTML and if is valid
@@ -28,7 +32,7 @@ def validate_url(self, web_contents: str) -> None:
 
 class JWebPage(QWebEnginePage):
     """ #### Imports: from JAK.WebEngine import JWebPage """
-    def __init__(self, icon, debug, online, url_rules="", ):
+    def __init__(self, icon, debug, online, cookies_path, url_rules="", ):
         """
         * :param icon: str
         * :param debug: bool
@@ -41,6 +45,7 @@ class JWebPage(QWebEnginePage):
         self.url_rules = url_rules
         self.page = self
         self.icon = icon
+        self.cookies_path = cookies_path
 
     def _open_in_browser(self) -> None:
         """ Open url in a external browser """
@@ -59,6 +64,7 @@ class JWebPage(QWebEnginePage):
 
         JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
 
+    @cache(maxsize=10)
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
         * Decide if we navigate to a URL
@@ -66,53 +72,53 @@ class JWebPage(QWebEnginePage):
         * :param _type: QWebEnginePage.NavigationType
         * :param is_main_frame:bool
         """
-        url = url.toString()
+        self.url = url.toString()
         self.page = JWebPage(self.icon, self.debug, self.online, self.url_rules)
         # Redirect new tabs to same window
         self.page.urlChanged.connect(self._on_url_changed)
 
-        if not self.online and url.startswith("ipc:"):
+        if not self.online and self.url.startswith("ipc:"):
             # * Link's that starts with [ ipc:somefunction() ] trigger's the two way communication system bettwen HTML
             # and Python
             # * This only works if online is set to false
             if self.debug:
-                print(f"IPC call: {url}")
+                print(f"IPC call: {self.url}")
             try:
                 from IPC import _Communication
             except ImportError:
                 from JAK.IPC import _Communication
 
-            _Communication().activate(self, url)
+            _Communication().activate(self, self.url)
             return False
 
         elif _type == QWebEnginePage.WebWindowType.WebBrowserTab:
             if self.url_rules and self.online:
                 # Check for URL rules on new tabs
-                if url.startswith(tuple(self.scheme_logic("WebBrowserTab"))):
+                if check_url_rules("WebBrowserTab", self.url, self.url_rules):
                     print(f"Redirecting WebBrowserTab^ to same window")
                     return True
                 else:
-                    print(f"Deny WebBrowserTab:{url}")
+                    print(f"Deny WebBrowserTab:{self.url}")
                     # check against WebBrowserWindow list to avoid duplicate dialogs
-                    if not url.startswith(tuple(self.scheme_logic("WebBrowserWindow"))):
+                    if not check_url_rules("WebBrowserWindow", self.url, self.url_rules):
                         self._dialog_open_in_browser()
                     return False
             else:
                 return True
 
         elif _type == QWebEnginePage.WebBrowserBackgroundTab:
-            print(f"WebBrowserBackgroundTab request:{url}")
+            print(f"WebBrowserBackgroundTab request:{self.url}")
             return True
 
         elif _type == QWebEnginePage.WebBrowserWindow:
             if self.url_rules and self.online:
                 # Check URL rules on new windows
-                if url.startswith(tuple(self.scheme_logic("WebBrowserWindow"))):
-                    print(f"Deny WebBrowserWindow:{url}")
+                if check_url_rules("WebBrowserWindow", self.url, self.url_rules):
+                    print(f"Deny WebBrowserWindow:{self.url}")
                     self._dialog_open_in_browser()
                     return False
                 else:
-                    print(f"Allow WebBrowserWindow:{url}")
+                    print(f"Allow WebBrowserWindow:{self.url}")
                     return True
             else:
                 return True
@@ -122,24 +128,7 @@ class JWebPage(QWebEnginePage):
 
         return True
 
-    def scheme_logic(self, request_type):
-        """
-        * :param request_type: WebWindowType
-        * :return: function, checks against a list of urls
-        """
-        SCHEME = "https://"
-
-        if request_type is "WebBrowserTab":
-            url_rules = self.url_rules["WebBrowserTab"]
-
-        elif request_type is "WebBrowserWindow":
-            try:
-                url_rules = self.url_rules["WebBrowserWindow"]
-            except KeyError:
-                url_rules = ""
-
-        return (f"{SCHEME}{url}" for url in url_rules)
-
+    @cache(maxsize=2)
     def createWindow(self, _type: object) -> QWebEnginePage:
         """
         * Redirect new window's or tab's to same window
@@ -180,7 +169,7 @@ class JWebView(QWebEngineView):
         self.online = online
         self.home = web_contents
         self.profile = QWebEngineProfile().defaultProfile()
-        self.webpage = JWebPage(icon, debug, online, url_rules)
+        self.webpage = JWebPage(icon, debug, online, cookies_path, url_rules)
         self.setPage(self.webpage)
         self.page().loadFinished.connect(self._page_load_finish)
         if custom_css:

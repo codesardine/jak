@@ -94,6 +94,7 @@ class JToolbar(QToolBar):
         super(JToolbar, self).__init__(parent)
         self.icon = icon
         self.setMovable(False)
+        self.setContextMenuPolicy(Qt.PreventContextMenu)
         self.setIconSize(QSize(32, 32))
         self.about_title = "About"
 
@@ -101,10 +102,11 @@ class JToolbar(QToolBar):
             # If a dict is passed generate buttons from dict
             for index, value in enumerate(toolbar):
                 btn = toolbar[index]
-                if btn["icon"]:
-                    about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
-                    item = QAction(QIcon(btn["icon"]), btn["name"], self)
-                else:
+                try:
+                    if btn["icon"]:
+                      about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
+                      item = QAction(QIcon(btn["icon"]), btn["name"], self)
+                except KeyError:
                     about = QAction("About", self)
                     item = QAction(btn["name"], self)
 

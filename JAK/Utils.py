@@ -4,8 +4,43 @@
 # * https://vitorlopes.me
 
 import os
+import re
+
 register = {}
 
+
+def check_url_rules(request_type: str, url_request: str, url_rules: tuple) -> bool:
+    """
+    Search logic for url rules, we can use regex or simple match the beginning of the domain.
+    * :param request_type: WebWindowType
+    * :return: function, checks against a list of urls
+    """
+    SCHEME = "https://"
+
+    if request_type is "Block":
+        url_rules=url_rules
+
+    elif request_type is "WebBrowserTab":
+        try:
+            url_rules = url_rules["WebBrowserTab"]
+        except KeyError:
+            url_rules = ""
+
+    elif request_type is "WebBrowserWindow":
+        try:
+            url_rules = url_rules["WebBrowserWindow"]
+        except KeyError:
+            url_rules = ""
+
+    for rule in url_rules:
+        pattern = re.compile(f"{SCHEME}{rule}")
+        if url_request.startswith(f"{SCHEME}{rule}"):
+            print(f"{SCHEME}{rule}:Method:startswith")
+            return True
+        elif re.search(pattern, url_request):
+                print(f"{SCHEME}{rule}:Method:regex")
+                return True
+    return False
 
 class Instance:
     """

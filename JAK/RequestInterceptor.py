@@ -4,6 +4,7 @@
 # * https://vitorlopes.me
 
 from PySide2.QtWebEngineCore import QWebEngineUrlRequestInterceptor, QWebEngineUrlRequestInfo
+from JAK.Utils import check_url_rules
 
 
 class Interceptor(QWebEngineUrlRequestInterceptor):
@@ -27,7 +28,7 @@ class Interceptor(QWebEngineUrlRequestInterceptor):
         if self.block_rules is not None:
             # If we have any URL's in the block dictionary
             url = info.requestUrl().toString()
-            if url.startswith(tuple("https://" + url for url in self.block_rules)):
+            if check_url_rules("Block", url, self.block_rules):
                 # block url's
                 info.block(True)
                 print(f"Blocked:{url}")
