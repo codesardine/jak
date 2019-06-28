@@ -14,19 +14,19 @@ from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEn
 
 
 @cache(maxsize=5)
-def validate_url(self, web_contents: str) -> None:
+def validate_url(self, url: str) -> None:
     """
     * Check if is a URL or HTML and if is valid
     * :param self: QWebEnginePage
     * :param web_contents: URL or HTML
     """
-    if "!doctype html" in web_contents.lower():
-        self.setHtml(web_contents)
+    if "!doctype html" in url.lower():
+        self.setHtml(url)
         print("Loading local HTML")
     else:
-        url = QUrl(web_contents)
+        url = QUrl(url)
         if url.isValid():
-            self.setUrl(web_contents)
+            self.setUrl(url)
             print(f"Loading URL:{url.toString()}")
 
 
@@ -94,7 +94,10 @@ class JWebPage(QWebEnginePage):
         elif _type == QWebEnginePage.WebWindowType.WebBrowserTab:
             if self.url_rules and self.online:
                 # Check for URL rules on new tabs
-                if check_url_rules("WebBrowserTab", self.url, self.url_rules):
+                if self.url.startswith(self.url_rules["WebBrowserTab"]):
+                    self.open_window(self.url)
+                    return False
+                elif check_url_rules("WebBrowserTab", self.url, self.url_rules):
                     print(f"Redirecting WebBrowserTab^ to same window")
                     return True
                 else:
@@ -127,6 +130,14 @@ class JWebPage(QWebEnginePage):
             return True
 
         return True
+
+    def open_window(self, url):
+        """ Open a New Window"""
+        # FIXME cookies path needs to be declared for this to work
+        self.popup = JWebView(web_contents=url, online=True, cookies_path=self.cookies_path)
+        self.popup.page().windowCloseRequested.connect(self.popup.close)
+        self.popup.show()
+        print(f"Opening New Window^")
 
     @cache(maxsize=2)
     def createWindow(self, _type: object) -> QWebEnginePage:
