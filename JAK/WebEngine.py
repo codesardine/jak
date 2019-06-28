@@ -203,36 +203,11 @@ class JWebView(QWebEngineView):
                 self.interceptor = Interceptor(debug, self.block_rules)
         else:
             self.interceptor = Interceptor(debug)
-        self.profile.setRequestInterceptor(self.interceptor)
 
         if user_agent:
             # Set user agent
             self.user_agent = user_agent
             self.profile.setHttpUserAgent(user_agent)
-
-        print(self.profile.httpUserAgent())
-
-        if online:
-            print("Engine online (IPC) Disabled")
-            self.page().profile().downloadRequested.connect(self._download_requested)
-
-            # Set persistent cookies
-            self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
-
-            # set cookies on user folder
-            if cookies_path:
-                # allow specific path per application.
-                _cookies_path = f"{os.getenv('HOME')}/.jak/{cookies_path}"
-            else:
-                # use separate cookies database per application
-                title = title.lower().replace(" ", "-")
-                _cookies_path = f"{os.getenv('HOME')}/.jak/{title}"
-
-            self.profile.setPersistentStoragePath(_cookies_path)
-            print(f"Cookies PATH:{_cookies_path}")
-        else:
-            print("Engine interprocess communication (IPC) up and running:")
-            #self.profile.setHttpCacheType(self.profile.MemoryHttpCache)
 
         if self.debug:
             # TODO implement webinspector
@@ -261,7 +236,29 @@ class JWebView(QWebEngineView):
         settings.setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
         if online:
             settings.setAttribute(QWebEngineSettings.DnsPrefetchEnabled, True)
+            print("Engine online (IPC) Disabled")
+            self.page().profile().downloadRequested.connect(self._download_requested)
 
+            # Set persistent cookies
+            self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
+
+            # set cookies on user folder
+            if cookies_path:
+                # allow specific path per application.
+                _cookies_path = f"{os.getenv('HOME')}/.jak/{cookies_path}"
+            else:
+                # use separate cookies database per application
+                title = title.lower().replace(" ", "-")
+                _cookies_path = f"{os.getenv('HOME')}/.jak/{title}"
+
+            self.profile.setPersistentStoragePath(_cookies_path)
+            print(f"Cookies PATH:{_cookies_path}")
+        else:
+            print("Engine interprocess communication (IPC) up and running:")
+            #self.profile.setHttpCacheType(self.profile.MemoryHttpCache)
+
+        self.profile.setRequestInterceptor(self.interceptor)
+        print(self.profile.httpUserAgent())
         validate_url(self, web_contents)
 
     def _page_load_finish(self) -> None:
