@@ -10,11 +10,10 @@ def office():
     adverts = "tpc.googlesyndication.com", "googleads.g.doubleclick.net", "tag.sp.advertising.com",\
               "banner.advertising.com", "cdn.bannerflow.com", "acdn.adnxs.com"
 
-    tab_only_allow = "[a-z]*\.live.com", "www.office.com", "forms.office.com", "onedrive.",\
-                     "d.docs.live.", "www.onenote.", "outlook.", "www.outlook.", "sway.office.com", "1drv.ms/",\
-                     "to-do.microsoft.com/", "[a-z]*\.officeapps.live", "https://www.dropbox.com",\
-                     "login.microsoftonline.com/", "onenote", "sway.com", "[a-z]*\.flow\.", "flow.",\
-                     "[a-z]*\.sharepoint.com"
+    tab_only_allow = "[a-z]*\.live.com", "www.office.com", "forms.office.com", "onedrive.", "d.docs.live.",\
+                     "www.onenote.", "outlook.", "www.outlook.", "sway.office.com", "1drv.ms/", "to-do.microsoft.com/",\
+                     "[a-z]*\.officeapps.live", "https://www.dropbox.com", "login.microsoftonline.com/", "onenote",\
+                     "sway.com", "[a-z]*\.flow\.", "flow.", "[a-z]*\.sharepoint.com"
 
     css_hide = ".hero-section, .tiles-section, a[href*='skype'], a[href*='bing'], a[href*='msn'], \
                a[href*='https://g.live.com'], ._14PqNbws6gkP3kvU8nzH0G {display:none !important;}"
@@ -24,23 +23,21 @@ def office():
 
     rules = {"WebBrowserTab": tab_only_allow, "WebBrowserWindow": deny, "block": adverts}
 
-    toolbar = (
-        {"name": "Office", "url": "https://office.live.com"},
-        {"name": "Excel", "url": "https://office.live.com/start/Excel.aspx?"},
-        {"name": "Word", "url": "https://office.live.com/start/Word.aspx?"},
-        {"name": "PowerPoint", "url": "https://office.live.com/start/PowerPoint.aspx?"},
-        {"name": "OneNote", "url": "https://www.onenote.com"},
-        {"name": "Outlook", "url": "https://outlook.live.com"},
-        {"name": "Calendar", "url": "https://outlook.live.com/calendar/"},
-        {"name": "People", "url": "https://outlook.live.com/people/"},
-        {"name": "Photos", "url": "https://outlook.live.com/files/images/"},
-        {"name": "Tasks", "url": "https://outlook.live.com/owa/"},
-        {"name": "Forms", "url": "https://forms.office.com"},
-        {"name": "Flow", "url": "https://flow.microsoft.com"},
-        {"name": "Sway", "url": "https://sway.office.com"},
-        {"name": "OneDrive", "url": "https://onedrive.live.com"},
-        {"name": "DropBox", "url": "https://www.dropbox.com"}
-    )
+    toolbar = {"name": "Office", "url": "https://office.live.com"},\
+              {"name": "Excel", "url": "https://office.live.com/start/Excel.aspx?"},\
+              {"name": "Word", "url": "https://office.live.com/start/Word.aspx?"},\
+              {"name": "PowerPoint", "url": "https://office.live.com/start/PowerPoint.aspx?"},\
+              {"name": "OneNote", "url": "https://www.onenote.com"},\
+              {"name": "Outlook", "url": "https://outlook.live.com"},\
+              {"name": "Calendar", "url": "https://outlook.live.com/calendar/"},\
+              {"name": "People", "url": "https://outlook.live.com/people/"},\
+              {"name": "Photos", "url": "https://outlook.live.com/files/images/"},\
+              {"name": "Tasks", "url": "https://outlook.live.com/owa/"},\
+              {"name": "Forms", "url": "https://forms.office.com"},\
+              {"name": "Flow", "url": "https://flow.microsoft.com"},\
+              {"name": "Sway", "url": "https://sway.office.com"},\
+              {"name": "OneDrive", "url": "https://onedrive.live.com"},\
+              {"name": "DropBox", "url": "https://www.dropbox.com"}
 
     webapp = JWebApp(title="Microsoft Office Online", icon=icon, web_contents=start, online=True,
                      cookies_path="microsoft", url_rules=rules, custom_css=css_hide, toolbar=toolbar)
@@ -49,4 +46,3 @@ def office():
 
 
 office().run()
-
