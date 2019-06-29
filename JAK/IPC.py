@@ -51,9 +51,3 @@ class _Communication:
 
                 except NameError as error:
                     print(f"NameError {error}/{error_msg}")
-
-
-
-
-
-

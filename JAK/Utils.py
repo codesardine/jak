@@ -162,5 +162,3 @@ class JavaScript:
 
         else:
             print("JavaScript.send() error, file path or string.")
-
-

@@ -26,7 +26,7 @@ def validate_url(self, url: str) -> None:
     else:
         url = QUrl(url)
         if url.isValid():
-            self.setUrl(url)
+            self.load(url)
             print(f"Loading URL:{url.toString()}")
 
 
@@ -145,6 +145,7 @@ class JWebPage(QWebEnginePage):
         * Redirect new window's or tab's to same window
         * :param _type: QWebEnginePage.WebWindowType
         """
+        self.page.deleteLater()
         return self.page
 
     def _on_url_changed(self, url: str) -> None:
@@ -317,11 +318,4 @@ class JWebView(QWebEngineView):
         """
         Goes back to original application url
         """
-        self.setUrl(self.home)
-
-
-
-
-
-
-
+        self.load(self.home)
