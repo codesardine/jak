@@ -11,7 +11,7 @@ register = {}
 
 def check_url_rules(request_type: str, url_request: str, url_rules: tuple) -> bool:
     """
-    Search logic for url rules, we can use regex or simple match the beginning of the domain.
+    * Search logic for url rules, we can use regex or simple match the beginning of the domain.
     * :param request_type: WebWindowType
     * :return: function, checks against a list of urls
     """

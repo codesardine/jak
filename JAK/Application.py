@@ -6,7 +6,6 @@
 import sys
 import time
 import subprocess
-from PySide2.QtWebEngine import QtWebEngine
 from PySide2.QtCore import Qt, QCoreApplication
 from PySide2.QtWidgets import QApplication
 from JAK.Utils import Instance
@@ -16,6 +15,7 @@ from JAK.WebEngine import JWebView
 time.time()
 
 
+# noinspection PyUnresolvedReferences
 class JWebApp(QApplication):
     #### Imports: from JAK.Application import JWebApp
 
@@ -61,7 +61,7 @@ class JWebApp(QApplication):
             virtual = detect_virtual_machine.communicate()
             nvidia_pci = detect_nvidia_pci.communicate()
             nvidia_pci = nvidia_pci[0].decode("utf-8").lower()
-        
+
         # Enable automatic HDPI scale
         QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
         QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
@@ -90,7 +90,6 @@ class JWebApp(QApplication):
                 print(f"Virtual Machine:{virtual[-1]}")
 
         super(JWebApp, self).__init__(sys.argv)
-        QtWebEngine.initialize()
         self.title = title
         self.web_contents = web_contents
         self.debug = debug
@@ -104,6 +103,7 @@ class JWebApp(QApplication):
         self.icon = icon
         self.toolbar = toolbar
 
+    # noinspection PyUnresolvedReferences
     def run(self):
         if "://" not in self.web_contents:
             self.web_contents = f"https://{self.web_contents}"
@@ -115,6 +115,7 @@ class JWebApp(QApplication):
         win = Instance.auto("win", JWindow(self.title, self.icon, self.transparent, self.toolbar))
         # Set Window size to 75% of screen size
         geometry = self.desktop().availableGeometry(win)
+        # noinspection PyUnresolvedReferences,PyUnresolvedReferences
         win.resize(geometry.width() * 2 / 3, geometry.height() * 2 / 3)
         win.show()
         if self.debug:

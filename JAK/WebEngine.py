@@ -3,7 +3,6 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 import os
-import re
 import time
 from functools import lru_cache as cache
 from JAK.Utils import JavaScript

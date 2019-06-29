@@ -100,12 +100,11 @@ class JToolbar(QToolBar):
 
         if toolbar:
             # If a dict is passed generate buttons from dict
-            for index, value in enumerate(toolbar):
-                btn = toolbar[index]
+            for btn in toolbar:
                 try:
                     if btn["icon"]:
-                      about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
-                      item = QAction(QIcon(btn["icon"]), btn["name"], self)
+                        about = QAction(QIcon.fromTheme("dialog-information"), self.about_title, self)
+                        item = QAction(QIcon(btn["icon"]), btn["name"], self)
                 except KeyError:
                     about = QAction("About", self)
                     item = QAction(btn["name"], self)
