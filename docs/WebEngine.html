@@ -27,7 +27,9 @@
     <div class='code'>
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span> <span class="k">as</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span>
+<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span>
 <span class="kn">from</span> <span class="nn">JAK.RequestInterceptor</span> <span class="kn">import</span> <span class="n">Interceptor</span>
 <span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
 <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span></pre></div>
@@ -46,7 +48,8 @@
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">web_contents</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre><span class="nd">@cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -58,13 +61,13 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">if</span> <span class="s2">&quot;!doctype html&quot;</span> <span class="ow">in</span> <span class="n">web_contents</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setHtml</span><span class="p">(</span><span class="n">web_contents</span><span class="p">)</span>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="s2">&quot;!doctype html&quot;</span> <span class="ow">in</span> <span class="n">url</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setHtml</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Loading local HTML&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">QUrl</span><span class="p">(</span><span class="n">web_contents</span><span class="p">)</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">QUrl</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setUrl</span><span class="p">(</span><span class="n">web_contents</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
             <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Loading URL:{url.toString()}&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -94,7 +97,7 @@
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">url_rules</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">cookies_path</span><span class="p">,</span> <span class="n">url_rules</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -111,7 +114,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="o">=</span> <span class="n">online</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span> <span class="o">=</span> <span class="n">url_rules</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">=</span> <span class="bp">self</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span> <span class="o">=</span> <span class="n">cookies_path</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -185,7 +189,8 @@
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">acceptNavigationRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">_type</span><span class="p">,</span> <span class="n">is_main_frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="nd">@cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">acceptNavigationRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">_type</span><span class="p">,</span> <span class="n">is_main_frame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -197,7 +202,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -212,7 +217,7 @@
     <div class='code'>
       <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">urlChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_url_changed</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="ow">and</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ipc:&quot;</span><span class="p">):</span></pre></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;ipc:&quot;</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -229,13 +234,13 @@ and Python</li>
     </div>
     <div class='code'>
       <div class="highlight"><pre>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;IPC call: {url}&quot;</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;IPC call: {self.url}&quot;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">IPC</span> <span class="kn">import</span> <span class="n">_Communication</span>
             <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">JAK.IPC</span> <span class="kn">import</span> <span class="n">_Communication</span>
 
-            <span class="n">_Communication</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+            <span class="n">_Communication</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">False</span>
 
         <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebWindowType</span><span class="o">.</span><span class="n">WebBrowserTab</span><span class="p">:</span>
@@ -251,11 +256,14 @@ and Python</li>
       <p>Check for URL rules on new tabs</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scheme_logic</span><span class="p">(</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">))):</span>
+      <div class="highlight"><pre>                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">]):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">open_window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="bp">False</span>
+                <span class="k">elif</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">):</span>
                     <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Redirecting WebBrowserTab^ to same window&quot;</span><span class="p">)</span>
                     <span class="k">return</span> <span class="bp">True</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Deny WebBrowserTab:{url}&quot;</span><span class="p">)</span></pre></div>
+                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Deny WebBrowserTab:{self.url}&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -267,14 +275,14 @@ and Python</li>
       <p>check against WebBrowserWindow list to avoid duplicate dialogs</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                    <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scheme_logic</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">))):</span>
+      <div class="highlight"><pre>                    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">):</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_dialog_open_in_browser</span><span class="p">()</span>
                     <span class="k">return</span> <span class="bp">False</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">True</span>
 
         <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebBrowserBackgroundTab</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;WebBrowserBackgroundTab request:{url}&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;WebBrowserBackgroundTab request:{self.url}&quot;</span><span class="p">)</span>
             <span class="k">return</span> <span class="bp">True</span>
 
         <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebBrowserWindow</span><span class="p">:</span>
@@ -290,12 +298,12 @@ and Python</li>
       <p>Check URL rules on new windows</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scheme_logic</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">))):</span>
-                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Deny WebBrowserWindow:{url}&quot;</span><span class="p">)</span>
+      <div class="highlight"><pre>                <span class="k">if</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">):</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Deny WebBrowserWindow:{self.url}&quot;</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_dialog_open_in_browser</span><span class="p">()</span>
                     <span class="k">return</span> <span class="bp">False</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Allow WebBrowserWindow:{url}&quot;</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Allow WebBrowserWindow:{self.url}&quot;</span><span class="p">)</span>
                     <span class="k">return</span> <span class="bp">True</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">True</span>
@@ -312,13 +320,10 @@ and Python</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-17'>#</a>
       </div>
-      <ul>
-<li>:param request_type: WebWindowType</li>
-<li>:return: function, checks against a list of urls</li>
-</ul>
+      <p>Open a New Window</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">scheme_logic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request_type</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">open_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -327,21 +332,13 @@ and Python</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
-      
+      <p>FIXME cookies path needs to be declared for this to work</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">SCHEME</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span>
-
-        <span class="k">if</span> <span class="n">request_type</span> <span class="ow">is</span> <span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">:</span>
-            <span class="n">url_rules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">]</span>
-
-        <span class="k">elif</span> <span class="n">request_type</span> <span class="ow">is</span> <span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">url_rules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="n">url_rules</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-
-        <span class="k">return</span> <span class="p">(</span><span class="n">f</span><span class="s2">&quot;{SCHEME}{url}&quot;</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">url_rules</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span> <span class="o">=</span> <span class="n">JWebView</span><span class="p">(</span><span class="n">web_contents</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">online</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cookies_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">windowCloseRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Opening New Window^&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -356,7 +353,8 @@ and Python</li>
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">createWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_type</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QWebEnginePage</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="nd">@cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">createWindow</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_type</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QWebEnginePage</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -368,7 +366,8 @@ and Python</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span></pre></div>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">deleteLater</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">page</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -442,7 +441,7 @@ and Python</li>
         <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="o">=</span> <span class="n">online</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">home</span> <span class="o">=</span> <span class="n">web_contents</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">QWebEngineProfile</span><span class="p">()</span><span class="o">.</span><span class="n">defaultProfile</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">webpage</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">webpage</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">cookies_path</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">webpage</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">loadFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_page_load_finish</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">custom_css</span><span class="p">:</span></pre></div>
@@ -495,7 +494,6 @@ and Python</li>
                 <span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span> <span class="o">=</span> <span class="n">Interceptor</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span> <span class="o">=</span> <span class="n">Interceptor</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setRequestInterceptor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">user_agent</span><span class="p">:</span></pre></div>
     </div>
@@ -512,11 +510,7 @@ and Python</li>
       <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">user_agent</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setHttpUserAgent</span><span class="p">(</span><span class="n">user_agent</span><span class="p">)</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">httpUserAgent</span><span class="p">())</span>
-
-        <span class="k">if</span> <span class="n">online</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Engine online (IPC) Disabled&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span><span class="o">.</span><span class="n">downloadRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_requested</span><span class="p">)</span></pre></div>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -524,74 +518,6 @@ and Python</li>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-29'>#</a>
-      </div>
-      <p>Set persistent cookies</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentCookiesPolicy</span><span class="p">(</span><span class="n">QWebEngineProfile</span><span class="o">.</span><span class="n">ForcePersistentCookies</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-30'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-30'>#</a>
-      </div>
-      <p>set cookies on user folder</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">cookies_path</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-31'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-31'>#</a>
-      </div>
-      <p>allow specific path per application.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{os.getenv(&#39;HOME&#39;)}/.jak/{cookies_path}&quot;</span>
-            <span class="k">else</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-32'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-32'>#</a>
-      </div>
-      <p>use separate cookies database per application</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>                <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
-                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{os.getenv(&#39;HOME&#39;)}/.jak/{title}&quot;</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setCachePath</span><span class="p">(</span><span class="n">_cookies_path</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentStoragePath</span><span class="p">(</span><span class="n">_cookies_path</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Cookies PATH:{_cookies_path}&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Engine interprocess communication (IPC) up and running:&quot;</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-33'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-33'>#</a>
-      </div>
-      <p>self.profile.setHttpCacheType(self.profile.MemoryHttpCache)</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-34'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-34'>#</a>
       </div>
       <p>TODO implement webinspector</p>
     </div>
@@ -604,10 +530,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-35'>
+  <div class='section' id='section-30'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-35'>#</a>
+        <a class='octothorpe' href='#section-30'>#</a>
       </div>
       <p>Activates background transparency</p>
     </div>
@@ -621,10 +547,10 @@ and Python</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-36'>
+  <div class='section' id='section-31'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-36'>#</a>
+        <a class='octothorpe' href='#section-31'>#</a>
       </div>
       <ul>
 <li>Set Engine options</li>
@@ -643,7 +569,76 @@ and Python</li>
         <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FocusOnNavigationEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">online</span><span class="p">:</span>
             <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">DnsPrefetchEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Engine online (IPC) Disabled&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span><span class="o">.</span><span class="n">downloadRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_requested</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p>Set persistent cookies</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentCookiesPolicy</span><span class="p">(</span><span class="n">QWebEngineProfile</span><span class="o">.</span><span class="n">ForcePersistentCookies</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      <p>set cookies on user folder</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">cookies_path</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-34'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-34'>#</a>
+      </div>
+      <p>allow specific path per application.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{os.getenv(&#39;HOME&#39;)}/.jak/{cookies_path}&quot;</span>
+            <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-35'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      <p>use separate cookies database per application</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{os.getenv(&#39;HOME&#39;)}/.jak/{title}&quot;</span>
 
+            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentStoragePath</span><span class="p">(</span><span class="n">_cookies_path</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Cookies PATH:{_cookies_path}&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Engine interprocess communication (IPC) up and running:&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      <p>self.profile.setHttpCacheType(self.profile.MemoryHttpCache)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setRequestInterceptor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">httpUserAgent</span><span class="p">())</span>
         <span class="n">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">web_contents</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -768,7 +763,7 @@ and Python</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">setUrl</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">)</span>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">)</span>
 
 </pre></div>
     </div>

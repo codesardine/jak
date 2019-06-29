@@ -261,6 +261,7 @@
       <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">JToolbar</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setMovable</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setContextMenuPolicy</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">PreventContextMenu</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setIconSize</span><span class="p">(</span><span class="n">QSize</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">about_title</span> <span class="o">=</span> <span class="s2">&quot;About&quot;</span>
 
@@ -276,12 +277,12 @@
       <p>If a dict is passed generate buttons from dict</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">toolbar</span><span class="p">):</span>
-                <span class="n">btn</span> <span class="o">=</span> <span class="n">toolbar</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
-                <span class="k">if</span> <span class="n">btn</span><span class="p">[</span><span class="s2">&quot;icon&quot;</span><span class="p">]:</span>
-                    <span class="n">about</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="o">.</span><span class="n">fromTheme</span><span class="p">(</span><span class="s2">&quot;dialog-information&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">about_title</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-                    <span class="n">item</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">btn</span><span class="p">[</span><span class="s2">&quot;icon&quot;</span><span class="p">]),</span> <span class="n">btn</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
-                <span class="k">else</span><span class="p">:</span>
+      <div class="highlight"><pre>            <span class="k">for</span> <span class="n">btn</span> <span class="ow">in</span> <span class="n">toolbar</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">btn</span><span class="p">[</span><span class="s2">&quot;icon&quot;</span><span class="p">]:</span>
+                        <span class="n">about</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="o">.</span><span class="n">fromTheme</span><span class="p">(</span><span class="s2">&quot;dialog-information&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">about_title</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                        <span class="n">item</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">QIcon</span><span class="p">(</span><span class="n">btn</span><span class="p">[</span><span class="s2">&quot;icon&quot;</span><span class="p">]),</span> <span class="n">btn</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="n">about</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="s2">&quot;About&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
                     <span class="n">item</span> <span class="o">=</span> <span class="n">QAction</span><span class="p">(</span><span class="n">btn</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="bp">self</span><span class="p">)</span>
 

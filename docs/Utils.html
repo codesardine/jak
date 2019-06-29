@@ -26,6 +26,8 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
 <span class="n">register</span> <span class="o">=</span> <span class="p">{}</span></pre></div>
     </div>
   </div>
@@ -35,12 +37,14 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
       </div>
-      <h4>:Imports: from JAK.Utils import Instance</h4>
-<p>Add object instances in a dictionary, it can be used to point
-to references we don,t want to be garbage collected, for usage later</p>
+      <ul>
+<li>Search logic for url rules, we can use regex or simple match the beginning of the domain.</li>
+<li>:param request_type: WebWindowType</li>
+<li>:return: function, checks against a list of urls</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Instance</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">check_url_rules</span><span class="p">(</span><span class="n">request_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url_request</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -52,7 +56,32 @@ to references we don,t want to be garbage collected, for usage later</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre>    <span class="n">SCHEME</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span>
+
+    <span class="k">if</span> <span class="n">request_type</span> <span class="ow">is</span> <span class="s2">&quot;Block&quot;</span><span class="p">:</span>
+        <span class="n">url_rules</span><span class="o">=</span><span class="n">url_rules</span>
+
+    <span class="k">elif</span> <span class="n">request_type</span> <span class="ow">is</span> <span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url_rules</span> <span class="o">=</span> <span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">url_rules</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">elif</span> <span class="n">request_type</span> <span class="ow">is</span> <span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url_rules</span> <span class="o">=</span> <span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">url_rules</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">url_rules</span><span class="p">:</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{SCHEME}{rule}&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">url_request</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{SCHEME}{rule}&quot;</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{SCHEME}{rule}:Method:startswith&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">elif</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">url_request</span><span class="p">):</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{SCHEME}{rule}:Method:regex&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">False</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -61,13 +90,12 @@ to references we don,t want to be garbage collected, for usage later</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      <ul>
-<li>:Usage: Instance.get_instances()</li>
-</ul>
+      <h4>:Imports: from JAK.Utils import Instance</h4>
+<p>Add object instances in a dictionary, it can be used to point
+to references we don,t want to be garbage collected, for usage later</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_instances</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Instance</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -79,7 +107,7 @@ to references we don,t want to be garbage collected, for usage later</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">register</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -87,6 +115,33 @@ to references we don,t want to be garbage collected, for usage later</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <ul>
+<li>:Usage: Instance.get_instances()</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_instances</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">register</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
       </div>
       <ul>
 <li>:Usage: Instance.record(&ldquo;name&rdquo;, object)</li>
@@ -99,10 +154,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-6'>
+  <div class='section' id='section-8'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
+        <a class='octothorpe' href='#section-8'>#</a>
       </div>
       
     </div>
@@ -112,10 +167,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-7'>
+  <div class='section' id='section-9'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-7'>#</a>
+        <a class='octothorpe' href='#section-9'>#</a>
       </div>
       <ul>
 <li>:Usage: Instance.retrieve(&ldquo;name&rdquo;)</li>
@@ -124,40 +179,6 @@ to references we don,t want to be garbage collected, for usage later</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-8'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-8'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Instance: [&#39;{name}&#39;] Not Present, to add it use -&gt; Instance.record([&#39;{name}&#39;, object])&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="s2">&quot;&quot;</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-9'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-9'>#</a>
-      </div>
-      <ul>
-<li>:Usage: Instance.auto(&ldquo;name&rdquo;, object)</li>
-<li>Automatically detects if an instance is active with that name and retrieves it.
-If not present, creates it creates a new one and retrieves it.</li>
-<li>Should only be used once per instance</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">auto</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_type</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -172,10 +193,8 @@ If not present, creates it creates a new one and retrieves it.</li>
       <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_type</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Registering and Retrieving [&#39;{name}&#39;] Instance&quot;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></pre></div>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Instance: [&#39;{name}&#39;] Not Present, to add it use -&gt; Instance.record([&#39;{name}&#39;, object])&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s2">&quot;&quot;</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -183,6 +202,42 @@ If not present, creates it creates a new one and retrieves it.</li>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <ul>
+<li>:Usage: Instance.auto(&ldquo;name&rdquo;, object)</li>
+<li>Automatically detects if an instance is active with that name and retrieves it.
+If not present, creates it creates a new one and retrieves it.</li>
+<li>Should only be used once per instance</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">auto</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_type</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_type</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Registering and Retrieving [&#39;{name}&#39;] Instance&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
       </div>
       <ul>
 <li>Run javascript in the webview after load is complete Injects will be logged in the inspector</li>
@@ -195,10 +250,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
+  <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
+        <a class='octothorpe' href='#section-14'>#</a>
       </div>
       
     </div>
@@ -207,10 +262,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-15'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-15'>#</a>
       </div>
       <ul>
 <li>Outputs console.log() messages in the inspector</li>
@@ -224,10 +279,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-14'>
+  <div class='section' id='section-16'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-14'>#</a>
+        <a class='octothorpe' href='#section-16'>#</a>
       </div>
       
     </div>
@@ -236,10 +291,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
+  <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
+        <a class='octothorpe' href='#section-17'>#</a>
       </div>
       <ul>
 <li>Insert custom styles</li>
@@ -253,10 +308,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-16'>
+  <div class='section' id='section-18'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
+        <a class='octothorpe' href='#section-18'>#</a>
       </div>
       
     </div>
@@ -273,10 +328,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-17'>
+  <div class='section' id='section-19'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-17'>#</a>
+        <a class='octothorpe' href='#section-19'>#</a>
       </div>
       <ul>
 <li>Triggers an alert message</li>
@@ -290,10 +345,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-18'>
+  <div class='section' id='section-20'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-18'>#</a>
+        <a class='octothorpe' href='#section-20'>#</a>
       </div>
       
     </div>
@@ -303,10 +358,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-19'>
+  <div class='section' id='section-21'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-19'>#</a>
+        <a class='octothorpe' href='#section-21'>#</a>
       </div>
       <ul>
 <li>Send custom JavaScript</li>
@@ -318,10 +373,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
+  <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
+        <a class='octothorpe' href='#section-22'>#</a>
       </div>
       
     </div>
@@ -330,10 +385,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-21'>
+  <div class='section' id='section-23'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
+        <a class='octothorpe' href='#section-23'>#</a>
       </div>
       <ul>
 <li>Detect if is file or string, convert to string</li>
@@ -346,10 +401,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-24'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-24'>#</a>
       </div>
       
     </div>

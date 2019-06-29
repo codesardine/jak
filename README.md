@@ -70,6 +70,12 @@ webapp = JWebApp(title="Mytitle", online=True, web_contents=url)
 
 webapp.run()
 ```
+### URL Rules:
+* We can match domains by starting letters or using Python regex.
+* Block Rules: blocks any domain in the list.
+* WebBrowserWindow Rules: deny any domain in the list.
+* WebBrowserTab Rules: only allow domains in the list, if empty all are allowed, if they start with https:// they open in a new window.
+
 Looking for wrapper's examples? Check [Branches](https://github.com/codesardine/Jade-Application-Kit/branches) starting with `wrapper/`.
 
 #### Api
