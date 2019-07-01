@@ -14,9 +14,6 @@ class KeyPress:
         # * self.win = QMainWindow Instance
         # * self.view = QTWebEngine Instance
 
-        self.win = Instance.retrieve("win")
-        self.view = Instance.retrieve("view")
-
         if event.type() == event.KeyPress:
             if event.key() == Qt.Key_F11:
                 self.full_screen()
@@ -30,6 +27,7 @@ class KeyPress:
                     self._zoom_in()
 
     def _current_zoom(self):
+        self.view = Instance.retrieve("view")
         return self.view.zoomFactor()
 
     def _zoom_in(self):
@@ -49,12 +47,17 @@ class KeyPress:
 
     def _update_zoom_label(self):
         percent = int(self._current_zoom() * 100)
-        print(f"{percent}%")
+        print(f"Zoom:{percent}%")
 
     def full_screen(self):
         # TODO animate window resize
+        self.win = Instance.retrieve("win")
         full_screen = self.win.isFullScreen()
         if full_screen:
+            self.win.toolbar.show()
+            self.win.statusbar.show()
             self.win.showNormal()
         else:
+            self.win.toolbar.hide()
+            self.win.statusbar.hide()
             self.win.showFullScreen()

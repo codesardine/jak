@@ -25,8 +25,8 @@ class JWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(title)
-        self.bar = JToolbar(self, toolbar, icon, title)
-        self.addToolBar(self.bar)
+        self.toolbar = JToolbar(self, toolbar, icon, title)
+        self.addToolBar(self.toolbar)
         #self.addToolBar(Qt.RightToolBarArea, self.bar)
 
         view = Instance.retrieve("view")
