@@ -3,7 +3,7 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
-from PySide2.QtCore import Qt, QSize, QSettings
+from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget
 from JAK.Utils import Instance
