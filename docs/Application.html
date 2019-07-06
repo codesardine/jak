@@ -260,7 +260,7 @@ https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
       </div>
-      <p>noinspection PyUnresolvedReferences</p>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -271,32 +271,10 @@ https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
                                          <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">,</span>
                                          <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span><span class="p">))</span>
 
-        <span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">,</span> <span class="n">JWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">))</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-15'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
-      </div>
-      <p>Set Window size to 75% of screen size</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="n">geometry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">desktop</span><span class="p">()</span><span class="o">.</span><span class="n">availableGeometry</span><span class="p">(</span><span class="n">win</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-16'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
-      </div>
-      <p>noinspection PyUnresolvedReferences,PyUnresolvedReferences</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">geometry</span><span class="o">.</span><span class="n">width</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="n">geometry</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">,</span> <span class="n">JWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">))</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">default_size</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">),</span> <span class="n">win</span><span class="o">.</span><span class="n">default_size</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span>
         <span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">window_original_position</span> <span class="o">=</span> <span class="n">win</span><span class="o">.</span><span class="n">frameGeometry</span><span class="p">()</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="n">Instance</span><span class="o">.</span><span class="n">get_instances</span><span class="p">())</span>
 

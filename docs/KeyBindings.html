@@ -77,12 +77,12 @@
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">event</span><span class="o">.</span><span class="n">KeyPress</span><span class="p">:</span>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">event</span><span class="o">.</span><span class="n">KeyPress</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Key_F11</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">full_screen</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Key_F12</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">corner_window</span><span class="p">()</span>
 
             <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">modifiers</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">ControlModifier</span><span class="p">:</span>
 
@@ -103,6 +103,7 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_current_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">zoomFactor</span><span class="p">()</span></pre></div>
     </div>
   </div>
@@ -161,7 +162,7 @@
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_update_zoom_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">percent</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_zoom</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{percent}%&quot;</span><span class="p">)</span></pre></div>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Zoom:{percent}%&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -185,11 +186,13 @@
       <p>TODO animate window resize</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">full_screen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">isFullScreen</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">full_screen</span><span class="p">:</span>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">isFullScreen</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">showNormal</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">hide_show_bar</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">showFullScreen</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">hide_show_bar</span><span class="p">()</span>
 
 </pre></div>
     </div>
