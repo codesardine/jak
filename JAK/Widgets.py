@@ -3,9 +3,9 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
-from PySide2.QtCore import Qt, QSize
+from PySide2.QtCore import Qt, QSize, QSettings
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox
+from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget
 from JAK.Utils import Instance
 from JAK.KeyBindings import KeyPress
 from PySide2.QtWidgets import QAction, QToolBar
@@ -23,6 +23,9 @@ class JWindow(QMainWindow):
         """
 
         QMainWindow.__init__(self)
+        self.title = title
+        self.video_corner = False
+        self.center = QDesktopWidget().availableGeometry().center()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(title)
         self.toolbar = JToolbar(self, toolbar, icon, title)
@@ -56,6 +59,50 @@ class JWindow(QMainWindow):
         # Show status message
         self.statusbar = self.statusBar()
         self.statusbar.showMessage(self.view.page().title(), 10000)
+
+    def hide_show_bar(self):
+        if self.isFullScreen() or self.video_corner:
+            self.statusbar.hide()
+            self.toolbar.hide()
+        else:
+            self.statusbar.show()
+            self.toolbar.show()
+
+    def get_geometry(self):
+        return QDesktopWidget().availableGeometry(self)
+
+    def default_size(self, size: str):
+        # Set to 70% screen size
+        if size is "width":
+            return self.get_geometry().width() * 2 / 3
+        elif size is "height":
+            return self.get_geometry().height() * 2 / 3
+
+    def set_window_to_defaults(self):
+        self.window_original_position.moveCenter(self.center)
+        self.move(self.window_original_position.topLeft())
+        self.resize(self.default_size("width"), self.default_size("height"))
+        self.hide_show_bar()
+        self.setWindowFlags(Qt.Window)
+        self.show()
+
+    def set_window_to_corner(self):
+        self.move(self.window_original_position.bottomRight())
+        # Set to 30% screen size
+        self.resize(self.get_geometry().width() * 0.7 / 2, self.get_geometry().height() * 0.7 / 2)
+        self.hide_show_bar()
+        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.show()
+
+    def corner_window(self):
+        if self.video_corner:
+            self.video_corner = False
+            self.set_window_to_defaults()
+        else:
+            self.video_corner = True
+            if self.isFullScreen():
+                self.showNormal()
+            self.set_window_to_corner()
 
 
 class JCancelConfirmDialog(QWidget):
@@ -126,14 +173,16 @@ class JToolbar(QToolBar):
               Enjoy.
         </small>
         <br>
-        <center>
            <br><b>
-             Toggle Full Screen    [  F11  ] 
-           <br><br>
-             Zoom In    [  CTRL +  ] 
-           <br><br>
-             Zoom Out    [  CTRL -  ] 
-           <br><br><br></b>
+             F11 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Toggle Full Screen 
+           <br>
+             F12 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Toggle Corner Window
+           <br>
+             CTRL + &nbsp; &nbsp; Zoom In  
+           <br>
+             CTRL - &nbsp; &nbsp;  Zoom Out  
+           <br><br></b>
+           <center>
            <b><small>
               Powered by:
            </b></small>

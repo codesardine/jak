@@ -103,7 +103,6 @@ class JWebApp(QApplication):
         self.icon = icon
         self.toolbar = toolbar
 
-    # noinspection PyUnresolvedReferences
     def run(self):
         if "://" not in self.web_contents:
             self.web_contents = f"https://{self.web_contents}"
@@ -113,11 +112,9 @@ class JWebApp(QApplication):
                                          self.custom_css, self.custom_js))
 
         win = Instance.auto("win", JWindow(self.title, self.icon, self.transparent, self.toolbar))
-        # Set Window size to 75% of screen size
-        geometry = self.desktop().availableGeometry(win)
-        # noinspection PyUnresolvedReferences,PyUnresolvedReferences
-        win.resize(geometry.width() * 2 / 3, geometry.height() * 2 / 3)
+        win.resize(win.default_size("width"), win.default_size("height"))
         win.show()
+        win.window_original_position = win.frameGeometry()
         if self.debug:
             print(Instance.get_instances())
 

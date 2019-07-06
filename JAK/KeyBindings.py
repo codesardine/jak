@@ -13,10 +13,12 @@ class KeyPress:
     def __init__(self, event):
         # * self.win = QMainWindow Instance
         # * self.view = QTWebEngine Instance
-
         if event.type() == event.KeyPress:
             if event.key() == Qt.Key_F11:
                 self.full_screen()
+            elif event.key() == Qt.Key_F12:
+                self.win = Instance.retrieve("win")
+                self.win.corner_window()
 
             elif event.modifiers() == Qt.ControlModifier:
 
@@ -52,12 +54,10 @@ class KeyPress:
     def full_screen(self):
         # TODO animate window resize
         self.win = Instance.retrieve("win")
-        full_screen = self.win.isFullScreen()
-        if full_screen:
-            self.win.toolbar.show()
-            self.win.statusbar.show()
+        if self.win.isFullScreen():
             self.win.showNormal()
+            self.win.hide_show_bar()
         else:
-            self.win.toolbar.hide()
-            self.win.statusbar.hide()
             self.win.showFullScreen()
+            self.win.hide_show_bar()
+
