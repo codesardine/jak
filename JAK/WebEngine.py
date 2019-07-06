@@ -144,7 +144,6 @@ class JWebPage(QWebEnginePage):
         * Redirect new window's or tab's to same window
         * :param _type: QWebEnginePage.WebWindowType
         """
-        self.page.deleteLater()
         return self.page
 
     def _on_url_changed(self, url: str) -> None:
