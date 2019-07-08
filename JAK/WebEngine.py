@@ -10,6 +10,8 @@ from JAK.Utils import check_url_rules
 from JAK.RequestInterceptor import Interceptor
 from PySide2.QtCore import QUrl, Qt
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
+from JAK.Utils import Instance
+
 
 
 @cache(maxsize=5)
@@ -45,6 +47,7 @@ class JWebPage(QWebEnginePage):
         self.page = self
         self.icon = icon
         self.cookies_path = cookies_path
+        self.featurePermissionRequested.connect(self._on_feature_permission_requested)
 
     def _open_in_browser(self) -> None:
         """ Open url in a external browser """
@@ -129,6 +132,10 @@ class JWebPage(QWebEnginePage):
             return True
 
         return True
+
+    def _on_feature_permission_requested(self, security_origin, feature):
+        if feature is self.Notifications:
+            self.setFeaturePermission(security_origin, feature, self.PermissionGrantedByUser)
 
     def open_window(self, url):
         """ Open a New Window"""
@@ -226,7 +233,7 @@ class JWebView(QWebEngineView):
         # * TODO: allow to set settings per application by passing a list
         settings.setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
         settings.setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
-        settings.setAttribute(QWebEngineSettings.FullScreenSupportEnabled, False)  # Disabled BUG
+        settings.setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         settings.setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
         settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
         settings.setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
