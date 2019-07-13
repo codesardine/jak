@@ -3,13 +3,33 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
+import sys
 import os
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget
+from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon
 from JAK.Utils import Instance
 from JAK.KeyBindings import KeyPress
-from PySide2.QtWidgets import QAction, QToolBar
+from PySide2.QtWidgets import QAction, QToolBar, QMenu
+
+
+class SystemTrayIcon(QSystemTrayIcon):
+    def __init__(self, icon, app, title):
+        self.title = title
+        self.icon = icon
+        super(SystemTrayIcon, self).__init__(icon, parent=app)
+        self.setContextMenu(self.tray_menu())
+        self.show()
+
+    def tray_menu(self):
+        """
+        Create menu for the tray icon
+        """
+        self.quit = QAction(f"&Quit {self.title}", self)
+        self.quit.triggered.connect(sys.exit)
+        self.menu = QMenu()
+        self.menu.addAction(self.quit)
+        return self.menu
 
 
 class JWindow(QMainWindow):
@@ -54,6 +74,7 @@ class JWindow(QMainWindow):
         self.toolbar = JToolbar(self, toolbar, self.icon, title)
         self.addToolBar(self.toolbar)
         # self.addToolBar(Qt.RightToolBarArea, self.bar)
+        self.system_tray = SystemTrayIcon(self.icon, self, self.title)
         self._set_icons()
 
     def keyPressEvent(self, event):
@@ -61,10 +82,12 @@ class JWindow(QMainWindow):
 
     def _set_icons(self):
         self.setWindowIcon(self.icon)
+        self.system_tray.setIcon(self.icon)
 
     def _icon_changed(self):
-        self.icon = self.view.icon()
-        self._set_icons()
+        if not self.view.icon().isNull():
+            self.icon = self.view.icon()
+            self._set_icons()
 
     def status_message(self):
         # Show status message
