@@ -3,6 +3,7 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
+import os
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget
@@ -13,7 +14,7 @@ from PySide2.QtWidgets import QAction, QToolBar
 
 class JWindow(QMainWindow):
     """ #### Imports: from JAK.Widgets import JWindow """
-    def __init__(self, title="Jade Application Kit", icon="", transparent=False, toolbar="", parent=None):
+    def __init__(self, title="Jade Application Kit", icon=False, transparent=False, toolbar="", parent=None):
         """
         * :param title:str
         * :param icon:str
@@ -28,32 +29,42 @@ class JWindow(QMainWindow):
         self.center = QDesktopWidget().availableGeometry().center()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(title)
-        self.toolbar = JToolbar(self, toolbar, icon, title)
-        self.addToolBar(self.toolbar)
-        #self.addToolBar(Qt.RightToolBarArea, self.bar)
+        if icon and os.path.isfile(icon):
+            self.icon = QIcon(icon)
+        else:
+            # TODO detect active icon theme
+            QIcon.setThemeName("Papirus-Maia")
+            icon_paths = QIcon.themeSearchPaths()
+            icon_paths.append("/usr/share/pixmaps")
+            QIcon.setThemeSearchPaths(icon_paths)
+            self.icon = QIcon.fromTheme("applications-internet")
 
         view = Instance.retrieve("view")
         if view:
             self.view = view
             self.setCentralWidget(self.view)
             self.view.page().titleChanged.connect(self.status_message)
-
-        if icon:
-            self.setWindowIcon(QIcon(icon))
-        else:
-            if view:
-                self.view.iconChanged.connect(self._icon_changed)
+            self.view.iconChanged.connect(self._icon_changed)
 
         if transparent:
             # Set Background Transparency
             self.setAttribute(Qt.WA_TranslucentBackground, True)
             self.setAutoFillBackground(True)
 
+        self.toolbar = JToolbar(self, toolbar, self.icon, title)
+        self.addToolBar(self.toolbar)
+        # self.addToolBar(Qt.RightToolBarArea, self.bar)
+        self._set_icons()
+
     def keyPressEvent(self, event):
         KeyPress(event)
 
+    def _set_icons(self):
+        self.setWindowIcon(self.icon)
+
     def _icon_changed(self):
-        self.setWindowIcon(self.view.icon())
+        self.icon = self.view.icon()
+        self._set_icons()
 
     def status_message(self):
         # Show status message
