@@ -10,8 +10,6 @@ from JAK.Utils import check_url_rules
 from JAK.RequestInterceptor import Interceptor
 from PySide2.QtCore import QUrl, Qt
 from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
-from JAK.Utils import Instance
-
 
 
 @cache(maxsize=5)
