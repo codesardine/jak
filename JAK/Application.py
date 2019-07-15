@@ -62,10 +62,6 @@ class JWebApp(QApplication):
             nvidia_pci = detect_nvidia_pci.communicate()
             nvidia_pci = nvidia_pci[0].decode("utf-8").lower()
 
-        # Enable automatic HDPI scale
-        QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
-        QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling)
-
         def disable_opengl():
             # Disable GPU acceleration
             # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307
