@@ -196,7 +196,7 @@ class JToolbar(QToolBar):
             about = QAction(self.about_title, self)
 
         about_msg = f"""
-        <body style='margin-right:68px;color:#454545;'><b>
+        <body style='margin-right:46px;color:#454545;'><b>
             {title}
         </b>
         <br><br>
