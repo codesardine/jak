@@ -50,8 +50,8 @@ class JWebPage(QWebEnginePage):
     def _open_in_browser(self) -> None:
         """ Open url in a external browser """
         print("Open above^ tab in Browser")
-        import webbrowser
-        webbrowser.open(self.url().toString())
+        from webbrowser import open_new_tab
+        open_new_tab(self.url)
 
     def _dialog_open_in_browser(self) -> None:
         """ Opens a dialog to confirm if user wants to open url in external browser """
