@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 from os import path
+import JAK.Application as app
 #from setuptools import setup, find_packages
 
 readme = path.abspath(path.dirname(__file__))
@@ -11,11 +12,11 @@ with open(path.join(readme, 'README.md'), encoding='utf-8') as f:
 
 setup(
 name             = "Jade-Application-Kit",
-version          = "v2.0.7",
+version          = app.__version__,
 packages         = ["j", "JAK"],
 python_requires  = ">=3.6",
 url              = "https://codesardine.github.io/Jade-Application-Kit",
-license          = "GPLv2",
+license          = "GPL",
 author           = "Vitor Lopes",
 description      = "Create native web wrappers or write hybrid Desktop applications on Linux,"
                    " with Python, JavaScript, HTML, and Blink",

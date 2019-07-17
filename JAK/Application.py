@@ -3,6 +3,7 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
+import os
 import sys
 import time
 import subprocess
@@ -13,6 +14,8 @@ from JAK.Widgets import JWindow
 from JAK.WebEngine import JWebView
 
 time.time()
+__version__ = "v2.0.8"
+print(f"JAK {__version__}")
 
 
 # noinspection PyUnresolvedReferences
@@ -98,6 +101,11 @@ class JWebApp(QApplication):
         self.custom_js = custom_js
         self.icon = icon
         self.toolbar = toolbar
+        # Desktop file must match application name in lowercase with dashes instead of white space.
+        self.setDesktopFileName(f"{title.lower().replace(' ', '-')}.desktop")
+        self.setOrganizationDomain("https://codesardine.github.io/Jade-Application-Kit")
+        self.setApplicationVersion(__version__)    
+    
 
     def run(self):
         if "://" not in self.web_contents:
