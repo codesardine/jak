@@ -14,7 +14,7 @@ from JAK.Widgets import JWindow
 from JAK.WebEngine import JWebView
 
 time.time()
-__version__ = "v2.0.8"
+__version__ = "v2.0.9"
 print(f"JAK {__version__}")
 
 
