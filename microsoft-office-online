@@ -13,7 +13,7 @@ def office():
     tab_only_allow = "[a-z]*\.live.com", "www.office.com", "forms.office.com", "onedrive.", "d.docs.live.",\
                      "www.onenote.", "outlook.", "www.outlook.", "sway.office.com", "1drv.ms/", "to-do.microsoft.com/",\
                      "[a-z]*\.officeapps.live", "www.dropbox.com", "login.microsoftonline.com/", "onenote",\
-                     "sway.com", "[a-z]*\.flow\.", "flow.", "[a-z]*\.sharepoint.com"
+                     "sway.com", "[a-z]*\.flow\.", "flow.", "[a-z]*\.sharepoint.com", "login.windows.net"
 
     css_hide = ".hero-section, .tiles-section, a[href*='skype'], a[href*='bing'], a[href*='msn'], \
                a[href*='https://g.live.com'], ._14PqNbws6gkP3kvU8nzH0G {display:none !important;}"
