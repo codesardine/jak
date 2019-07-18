@@ -41,6 +41,8 @@ class JWebApp(QApplication):
         * :arg custom_js:str: Optional
         * :arg toolbar:dict: Optional
         """
+        QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
+        QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
         if debug or "--dev" in sys.argv:
             # Adding some command line arguments for testing purposes,
             # this MUST BE done before initializing QApplication
