@@ -3,16 +3,17 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
-import os
-import sys
-import time
-import subprocess
-from PySide2.QtCore import Qt, QCoreApplication
-from PySide2.QtWidgets import QApplication
-from JAK.Utils import Instance
-from JAK.Widgets import JWindow
-from JAK.WebEngine import JWebView
-
+try:
+    import sys
+    import time
+    import subprocess
+    from PySide2.QtCore import Qt, QCoreApplication
+    from PySide2.QtWidgets import QApplication
+    from JAK.Utils import Instance
+    from JAK.Widgets import JWindow
+    from JAK.WebEngine import JWebView
+except ModuleNotFoundError:
+    pass
 time.time()
 __version__ = "v2.0.9"
 print(f"JAK {__version__}")
@@ -107,7 +108,6 @@ class JWebApp(QApplication):
         self.setDesktopFileName(f"{title.lower().replace(' ', '-')}.desktop")
         self.setOrganizationDomain("https://codesardine.github.io/Jade-Application-Kit")
         self.setApplicationVersion(__version__)    
-    
 
     def run(self):
         if "://" not in self.web_contents:
