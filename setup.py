@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 from os import path
-from JAK.Application import __version__
+from JAK import __version__
 #from setuptools import setup, find_packages
 
 readme = path.abspath(path.dirname(__file__))
