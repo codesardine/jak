@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 from os import path
-import JAK.Application as app
+from JAK.Application import __version__
 #from setuptools import setup, find_packages
 
 readme = path.abspath(path.dirname(__file__))
@@ -12,7 +12,7 @@ with open(path.join(readme, 'README.md'), encoding='utf-8') as f:
 
 setup(
 name             = "Jade-Application-Kit",
-version          = app.__version__,
+version          = __version__,
 packages         = ["j", "JAK"],
 python_requires  = ">=3.6",
 url              = "https://codesardine.github.io/Jade-Application-Kit",
