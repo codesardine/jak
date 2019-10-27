@@ -43,7 +43,7 @@ class JWebApp(QApplication):
         if debug or "--dev" in sys.argv:
             # Adding some command line arguments for testing purposes,
             # this MUST BE done before initializing QApplication
-            sys.argv.append("--remote-debugging-port=8000")
+            sys.argv.append("--remote-debugging-port=9000")
             print("Debugging Mode On")
             if not debug:
                 debug = True
@@ -93,27 +93,28 @@ class JWebApp(QApplication):
         self.debug = debug
         self.transparent = transparent
         self.online = online
+        self.toolbar = toolbar
         self.url_rules = url_rules
         self.cookies_path = cookies_path
         self.user_agent = user_agent
         self.custom_css = custom_css
         self.custom_js = custom_js
         self.icon = icon
-        self.toolbar = toolbar
         # Desktop file must match application name in lowercase with dashes instead of white space.
         self.setDesktopFileName(f"{title.lower().replace(' ', '-')}.desktop")
         self.setOrganizationDomain("https://codesardine.github.io/Jade-Application-Kit")
         self.setApplicationVersion(__version__)
+        if not self.online:
+            from PySide2.QtWebEngineCore import QWebEngineUrlScheme
+            QWebEngineUrlScheme.registerScheme(QWebEngineUrlScheme("ipc".encode()))
+                
 
     def run(self):
-        if "://" not in self.web_contents:
-            self.web_contents = f"https://{self.web_contents}"
-
         Instance.record("view", JWebView(self.title, self.icon, self.web_contents, self.debug, self.transparent,
                                          self.online, self.url_rules, self.cookies_path, self.user_agent,
                                          self.custom_css, self.custom_js))
 
-        win = Instance.auto("win", JWindow(self.title, self.icon, self.transparent, self.toolbar))
+        win = Instance.auto("win", JWindow(self.debug, self.online, self.title, self.icon, self.transparent, self.toolbar))
         win.resize(win.default_size("width"), win.default_size("height"))
         win.show()
         win.window_original_position = win.frameGeometry()

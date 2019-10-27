@@ -7,7 +7,7 @@ import sys
 import os
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon
+from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget
 from JAK.Utils import Instance
 from JAK.KeyBindings import KeyPress
 from PySide2.QtWidgets import QAction, QToolBar, QMenu
@@ -34,7 +34,7 @@ class SystemTrayIcon(QSystemTrayIcon):
 
 class JWindow(QMainWindow):
     """ #### Imports: from JAK.Widgets import JWindow """
-    def __init__(self, title="Jade Application Kit", icon=False, transparent=False, toolbar="", parent=None):
+    def __init__(self, debug=False, online="", title="Jade Application Kit", icon=False, transparent=False, toolbar="", parent=None):
         """
         * :param title:str
         * :param icon:str
@@ -44,6 +44,8 @@ class JWindow(QMainWindow):
         """
 
         QMainWindow.__init__(self)
+        self.online = online
+        self.debug = debug
         self.title = title
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
@@ -63,19 +65,30 @@ class JWindow(QMainWindow):
         if view:
             self.view = view
             self.setCentralWidget(self.view)
-            self.view.page().titleChanged.connect(self.status_message)
             self.view.iconChanged.connect(self._icon_changed)
+            if self.online:
+                self.view.page().titleChanged.connect(self.status_message)
 
         if transparent:
             # Set Background Transparency
             self.setAttribute(Qt.WA_TranslucentBackground, True)
             self.setAutoFillBackground(True)
 
-        self.toolbar = JToolbar(self, toolbar, self.icon, title)
-        self.addToolBar(self.toolbar)
-        # self.addToolBar(Qt.RightToolBarArea, self.bar)
-        self.system_tray = SystemTrayIcon(self.icon, self, self.title)
-        self._set_icons()
+        if self.online:
+            # Do not display toolbar or system tray offline
+            self.toolbar = JToolbar(self, toolbar, self.icon, title)
+            self.addToolBar(self.toolbar)
+            # self.addToolBar(Qt.RightToolBarArea, self.bar)
+            self.system_tray = SystemTrayIcon(self.icon, self, self.title)
+            self._set_icons()
+        
+        if self.debug:
+            dock = Inspector("Dev Tools", self)
+            self.addDockWidget(Qt.BottomDockWidgetArea, dock)
+           # self.resizeDocks(dock, 200, Qt.Horizontal)
+            from JAK.WebEngine import JWebView
+            inspector_view = JWebView(web_contents="http://127.0.0.1:9000")
+            dock.setWidget(inspector_view)
 
     def keyPressEvent(self, event):
         KeyPress(event)
@@ -196,7 +209,7 @@ class JToolbar(QToolBar):
             about = QAction(self.about_title, self)
 
         about_msg = f"""
-        <body style='margin-right:46px;color:#454545;'><b>
+        <body style='margin-right:46px;'><b>
             {title}
         </b>
         <br><br>
@@ -264,3 +277,14 @@ class InfoDialog(QWidget):
         self.setWindowTitle(title)
         QMessageBox.information(parent, title, msg, QMessageBox.Ok)
         self.show()
+
+class Inspector(QDockWidget):
+    """
+    Developer Tools
+    """
+    def __init__(self, title, parent=None):
+        super().__init__(title, parent)
+        self.setObjectName("Dev Tools")
+        self.setAllowedAreas(
+            Qt.LeftDockWidgetArea  | Qt.RightDockWidgetArea | Qt.BottomDockWidgetArea
+            )

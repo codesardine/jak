@@ -5,8 +5,13 @@
 
 import os
 import re
+from pathlib import Path
 
 register = {}
+
+
+def get_current_path():
+    return str(Path('.').absolute())
 
 
 def check_url_rules(request_type: str, url_request: str, url_rules: tuple) -> bool:
@@ -97,23 +102,20 @@ class JavaScript:
     """
     * Run javascript in the webview after load is complete Injects will be logged in the inspector
     * :Imports: from Jak.Utils import JavaScript
-    * :Usage: JavaScript.log(webview:instance, msg)
+    * :Usage: JavaScript.log(msg)
     """
-
     @staticmethod
-    def log(webview, message: str) -> None:
+    def log(message: str) -> None:
         """
         * Outputs console.log() messages in the inspector
-        * :param webview: QWebengineView instance
         * :param message: Log message
         """
-        JavaScript.send(webview, f"console.log('JAK log:{message}');")
+        JavaScript.send(f"console.log('JAK log:{message}');")
 
     @staticmethod
-    def css(webview, styles: str) -> None:
+    def css(styles: str) -> None:
         """
         * Insert custom styles
-        * :param webview: QWebengineView instance
         * :param styles: CSS -> a { color: red; }
         """
         javascript = f"""
@@ -123,42 +125,44 @@ class JavaScript:
              style.innerHTML = "{JavaScript.detect_type(styles)}";
              document.getElementsByTagName('head')[0].appendChild(style);
         """
-        JavaScript.send(webview, javascript)
-        JavaScript.log(webview, f"JAK Custom Styles Applied:[{styles}]")
+        JavaScript.send(javascript)
+        JavaScript.log(f"JAK Custom Styles Applied:[{styles}]")
 
     @staticmethod
-    def alert(webview, message: str) -> None:
+    def alert(message: str) -> None:
         """
         * Triggers an alert message
-        * :param webview: QWebengineView instance
         * :param message: your popcorn is ready enjoy
         """
-        JavaScript.send(webview, f"alert('{message}');")
-        JavaScript.log(webview, f"JAK Alert:[{message}]")
-
-    def send(self, javascript: str) -> None:
-        """
-        * Send custom JavaScript
-        * :param self: QWebengineView instance
-        """
-        self.page().runJavaScript(f"{JavaScript.detect_type(javascript)}")
+        JavaScript.send(f"alert('{message}');")
+        JavaScript.log(f"JAK Alert:[{message}]")
 
     @staticmethod
-    def detect_type(inbound) -> str:
+    def send(script: str) -> None:
+        """
+        * Send custom JavaScript
+        """
+        view = Instance.retrieve("view")
+        print(view)
+        view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
+
+
+    @staticmethod
+    def detect_type(script) -> str:
         """
         * Detect if is file or string, convert to string
-        * :param inbound: file or string
+        * :param script: file or string
         """
-        if os.path.exists(inbound) and os.path.isfile(inbound):
+        if os.path.exists(script) and os.path.isfile(script):
             try:
-                with open(inbound, "r") as file:
+                with open(script, "r") as file:
                     string = file.read()
                     return string
             except IOError:
                 return False
             return True
-        elif isinstance(inbound, str):
-            return inbound
+        elif isinstance(script, str):
+            return script
 
         else:
             print("JavaScript.send() error, file path or string.")
