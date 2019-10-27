@@ -81,7 +81,7 @@ class JWindow(QMainWindow):
             # self.addToolBar(Qt.RightToolBarArea, self.bar)
             self.system_tray = SystemTrayIcon(self.icon, self, self.title)
             self._set_icons()
-        
+
         if self.debug:
             dock = Inspector("Dev Tools", self)
             self.addDockWidget(Qt.BottomDockWidgetArea, dock)

@@ -107,7 +107,6 @@ class JWebApp(QApplication):
         if not self.online:
             from PySide2.QtWebEngineCore import QWebEngineUrlScheme
             QWebEngineUrlScheme.registerScheme(QWebEngineUrlScheme("ipc".encode()))
-                
 
     def run(self):
         Instance.record("view", JWebView(self.title, self.icon, self.web_contents, self.debug, self.transparent,

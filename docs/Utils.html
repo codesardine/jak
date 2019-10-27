@@ -27,6 +27,7 @@
     <div class='code'>
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">register</span> <span class="o">=</span> <span class="p">{}</span></pre></div>
     </div>
@@ -36,6 +37,19 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_current_path</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
       </div>
       <ul>
 <li>Search logic for url rules, we can use regex or simple match the beginning of the domain.</li>
@@ -48,10 +62,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-2'>
+  <div class='section' id='section-3'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-2'>#</a>
+        <a class='octothorpe' href='#section-3'>#</a>
       </div>
       
     </div>
@@ -85,10 +99,10 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-3'>
+  <div class='section' id='section-4'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-3'>#</a>
+        <a class='octothorpe' href='#section-4'>#</a>
       </div>
       <h4>:Imports: from JAK.Utils import Instance</h4>
 <p>Add object instances in a dictionary, it can be used to point
@@ -99,10 +113,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-4'>
+  <div class='section' id='section-5'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-4'>#</a>
+        <a class='octothorpe' href='#section-5'>#</a>
       </div>
       
     </div>
@@ -111,10 +125,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-5'>
+  <div class='section' id='section-6'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-5'>#</a>
+        <a class='octothorpe' href='#section-6'>#</a>
       </div>
       <ul>
 <li>:Usage: Instance.get_instances()</li>
@@ -126,10 +140,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-6'>
+  <div class='section' id='section-7'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
+        <a class='octothorpe' href='#section-7'>#</a>
       </div>
       
     </div>
@@ -138,10 +152,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-7'>
+  <div class='section' id='section-8'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-7'>#</a>
+        <a class='octothorpe' href='#section-8'>#</a>
       </div>
       <ul>
 <li>:Usage: Instance.record(&ldquo;name&rdquo;, object)</li>
@@ -154,10 +168,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-8'>
+  <div class='section' id='section-9'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-8'>#</a>
+        <a class='octothorpe' href='#section-9'>#</a>
       </div>
       
     </div>
@@ -167,10 +181,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-9'>
+  <div class='section' id='section-10'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-9'>#</a>
+        <a class='octothorpe' href='#section-10'>#</a>
       </div>
       <ul>
 <li>:Usage: Instance.retrieve(&ldquo;name&rdquo;)</li>
@@ -182,10 +196,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-10'>
+  <div class='section' id='section-11'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-10'>#</a>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       
     </div>
@@ -198,10 +212,10 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-11'>
+  <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <ul>
 <li>:Usage: Instance.auto(&ldquo;name&rdquo;, object)</li>
@@ -216,10 +230,10 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
+  <div class='section' id='section-13'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
+        <a class='octothorpe' href='#section-13'>#</a>
       </div>
       
     </div>
@@ -234,31 +248,19 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
-      </div>
-      <ul>
-<li>Run javascript in the webview after load is complete Injects will be logged in the inspector</li>
-<li>:Imports: from Jak.Utils import JavaScript</li>
-<li>:Usage: JavaScript.log(webview:instance, msg)</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JavaScript</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-14'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
       </div>
-      
+      <ul>
+<li>Run javascript in the webview after load is complete Injects will be logged in the inspector</li>
+<li>:Imports: from Jak.Utils import JavaScript</li>
+<li>:Usage: JavaScript.log(msg)</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JavaScript</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -269,13 +271,12 @@ If not present, creates it creates a new one and retrieves it.</li>
       </div>
       <ul>
 <li>Outputs console.log() messages in the inspector</li>
-<li>:param webview: QWebengineView instance</li>
 <li>:param message: Log message</li>
 </ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -287,7 +288,7 @@ If not present, creates it creates a new one and retrieves it.</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;console.log(&#39;JAK log:{message}&#39;);&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;console.log(&#39;JAK log:{message}&#39;);&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -298,13 +299,12 @@ If not present, creates it creates a new one and retrieves it.</li>
       </div>
       <ul>
 <li>Insert custom styles</li>
-<li>:param webview: QWebengineView instance</li>
 <li>:param styles: CSS -&gt; a { color: red; }</li>
 </ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">css</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">styles</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">css</span><span class="p">(</span><span class="n">styles</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -323,8 +323,8 @@ If not present, creates it creates a new one and retrieves it.</li>
 <span class="s2">             style.innerHTML = &quot;{JavaScript.detect_type(styles)}&quot;;</span>
 <span class="s2">             document.getElementsByTagName(&#39;head&#39;)[0].appendChild(style);</span>
 <span class="s2">        &quot;&quot;&quot;</span>
-        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">javascript</span><span class="p">)</span>
-        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;JAK Custom Styles Applied:[{styles}]&quot;</span><span class="p">)</span></pre></div>
+        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">javascript</span><span class="p">)</span>
+        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;JAK Custom Styles Applied:[{styles}]&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -335,13 +335,12 @@ If not present, creates it creates a new one and retrieves it.</li>
       </div>
       <ul>
 <li>Triggers an alert message</li>
-<li>:param webview: QWebengineView instance</li>
 <li>:param message: your popcorn is ready enjoy</li>
 </ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">alert</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">alert</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -353,8 +352,8 @@ If not present, creates it creates a new one and retrieves it.</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;alert(&#39;{message}&#39;);&quot;</span><span class="p">)</span>
-        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">webview</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;JAK Alert:[{message}]&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;alert(&#39;{message}&#39;);&quot;</span><span class="p">)</span>
+        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;JAK Alert:[{message}]&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -365,11 +364,11 @@ If not present, creates it creates a new one and retrieves it.</li>
       </div>
       <ul>
 <li>Send custom JavaScript</li>
-<li>:param self: QWebengineView instance</li>
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">javascript</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -381,7 +380,9 @@ If not present, creates it creates a new one and retrieves it.</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{JavaScript.detect_type(javascript)}&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{JavaScript.detect_type(script)}&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -392,12 +393,12 @@ If not present, creates it creates a new one and retrieves it.</li>
       </div>
       <ul>
 <li>Detect if is file or string, convert to string</li>
-<li>:param inbound: file or string</li>
+<li>:param script: file or string</li>
 </ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">inbound</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -409,16 +410,16 @@ If not present, creates it creates a new one and retrieves it.</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">inbound</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">inbound</span><span class="p">):</span>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">script</span><span class="p">):</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">inbound</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
                     <span class="n">string</span> <span class="o">=</span> <span class="nb">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
                     <span class="k">return</span> <span class="n">string</span>
             <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
                 <span class="k">return</span> <span class="bp">False</span>
             <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">inbound</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">inbound</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">script</span>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;JavaScript.send() error, file path or string.&quot;</span><span class="p">)</span>

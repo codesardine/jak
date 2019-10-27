@@ -141,8 +141,7 @@ class JWebPage(QWebEnginePage):
                     return True
 
             elif _type == QWebEnginePage.WebDialog:
-                return True          
-
+                return True
         return True
 
     def _on_feature_permission_requested(self, security_origin, feature):

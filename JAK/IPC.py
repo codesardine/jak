@@ -3,12 +3,16 @@ from JAK.Utils import Instance
 
 class Bind:
     """
-    Usage: from JAK import IPC
-    Create your own class and point to this one: IPC.Bind = MyOverrride
+    * Usage: from JAK import IPC
+    * Create your own class and point to this one: IPC.Bind = MyOverrride
     """
     @staticmethod
-    def listener(data):
-        # Catch url output
+    def listen(data):
+        """
+        * Do something with the data.
+        * :param data:
+        * :return: url output
+        """
         raise NotImplementedError()
 
 
@@ -18,9 +22,6 @@ class Communication:
     """
     @staticmethod
     def activate(url) -> None:
-        """
-        :param page: QWebEnginePage
-        """
         url = url.split(':')[1]
         if url.endswith("()"):
             try:
@@ -35,4 +36,4 @@ class Communication:
                 print(error)
 
         else:
-            Bind.listener(url)
+            Bind.listen(url)

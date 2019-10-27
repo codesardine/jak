@@ -33,6 +33,7 @@
 <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">Instance</span>
 <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">JWindow</span>
 <span class="kn">from</span> <span class="nn">JAK.WebEngine</span> <span class="kn">import</span> <span class="n">JWebView</span>
+<span class="kn">from</span> <span class="nn">JAK</span> <span class="kn">import</span> <span class="n">__version__</span>
 
 <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span></pre></div>
     </div>
@@ -43,7 +44,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-1'>#</a>
       </div>
-      <p>noinspection PyUnresolvedReferences</p>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">class</span> <span class="nc">JWebApp</span><span class="p">(</span><span class="n">QApplication</span><span class="p">):</span></pre></div>
@@ -99,7 +100,9 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">debug</span> <span class="ow">or</span> <span class="s2">&quot;--dev&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>        <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_UseHighDpiPixmaps</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_EnableHighDpiScaling</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="ow">or</span> <span class="s2">&quot;--dev&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -112,7 +115,7 @@
 this MUST BE done before initializing QApplication</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--remote-debugging-port=8000&quot;</span><span class="p">)</span>
+      <div class="highlight"><pre>            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--remote-debugging-port=9000&quot;</span><span class="p">)</span>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Debugging Mode On&quot;</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
                 <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
@@ -170,19 +173,6 @@ this MUST BE done before initializing QApplication</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
-      <p>Enable automatic HDPI scale</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_UseHighDpiPixmaps</span><span class="p">)</span>
-        <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_EnableHighDpiScaling</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-10'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-10'>#</a>
-      </div>
       
     </div>
     <div class='code'>
@@ -190,10 +180,10 @@ this MUST BE done before initializing QApplication</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-11'>
+  <div class='section' id='section-10'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
+        <a class='octothorpe' href='#section-10'>#</a>
       </div>
       <p>Disable GPU acceleration
 https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
@@ -209,10 +199,10 @@ https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
+  <div class='section' id='section-11'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       <p>Detect virtual machine</p>
     </div>
@@ -224,10 +214,10 @@ https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <p>Detect NVIDIA cards</p>
     </div>
@@ -245,13 +235,30 @@ https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span> <span class="o">=</span> <span class="n">transparent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="o">=</span> <span class="n">online</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="n">toolbar</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span> <span class="o">=</span> <span class="n">url_rules</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span> <span class="o">=</span> <span class="n">cookies_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">user_agent</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span> <span class="o">=</span> <span class="n">custom_css</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span> <span class="o">=</span> <span class="n">custom_js</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="n">toolbar</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Desktop file must match application name in lowercase with dashes instead of white space.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">setDesktopFileName</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{title.lower().replace(&#39; &#39;, &#39;-&#39;)}.desktop&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setOrganizationDomain</span><span class="p">(</span><span class="s2">&quot;https://codesardine.github.io/Jade-Application-Kit&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setApplicationVersion</span><span class="p">(</span><span class="n">__version__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlScheme</span>
+            <span class="n">QWebEngineUrlScheme</span><span class="o">.</span><span class="n">registerScheme</span><span class="p">(</span><span class="n">QWebEngineUrlScheme</span><span class="p">(</span><span class="s2">&quot;ipc&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">()))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -264,14 +271,11 @@ https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="s2">&quot;://&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">web_contents</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">web_contents</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;https://{self.web_contents}&quot;</span>
-
         <span class="n">Instance</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">,</span> <span class="n">JWebView</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">web_contents</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span>
                                          <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">,</span>
                                          <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span><span class="p">))</span>
 
-        <span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">,</span> <span class="n">JWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">))</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">,</span> <span class="n">JWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">))</span>
         <span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">default_size</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">),</span> <span class="n">win</span><span class="o">.</span><span class="n">default_size</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span>
         <span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="n">win</span><span class="o">.</span><span class="n">window_original_position</span> <span class="o">=</span> <span class="n">win</span><span class="o">.</span><span class="n">frameGeometry</span><span class="p">()</span>
