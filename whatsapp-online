@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+from JAK.Application import JWebApp
+
+
+def whats_app():
+    # v1.0.0
+    url = "web.whatsapp.com"
+
+    user_agent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.105 Safari/537.36"
+
+    webapp = JWebApp(title="WhatsApp Online", user_agent=user_agent, online=True, web_contents=url)
+
+    return webapp
+
+whats_app().run()
