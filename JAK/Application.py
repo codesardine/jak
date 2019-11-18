@@ -6,14 +6,23 @@
 import sys
 import time
 import subprocess
-from PySide2.QtCore import Qt, QCoreApplication
-from PySide2.QtWidgets import QApplication
-from JAK.Utils import Instance
+from JAK.Utils import Instance, bindings
+from JAK import __version__
+if bindings() == "PyQt5":
+    print("PyQt5 Bindings")
+    from PyQt5.QtCore import Qt, QCoreApplication
+    from PyQt5.QtWidgets import QApplication
+else:
+    print("PySide2 Bindings, JAK_PREFERRED_BINDING environment variable not set.")
+    from PySide2.QtCore import Qt, QCoreApplication
+    from PySide2.QtWidgets import QApplication
 from JAK.Widgets import JWindow
 from JAK.WebEngine import JWebView
-from JAK import __version__
+
+
 
 time.time()
+
 
 
 class JWebApp(QApplication):
@@ -105,7 +114,10 @@ class JWebApp(QApplication):
         self.setOrganizationDomain("https://codesardine.github.io/Jade-Application-Kit")
         self.setApplicationVersion(__version__)
         if not self.online:
-            from PySide2.QtWebEngineCore import QWebEngineUrlScheme
+            if bindings() == "PyQt5":
+                from PyQt5.QtWebEngineCore import QWebEngineUrlScheme
+            else:
+                from PySide2.QtWebEngineCore import QWebEngineUrlScheme
             QWebEngineUrlScheme.registerScheme(QWebEngineUrlScheme("ipc".encode()))
 
     def run(self):

@@ -10,6 +10,10 @@ from pathlib import Path
 register = {}
 
 
+def bindings():
+    return os.environ["JAK_PREFERRED_BINDING"]
+    
+
 def get_current_path():
     return str(Path('.').absolute())
 
@@ -22,16 +26,16 @@ def check_url_rules(request_type: str, url_request: str, url_rules: tuple) -> bo
     """
     SCHEME = "https://"
 
-    if request_type is "Block":
+    if request_type == "Block":
         url_rules=url_rules
 
-    elif request_type is "WebBrowserTab":
+    elif request_type == "WebBrowserTab":
         try:
             url_rules = url_rules["WebBrowserTab"]
         except KeyError:
             url_rules = ""
 
-    elif request_type is "WebBrowserWindow":
+    elif request_type == "WebBrowserWindow":
         try:
             url_rules = url_rules["WebBrowserWindow"]
         except KeyError:

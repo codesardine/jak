@@ -5,12 +5,18 @@
 
 import sys
 import os
-from PySide2.QtCore import Qt, QSize
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget
-from JAK.Utils import Instance
+from JAK.Utils import Instance, bindings
 from JAK.KeyBindings import KeyPress
-from PySide2.QtWidgets import QAction, QToolBar, QMenu
+if bindings() == "PyQt5":
+    from PyQt5.QtCore import Qt, QSize, QUrl
+    from PyQt5.QtGui import QIcon
+    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget
+    from PyQt5.QtWidgets import QAction, QToolBar, QMenu
+else:
+    from PySide2.QtCore import Qt, QSize, QUrl
+    from PySide2.QtGui import QIcon
+    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget
+    from PySide2.QtWidgets import QAction, QToolBar, QMenu
 
 
 class SystemTrayIcon(QSystemTrayIcon):
@@ -120,9 +126,9 @@ class JWindow(QMainWindow):
 
     def default_size(self, size: str):
         # Set to 70% screen size
-        if size is "width":
+        if size == "width":
             return self.get_geometry().width() * 2 / 3
-        elif size is "height":
+        elif size == "height":
             return self.get_geometry().height() * 2 / 3
 
     def set_window_to_defaults(self):
@@ -258,7 +264,7 @@ class JToolbar(QToolBar):
     def _on_click(self, url: str, title=""):
         view = Instance.retrieve("view")
         if url.startswith("https"):
-            return lambda: view.setUrl(url)
+            return lambda: view.setUrl(QUrl(url))
         else:
             msg = url
             return lambda: InfoDialog(self, title, msg)

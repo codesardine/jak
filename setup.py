@@ -14,7 +14,7 @@ setup(
 name             = "Jade-Application-Kit",
 version          = __version__,
 packages         = ["j", "JAK"],
-python_requires  = ">=3.6",
+python_requires  = ">=3.8",
 url              = "https://codesardine.github.io/Jade-Application-Kit",
 license          = "GPL",
 author           = "Vitor Lopes",
@@ -34,7 +34,7 @@ classifiers      = [
 "Environment :: Web Environment",
 "Topic :: Desktop Environment",
 "Environment :: X11 Applications",
-"Programming Language :: Python :: 3.6",
+"Programming Language :: Python :: 3.8",
 "Topic :: Software Development :: Libraries :: Application Frameworks",
 "Topic :: Software Development :: Libraries :: Python Modules",
 "Topic :: Software Development :: User Interfaces",
@@ -43,6 +43,7 @@ classifiers      = [
     ("/usr/bin/", ["bin/jak"]), ("/usr/bin/", ["bin/jak-cli"])
     ],
 install_requires=[
-   "PySide2"
+   "PySide2",
+   "PyQt5"
 ],
 )

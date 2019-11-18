@@ -3,12 +3,15 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
-from PySide2.QtCore import Qt
-from JAK.Utils import Instance
+from JAK.Utils import Instance, bindings
+if bindings() == "PyQt5":
+    from PyQt5.QtCore import Qt
+else:
+    from PySide2.QtCore import Qt
 
 
 class KeyPress:
-    """ #### Imports: from JAK.KeyBindings import KeyPress """
+    """ #### Imports: from JAK.Keybindings() import KeyPress """
 
     def __init__(self, event):
         # * self.win = QMainWindow Instance

@@ -3,8 +3,11 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 
-from PySide2.QtWebEngineCore import QWebEngineUrlRequestInterceptor, QWebEngineUrlRequestInfo
-from JAK.Utils import check_url_rules
+from JAK.Utils import check_url_rules, bindings
+if bindings() == "PyQt5":
+    from PyQt5.QtWebEngineCore import QWebEngineUrlRequestInterceptor, QWebEngineUrlRequestInfo
+else:
+    from PySide2.QtWebEngineCore import QWebEngineUrlRequestInterceptor, QWebEngineUrlRequestInfo
 
 
 class Interceptor(QWebEngineUrlRequestInterceptor):

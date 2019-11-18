@@ -14,8 +14,8 @@ Build web wrappers or hybrid web/desktop applications on Linux, using Python/Jav
 ## Getting Started
 
 * Prerequisites
-* Python  >= 3.6
-* PySide2 >= 5.12.4
+* Python  >= 3.8
+* PySide2 >= 5.14 or PyQt5 >= 5.13
 
 ```bash
 git clone https://github.com/codesardine/Jade-Application-Kit.git
@@ -44,6 +44,13 @@ sudo setup.py install
 Install in Manjaro
 ```bash
 sudo pacman -S python-jade-application-kit
+```
+
+## Environment variables
+As of Python 3.8 PySide2 is not compatible = https://github.com/codesardine/Jade-Application-Kit/issues/67, until this is fixed upstream you can use this workaround.
+JAK defaults to using PySide2 to use PyQt5 set this environment variable.
+```
+export JAK_PREFERRED_BINDING=PyQt5
 ```
 
 ## Contributing

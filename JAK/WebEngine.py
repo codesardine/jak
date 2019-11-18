@@ -5,13 +5,16 @@
 import os
 import time
 from functools import lru_cache as cache
-from JAK.Utils import JavaScript
-from JAK.Utils import check_url_rules
-from JAK.Utils import get_current_path
+from JAK.Utils import JavaScript, check_url_rules, get_current_path, bindings
 from JAK.RequestInterceptor import Interceptor
-from PySide2.QtCore import QUrl, Qt
-from PySide2.QtWebEngineCore import QWebEngineUrlSchemeHandler
-from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
+if bindings() == "PyQt5":
+    from PyQt5.QtCore import QUrl, Qt
+    from PyQt5.QtWebEngineCore import QWebEngineUrlSchemeHandler
+    from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
+else:
+    from Pyside2.QtCore import QUrl, Qt
+    from Pyside2.QtWebEngineCore import QWebEngineUrlSchemeHandler
+    from Pyside2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
 
 
 @cache(maxsize=5)
@@ -54,7 +57,7 @@ class IpcSchemeHandler(QWebEngineUrlSchemeHandler):
                 # and Python, only if online is set to false
                 from JAK.IPC import Communication
                 Communication().activate(url)
-                return False
+                return 
 
 
 class JWebPage(QWebEnginePage):
@@ -95,7 +98,7 @@ class JWebPage(QWebEnginePage):
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
         * Decide if we navigate to a URL
-        * :param url: PySide2.QtCore.QUrl
+        * :param url: Qt.QtCore.QUrl
         * :param _type: QWebEnginePage.NavigationType
         * :param is_main_frame:bool
         """
@@ -305,7 +308,10 @@ class JWebView(QWebEngineView):
         * If a download is requested call a save file dialog
         * :param download_item: file to be downloaded
         """
-        from PySide2.QtWidgets import QFileDialog
+        if bindings() == "PyQt5":
+            from PyQt5.QtWidgets import QFileDialog
+        else:
+            from PySide2.QtWidgets import QFileDialog
         self.download_item = download_item
         dialog = QFileDialog(self)
         path = dialog.getSaveFileName(dialog, "Save File", download_item.path())
@@ -327,10 +333,7 @@ class JWebView(QWebEngineView):
         file_path = self.download_item.path()
         msg = f"File Downloaded to: {file_path}"
 
-        try:
-            from Widgets import InfoDialog
-        except ImportError:
-            from JAK.Widgets import InfoDialog
+        from JAK.Widgets import InfoDialog
         InfoDialog(self, "Download Complete", msg)
         if self.online:
             self.back()
