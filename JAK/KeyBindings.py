@@ -11,7 +11,7 @@ else:
 
 
 class KeyPress:
-    """ #### Imports: from JAK.Keybindings() import KeyPress """
+    """ #### Imports: from JAK.Keybindings import KeyPress """
 
     def __init__(self, event):
         # * self.win = QMainWindow Instance

@@ -98,7 +98,7 @@ class JWebPage(QWebEnginePage):
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
         """
         * Decide if we navigate to a URL
-        * :param url: Qt.QtCore.QUrl
+        * :param url: QtCore.QUrl
         * :param _type: QWebEnginePage.NavigationType
         * :param is_main_frame:bool
         """
