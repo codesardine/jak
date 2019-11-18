@@ -11,7 +11,12 @@ register = {}
 
 
 def bindings():
-    return os.environ["JAK_PREFERRED_BINDING"]
+    try:
+        bindings = os.environ["JAK_PREFERRED_BINDING"]
+        return bindings
+    except KeyError:
+        return "PySide2"
+
     
 
 def get_current_path():
