@@ -28,13 +28,16 @@
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span> <span class="k">as</span> <span class="n">cache</span>
-<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span>
-<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span>
-<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">get_current_path</span>
+<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span><span class="p">,</span> <span class="n">check_url_rules</span><span class="p">,</span> <span class="n">get_current_path</span><span class="p">,</span> <span class="n">bindings</span>
 <span class="kn">from</span> <span class="nn">JAK.RequestInterceptor</span> <span class="kn">import</span> <span class="n">Interceptor</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlSchemeHandler</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span></pre></div>
+<span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlSchemeHandler</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">Pyside2.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
+    <span class="kn">from</span> <span class="nn">Pyside2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlSchemeHandler</span>
+    <span class="kn">from</span> <span class="nn">Pyside2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -168,7 +171,7 @@ and Python, only if online is set to false</li>
     <div class='code'>
       <div class="highlight"><pre>                <span class="kn">from</span> <span class="nn">JAK.IPC</span> <span class="kn">import</span> <span class="n">Communication</span>
                 <span class="n">Communication</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">False</span></pre></div>
+                <span class="k">return</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -283,7 +286,7 @@ and Python, only if online is set to false</li>
       </div>
       <ul>
 <li>Decide if we navigate to a URL</li>
-<li>:param url: PySide2.QtCore.QUrl</li>
+<li>:param url: Qt.QtCore.QUrl</li>
 <li>:param _type: QWebEnginePage.NavigationType</li>
 <li>:param is_main_frame:bool</li>
 </ul>
@@ -786,7 +789,10 @@ and Python, only if online is set to false</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QFileDialog</span>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QFileDialog</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QFileDialog</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">download_item</span> <span class="o">=</span> <span class="n">download_item</span>
         <span class="n">dialog</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">getSaveFileName</span><span class="p">(</span><span class="n">dialog</span><span class="p">,</span> <span class="s2">&quot;Save File&quot;</span><span class="p">,</span> <span class="n">download_item</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
@@ -826,10 +832,7 @@ and Python, only if online is set to false</li>
       <div class="highlight"><pre>        <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_item</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;File Downloaded to: {file_path}&quot;</span>
 
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">Widgets</span> <span class="kn">import</span> <span class="n">InfoDialog</span>
-        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">InfoDialog</span>
+        <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">InfoDialog</span>
         <span class="n">InfoDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Download Complete&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">back</span><span class="p">()</span></pre></div>

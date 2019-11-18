@@ -27,12 +27,18 @@
     <div class='code'>
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QSize</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtGui</span> <span class="kn">import</span> <span class="n">QIcon</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QMessageBox</span><span class="p">,</span> <span class="n">QDesktopWidget</span><span class="p">,</span> <span class="n">QSystemTrayIcon</span><span class="p">,</span> <span class="n">QDockWidget</span>
-<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">Instance</span>
+<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">bindings</span>
 <span class="kn">from</span> <span class="nn">JAK.KeyBindings</span> <span class="kn">import</span> <span class="n">KeyPress</span>
-<span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QAction</span><span class="p">,</span> <span class="n">QToolBar</span><span class="p">,</span> <span class="n">QMenu</span></pre></div>
+<span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QSize</span><span class="p">,</span> <span class="n">QUrl</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtGui</span> <span class="kn">import</span> <span class="n">QIcon</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QMessageBox</span><span class="p">,</span> <span class="n">QDesktopWidget</span><span class="p">,</span> <span class="n">QSystemTrayIcon</span><span class="p">,</span> <span class="n">QDockWidget</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QAction</span><span class="p">,</span> <span class="n">QToolBar</span><span class="p">,</span> <span class="n">QMenu</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QSize</span><span class="p">,</span> <span class="n">QUrl</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtGui</span> <span class="kn">import</span> <span class="n">QIcon</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QMainWindow</span><span class="p">,</span> <span class="n">QWidget</span><span class="p">,</span> <span class="n">QMessageBox</span><span class="p">,</span> <span class="n">QDesktopWidget</span><span class="p">,</span> <span class="n">QSystemTrayIcon</span><span class="p">,</span> <span class="n">QDockWidget</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QAction</span><span class="p">,</span> <span class="n">QToolBar</span><span class="p">,</span> <span class="n">QMenu</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -348,9 +354,9 @@
       <p>Set to 70% screen size</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="s2">&quot;width&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">()</span><span class="o">.</span><span class="n">width</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span>
-        <span class="k">elif</span> <span class="n">size</span> <span class="ow">is</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">size</span> <span class="o">==</span> <span class="s2">&quot;height&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_geometry</span><span class="p">()</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span></pre></div>
     </div>
   </div>
@@ -604,7 +610,7 @@
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_on_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
         <span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;https&quot;</span><span class="p">):</span>
-            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">setUrl</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">setUrl</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">url</span>
             <span class="k">return</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">InfoDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span></pre></div>

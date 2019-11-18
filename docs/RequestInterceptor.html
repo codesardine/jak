@@ -25,8 +25,11 @@
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlRequestInterceptor</span><span class="p">,</span> <span class="n">QWebEngineUrlRequestInfo</span>
-<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span></pre></div>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span><span class="p">,</span> <span class="n">bindings</span>
+<span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlRequestInterceptor</span><span class="p">,</span> <span class="n">QWebEngineUrlRequestInfo</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlRequestInterceptor</span><span class="p">,</span> <span class="n">QWebEngineUrlRequestInfo</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
