@@ -2,6 +2,8 @@ sudo: required
 language: python
 python:
 - '3.6'
+- "3.7"
+- "3.8"
 notifications:
   webhooks:
     urls:
@@ -22,5 +24,6 @@ deploy:
   distributions: sdist bdist_wheel
   on:
     tags: true
-    python: 3.6
+    python:
+      - "3.6" 
 script: nosetests
