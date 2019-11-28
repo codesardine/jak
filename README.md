@@ -125,6 +125,7 @@ Wrappers
 * [Slack online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/slack-online)
 * [Skype online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/skype-online)
 * [Udemy online](https://github.com/Steffan153/udemy-online) by [Caleb Miller](https://github.com/Steffan153)
+* [WhatsApp online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/whatsapp-online)
 
 Missing yours?, let me know.
 
