@@ -11,13 +11,26 @@ register = {}
 
 
 def bindings():
+    environment_var = "JAK_PREFERRED_BINDING"
     try:
-        bindings = os.environ["JAK_PREFERRED_BINDING"]
-        return bindings
+        preferred_bindings = os.environ[environment_var]
+        return preferred_bindings
     except KeyError:
-        return "PySide2"
+        user_config_path = f"{str(Path.home())}/.config/jak.conf"
+        if os.path.isfile(user_config_path):
+            config_file = user_config_path
+        else:
+            system_config_path = "/etc/jak.conf"
+            config_file = system_config_path
+        try:
+            import configparser
+            config = configparser.ConfigParser()
+            config.read(config_file)
+            preferred_bindings = config["bindings"][environment_var]
+            return preferred_bindings
+        except Exception as error:
+            print(error)
 
-    
 
 def get_current_path():
     return str(Path('.').absolute())

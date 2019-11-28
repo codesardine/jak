@@ -47,10 +47,20 @@ sudo pacman -S python-jade-application-kit
 ```
 
 ## Environment variables
-As of Python 3.8 PySide2 is not compatible = https://github.com/codesardine/Jade-Application-Kit/issues/67, until this is fixed upstream you can use this workaround.
-JAK defaults to using PySide2 to use PyQt5 set this environment variable.
+JAK defaults to using PySide2 to use PyQt5 set this environment variable, this is read before the config file.
 ```
 export JAK_PREFERRED_BINDING=PyQt5
+```
+
+## Config file
+Setting bindings via config file, system wide is fetched last.
+* User file location = /username/.config/jak.conf
+* System wide location = /etc/jak.conf
+
+Config file contents.
+```
+[bindings]
+JAK_PREFERRED_BINDING = PyQt5
 ```
 
 ## Contributing
@@ -61,7 +71,7 @@ With the command line utility you can create a self-contained web wrapper's in a
 ```
 jak-cli --url https://my-web-app-url  --title Mytitle
 ```
-For more options.
+More options.
 ```
 jak-cli --help
 ```
@@ -119,7 +129,8 @@ Wrappers
 Missing yours?, let me know.
 
 ## Known Issues
-Does not like NVIDIA cards and as such falls back to software rendering, so if you use one of them you have to do without GPU accelaration. Only PCI devices. 
+ * Does not like NVIDIA cards and as such falls back to software rendering, so if you use one of them you have to do without GPU acceleration. Only PCI devices.
+ * As of Python 3.8 PySide2 is not compatible = https://github.com/codesardine/Jade-Application-Kit/issues/67, until this is fixed upstream set your bindings via environment variable or config file.
 
 ## License
 Jade Application Kit is covered by the GPL license.
