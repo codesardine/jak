@@ -56,12 +56,11 @@ def command_line_options():
         "--title",
         type=str,
         help="Application Title.",
-        required=True,
-
+        required=True
     )
     options.add_argument(
         "--icon",
-        default="",
+        default="applications-internet",
         type=str,
         help="Path to app icon, if omitted, uses url icon.",
     )
@@ -108,6 +107,17 @@ def command_line_options():
         help="Debug On",
     )
     options.add_argument(
+        "--cde",
+        default=False,
+        action='store_true',
+        help="Create Desktop Entry",
+    )
+    options.add_argument(
+        "--desc",
+        type=str,
+        help="Desktop Entry Application Description"
+    )
+    options.add_argument(
         "--disable-gpu",
         default=False,
         action='store_true',
@@ -140,6 +150,13 @@ if len(sys.argv) == 1:
 option = command_line_options()
 
 if option.url and option.title:
-    run(option.url, option.title, option.online, option.transparent, option.dev, option.disable_gpu, option.icon, option.cookies_path,
-        option.user_agent, option.css, option.js)
+    if option.cde:
+        if option.desc:
+            from JAK.Utils import create_desktop_entry as cde
+            cde(option.url, option.title, option.desc, option.icon)
+        else:
+            print("Description required\n --desc 'My description'")
+    else:
+        run(option.url, option.title, option.online, option.transparent, option.dev, option.disable_gpu, option.icon,
+            option.cookies_path, option.user_agent, option.css, option.js)
 
