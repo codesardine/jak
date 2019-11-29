@@ -27,6 +27,7 @@
     <div class='code'>
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">register</span> <span class="o">=</span> <span class="p">{}</span></pre></div>
@@ -41,8 +42,10 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">bindings</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;JAK_PREFERRED_BINDING&quot;</span><span class="p">]</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_desktop_entry</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">icon</span><span class="p">):</span>
+    <span class="n">entry_name</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{entry_name}.desktop&quot;</span>
+    <span class="n">user_entry_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{str(Path.home())}/.local/share/applications&quot;</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -51,11 +54,34 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-2'>#</a>
       </div>
-      
+      <p>system_entry_path = f&rdquo;/usr/share/applications/{file}&rdquo;</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_current_path</span><span class="p">():</span>
-    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">template</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">#DIVIDER</span>
+<span class="s2">[Desktop Entry]</span>
+<span class="s2">Type=Application</span>
+<span class="s2">Version=1.0</span>
+<span class="s2">Name={title}</span>
+<span class="s2">Comment={description}</span>
+<span class="s2">Path=/usr/bin</span>
+<span class="s2">Exec=jak-cli --url {url} --title {title} --icon {icon} --online true</span>
+<span class="s2">Icon={icon}</span>
+<span class="s2">Terminal=false</span>
+<span class="s2">Categories=Network;</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{user_entry_path}/{filename}&quot;</span><span class="p">,</span> <span class="s1">&#39;w+&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+        <span class="nb">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Desktop entry created in:{user_entry_path}/{filename}&quot;</span><span class="p">)</span>
+
+    <span class="n">update_database</span> <span class="o">=</span> <span class="s2">&quot;update-desktop-database&quot;</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;/usr/bin/{update_database}&quot;</span><span class="p">):</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{update_database} {user_entry_path}&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">proc</span><span class="o">.</span><span class="n">returncode</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Database updated.&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;desktop-file-utils:Not installed</span><span class="se">\n</span><span class="s2">Database not updated.&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -64,14 +90,29 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      <ul>
-<li>Search logic for url rules, we can use regex or simple match the beginning of the domain.</li>
-<li>:param request_type: WebWindowType</li>
-<li>:return: function, checks against a list of urls</li>
-</ul>
+      <p>Created with JAK url:https://github.com/codesardine/Jade-Application-Kit</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">check_url_rules</span><span class="p">(</span><span class="n">request_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url_request</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">bindings</span><span class="p">():</span>
+    <span class="n">environment_var</span> <span class="o">=</span> <span class="s2">&quot;JAK_PREFERRED_BINDING&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">preferred_bindings</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">environment_var</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">preferred_bindings</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">user_config_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{str(Path.home())}/.config/jak.conf&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">user_config_path</span><span class="p">):</span>
+            <span class="n">config_file</span> <span class="o">=</span> <span class="n">user_config_path</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">system_config_path</span> <span class="o">=</span> <span class="s2">&quot;/etc/jak.conf&quot;</span>
+            <span class="n">config_file</span> <span class="o">=</span> <span class="n">system_config_path</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">configparser</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">config_file</span><span class="p">)</span>
+            <span class="n">preferred_bindings</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;bindings&quot;</span><span class="p">][</span><span class="n">environment_var</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">preferred_bindings</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">error</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -81,6 +122,35 @@
         <a class='octothorpe' href='#section-4'>#</a>
       </div>
       
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_current_path</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">check_url_rules</span><span class="p">(</span><span class="n">request_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url_request</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <ul>
+<li>Search logic for url rules, we can use regex or simple match the beginning of the domain.</li>
+<li>:param request_type: WebWindowType</li>
+<li>:return: function, checks against a list of urls</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="n">SCHEME</span> <span class="o">=</span> <span class="s2">&quot;https://&quot;</span>
@@ -112,44 +182,15 @@
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-5'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-5'>#</a>
-      </div>
-      <h4>:Imports: from JAK.Utils import Instance</h4>
-<p>Add object instances in a dictionary, it can be used to point
-to references we don,t want to be garbage collected, for usage later</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Instance</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-6'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-6'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-7'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-7'>#</a>
       </div>
-      <ul>
-<li>:Usage: Instance.get_instances()</li>
-</ul>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_instances</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Instance</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -158,10 +199,12 @@ to references we don,t want to be garbage collected, for usage later</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-8'>#</a>
       </div>
-      
+      <h4>:Imports: from JAK.Utils import Instance</h4>
+<p>Add object instances in a dictionary, it can be used to point
+to references we don,t want to be garbage collected, for usage later</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">register</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -170,14 +213,11 @@ to references we don,t want to be garbage collected, for usage later</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
-      <ul>
-<li>:Usage: Instance.record(&ldquo;name&rdquo;, object)</li>
-<li>Should only be used once per instance</li>
-</ul>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_type</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">get_instances</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -186,11 +226,12 @@ to references we don,t want to be garbage collected, for usage later</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-10'>#</a>
       </div>
-      
+      <ul>
+<li>:Usage: Instance.get_instances()</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_type</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Registering [&#39;{name}&#39;] Instance&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">register</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -199,13 +240,11 @@ to references we don,t want to be garbage collected, for usage later</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-11'>#</a>
       </div>
-      <ul>
-<li>:Usage: Instance.retrieve(&ldquo;name&rdquo;)</li>
-</ul>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">record</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_type</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -214,7 +253,38 @@ to references we don,t want to be garbage collected, for usage later</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-12'>#</a>
       </div>
+      <ul>
+<li>:Usage: Instance.record(&ldquo;name&rdquo;, object)</li>
+<li>Should only be used once per instance</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">register</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">_type</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Registering [&#39;{name}&#39;] Instance&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
       
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">retrieve</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span> <span class="ow">or</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <ul>
+<li>:Usage: Instance.retrieve(&ldquo;name&rdquo;)</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
@@ -225,17 +295,12 @@ to references we don,t want to be garbage collected, for usage later</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-13'>
+  <div class='section' id='section-15'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-13'>#</a>
+        <a class='octothorpe' href='#section-15'>#</a>
       </div>
-      <ul>
-<li>:Usage: Instance.auto(&ldquo;name&rdquo;, object)</li>
-<li>Automatically detects if an instance is active with that name and retrieves it.
-If not present, creates it creates a new one and retrieves it.</li>
-<li>Should only be used once per instance</li>
-</ul>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
@@ -243,12 +308,17 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-14'>
+  <div class='section' id='section-16'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-14'>#</a>
+        <a class='octothorpe' href='#section-16'>#</a>
       </div>
-      
+      <ul>
+<li>:Usage: Instance.auto(&ldquo;name&rdquo;, object)</li>
+<li>Automatically detects if an instance is active with that name and retrieves it.
+If not present, creates it creates a new one and retrieves it.</li>
+<li>Should only be used once per instance</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
@@ -261,38 +331,6 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
-      </div>
-      <ul>
-<li>Run javascript in the webview after load is complete Injects will be logged in the inspector</li>
-<li>:Imports: from Jak.Utils import JavaScript</li>
-<li>:Usage: JavaScript.log(msg)</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JavaScript</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-16'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
-      </div>
-      <ul>
-<li>Outputs console.log() messages in the inspector</li>
-<li>:param message: Log message</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
@@ -301,7 +339,7 @@ If not present, creates it creates a new one and retrieves it.</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;console.log(&#39;JAK log:{message}&#39;);&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JavaScript</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -311,13 +349,14 @@ If not present, creates it creates a new one and retrieves it.</li>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
       <ul>
-<li>Insert custom styles</li>
-<li>:param styles: CSS -&gt; a { color: red; }</li>
+<li>Run javascript in the webview after load is complete Injects will be logged in the inspector</li>
+<li>:Imports: from Jak.Utils import JavaScript</li>
+<li>:Usage: JavaScript.log(msg)</li>
 </ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">css</span><span class="p">(</span><span class="n">styles</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -326,7 +365,38 @@ If not present, creates it creates a new one and retrieves it.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-19'>#</a>
       </div>
+      <ul>
+<li>Outputs console.log() messages in the inspector</li>
+<li>:param message: Log message</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;console.log(&#39;JAK log:{message}&#39;);&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
       
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">css</span><span class="p">(</span><span class="n">styles</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <ul>
+<li>Insert custom styles</li>
+<li>:param styles: CSS -&gt; a { color: red; }</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="n">javascript</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -341,47 +411,16 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-20'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-20'>#</a>
-      </div>
-      <ul>
-<li>Triggers an alert message</li>
-<li>:param message: your popcorn is ready enjoy</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">alert</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-21'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-21'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;alert(&#39;{message}&#39;);&quot;</span><span class="p">)</span>
-        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;JAK Alert:[{message}]&quot;</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-22'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-22'>#</a>
       </div>
-      <ul>
-<li>Send custom JavaScript</li>
-</ul>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">alert</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -390,12 +429,14 @@ If not present, creates it creates a new one and retrieves it.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-23'>#</a>
       </div>
-      
+      <ul>
+<li>Triggers an alert message</li>
+<li>:param message: your popcorn is ready enjoy</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
-        <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{JavaScript.detect_type(script)}&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;alert(&#39;{message}&#39;);&quot;</span><span class="p">)</span>
+        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;JAK Alert:[{message}]&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -404,14 +445,11 @@ If not present, creates it creates a new one and retrieves it.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-24'>#</a>
       </div>
-      <ul>
-<li>Detect if is file or string, convert to string</li>
-<li>:param script: file or string</li>
-</ul>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">script</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -420,7 +458,39 @@ If not present, creates it creates a new one and retrieves it.</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
+      <ul>
+<li>Send custom JavaScript</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{JavaScript.detect_type(script)}&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
       
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <ul>
+<li>Detect if is file or string, convert to string</li>
+<li>:param script: file or string</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">script</span><span class="p">):</span>
@@ -438,6 +508,18 @@ If not present, creates it creates a new one and retrieves it.</li>
             <span class="k">print</span><span class="p">(</span><span class="s2">&quot;JavaScript.send() error, file path or string.&quot;</span><span class="p">)</span>
 
 </pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
