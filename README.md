@@ -1,4 +1,4 @@
-Jade Application Kit ( JAK )
+Just Another Desktop Environment Application Kit ( JAK )
 
 Build web wrappers or hybrid web/desktop applications on Linux, using Python/JavaScript/HTML5/CSS3 powered by [QTWebengine](https://wiki.qt.io/QtWebEngine). Using web technologies we can create beautiful User Interfaces using a diverse amount of available library's and frameworks.
 
@@ -16,6 +16,7 @@ Build web wrappers or hybrid web/desktop applications on Linux, using Python/Jav
 * Prerequisites
 * Python  >= 3.8
 * PySide2 >= 5.14 or PyQt5 >= 5.13
+* desktop-file-utils, for application.desktop creation: optional
 
 ```bash
 git clone https://github.com/codesardine/Jade-Application-Kit.git
@@ -70,6 +71,10 @@ Please read [CONTRIBUTING.md](https://github.com/codesardine/Jade-Application-Ki
 With the command line utility you can create a self-contained web wrapper's in a question of seconds.
 ```
 jak-cli --url https://my-web-app-url  --title Mytitle
+```
+Creating Desktop files in the user directory ( ~/.local/share/applications ).
+```
+jak-cli --url https://slack.com --title Slack --cde --desc "Collaboration software for connected teams."
 ```
 More options.
 ```
@@ -131,7 +136,7 @@ Missing yours?, let me know.
 
 ## Known Issues
  * Does not like NVIDIA cards and as such falls back to software rendering, so if you use one of them you have to do without GPU acceleration. Only PCI devices.
- * As of Python 3.8 PySide2 is not compatible = https://github.com/codesardine/Jade-Application-Kit/issues/67, until this is fixed upstream set your bindings via environment variable or config file.
+ * As of Python 3.8 PySide2 is not compatible = https://github.com/codesardine/Jade-Application-Kit/issues/67, until this is fixed upstream set bindings via environment variable or config file.
 
 ## License
 Jade Application Kit is covered by the GPL license.

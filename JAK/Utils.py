@@ -5,9 +5,43 @@
 
 import os
 import re
+import subprocess
 from pathlib import Path
 
 register = {}
+
+
+def create_desktop_entry(url, title, description, icon):
+    entry_name = title.replace(" ", "-")
+    filename = f"{entry_name}.desktop"
+    user_entry_path = f"{str(Path.home())}/.local/share/applications"
+    # system_entry_path = f"/usr/share/applications/{file}"
+
+    template = f"""
+# Created with JAK url:https://github.com/codesardine/Jade-Application-Kit
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name={title}
+Comment={description}
+Path=/usr/bin
+Exec=jak-cli --url {url} --title {title} --icon {icon} --online true
+Icon={icon}
+Terminal=false
+Categories=Network;
+""".strip()
+
+    with open(f"{user_entry_path}/{filename}", 'w+') as file:
+        file.write(template)
+        print(f"Desktop entry created in:{user_entry_path}/{filename}")
+
+    update_database = "update-desktop-database"
+    if os.path.isfile(f"/usr/bin/{update_database}"):
+        proc = subprocess.run(f"{update_database} {user_entry_path}", shell=True, check=True)
+        if proc.returncode == 0:
+            print("Database updated.")
+    else:
+        print("desktop-file-utils:Not installed\nDatabase not updated.")
 
 
 def bindings():
@@ -68,6 +102,7 @@ def check_url_rules(request_type: str, url_request: str, url_rules: tuple) -> bo
                 print(f"{SCHEME}{rule}:Method:regex")
                 return True
     return False
+
 
 class Instance:
     """
@@ -167,7 +202,6 @@ class JavaScript:
         view = Instance.retrieve("view")
         print(view)
         view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
-
 
     @staticmethod
     def detect_type(script) -> str:
