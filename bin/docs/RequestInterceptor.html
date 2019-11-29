@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>RequestInterceptor.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>RequestInterceptor.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h3>Jade Application Kit</h3>
+<ul>
+<li>https://codesardine.github.io/Jade-Application-Kit</li>
+<li>Vitor Lopes Copyright (c) 2016 - 2019</li>
+<li>https://vitorlopes.me</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span><span class="p">,</span> <span class="n">bindings</span>
+<span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlRequestInterceptor</span><span class="p">,</span> <span class="n">QWebEngineUrlRequestInfo</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlRequestInterceptor</span><span class="p">,</span> <span class="n">QWebEngineUrlRequestInfo</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Interceptor</span><span class="p">(</span><span class="n">QWebEngineUrlRequestInterceptor</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <h3>Imports: from JAK.RequestInterceptor import Interceptor</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <ul>
+<li>:param debug:bool:</li>
+<li>:param block_rules:dict: URL&rsquo;s to block</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">block_rules</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">Interceptor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span> <span class="o">=</span> <span class="n">block_rules</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <ul>
+<li>All method calls to the profile on the main thread will block until execution of this function is finished.</li>
+<li>:param info: QWebEngineUrlRequestInfo</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">interceptRequest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>If we have any URL&rsquo;s in the block dictionary</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">url</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">requestUrl</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;Block&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>block url&rsquo;s</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">info</span><span class="o">.</span><span class="n">block</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Blocked:{url}&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">requestUrl</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
+            <span class="n">resource</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">resourceType</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">resource</span> <span class="o">==</span> <span class="n">QWebEngineUrlRequestInfo</span><span class="o">.</span><span class="n">ResourceType</span><span class="o">.</span><span class="n">ResourceTypeMainFrame</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Intercepted link:{url}&quot;</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">resource</span> <span class="o">!=</span> <span class="n">QWebEngineUrlRequestInfo</span><span class="o">.</span><span class="n">ResourceType</span><span class="o">.</span><span class="n">ResourceTypeMainFrame</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Intercepted resource:{url}&quot;</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

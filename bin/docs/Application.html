@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Application.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>Application.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h3>Jade Application Kit</h3>
+<ul>
+<li>https://codesardine.github.io/Jade-Application-Kit</li>
+<li>Vitor Lopes Copyright (c) 2016 - 2019</li>
+<li>https://vitorlopes.me</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">bindings</span>
+<span class="kn">from</span> <span class="nn">JAK</span> <span class="kn">import</span> <span class="n">__version__</span>
+<span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;PyQt5 Bindings&quot;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QCoreApplication</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;PySide2 Bindings, JAK_PREFERRED_BINDING environment variable not set.&quot;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span><span class="p">,</span> <span class="n">QCoreApplication</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QApplication</span>
+<span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">JWindow</span>
+<span class="kn">from</span> <span class="nn">JAK.WebEngine</span> <span class="kn">import</span> <span class="n">JWebView</span>
+
+
+
+<span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JWebApp</span><span class="p">(</span><span class="n">QApplication</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <h3>Imports: from JAK.Application import JWebApp</h3>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <ul>
+<li>JWebApp(args)</li>
+<li>:arg title:str: Required</li>
+<li>:arg icon:str: Optional</li>
+<li>:arg web_contents:str: Required</li>
+<li>:arg debug:bool: Optional</li>
+<li>:arg transparent:bool: Optional</li>
+<li>:arg online:bool: Optional</li>
+<li>:arg disable_gpu:bool: Optional</li>
+<li>:arg url_rules:dict: Optional</li>
+<li>:arg cookies_path:str: Optional</li>
+<li>:arg user_agent:str: Optional</li>
+<li>:arg custom_css:str: Optional</li>
+<li>:arg custom_js:str: Optional</li>
+<li>:arg toolbar:dict: Optional</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">web_contents</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">online</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                 <span class="n">disable_gpu</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">url_rules</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">cookies_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_css</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_js</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                 <span class="n">toolbar</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_UseHighDpiPixmaps</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_EnableHighDpiScaling</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">debug</span> <span class="ow">or</span> <span class="s2">&quot;--dev&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Adding some command line arguments for testing purposes,
+this MUST BE done before initializing QApplication</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;--remote-debugging-port=9000&quot;</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Debugging Mode On&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
+                <span class="n">debug</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Production Mode On, use (--dev) for debugging&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>Enable/Disable GPU acceleration</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="ow">not</span> <span class="n">disable_gpu</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Virtual machine detection using SystemD</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">detect_virtual_machine</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;systemd-detect-virt&quot;</span><span class="p">],</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span>
+            <span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>FIXME find a more reliable way of detecting NVIDIA cards</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">detect_nvidia_pci</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span>
+                <span class="s2">&quot;lspci | grep -i --color &#39;vga\|3d\|2d&#39;&quot;</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">,</span>
+                <span class="n">shell</span><span class="o">=</span><span class="bp">True</span>
+            <span class="p">)</span>
+            <span class="n">virtual</span> <span class="o">=</span> <span class="n">detect_virtual_machine</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="n">nvidia_pci</span> <span class="o">=</span> <span class="n">detect_nvidia_pci</span><span class="o">.</span><span class="n">communicate</span><span class="p">()</span>
+            <span class="n">nvidia_pci</span> <span class="o">=</span> <span class="n">nvidia_pci</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">def</span> <span class="nf">disable_opengl</span><span class="p">():</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Disable GPU acceleration
+https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">QCoreApplication</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">AA_UseSoftwareOpenGL</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">disable_gpu</span><span class="p">:</span>
+            <span class="n">disable_opengl</span><span class="p">()</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Disabling GPU, Software Rendering explicitly activated&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">virtual</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Detect virtual machine</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Virtual machine detected:{virtual}&quot;</span><span class="p">)</span>
+                <span class="n">disable_opengl</span><span class="p">()</span>
+
+            <span class="k">elif</span> <span class="n">nvidia_pci</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>Detect NVIDIA cards</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="k">if</span> <span class="s2">&quot;nvidia&quot;</span> <span class="ow">in</span> <span class="n">nvidia_pci</span><span class="p">:</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;NVIDIA detected:Known bug - kernel rejected pushbuf&quot;</span><span class="p">)</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Falling back to Software Rendering&quot;</span><span class="p">)</span>
+                    <span class="n">disable_opengl</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Virtual Machine:{virtual[-1]}&quot;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">JWebApp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">web_contents</span> <span class="o">=</span> <span class="n">web_contents</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span> <span class="o">=</span> <span class="n">transparent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="o">=</span> <span class="n">online</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span> <span class="o">=</span> <span class="n">toolbar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span> <span class="o">=</span> <span class="n">url_rules</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span> <span class="o">=</span> <span class="n">cookies_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">user_agent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span> <span class="o">=</span> <span class="n">custom_css</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span> <span class="o">=</span> <span class="n">custom_js</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Desktop file must match application name in lowercase with dashes instead of white space.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">setDesktopFileName</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{title.lower().replace(&#39; &#39;, &#39;-&#39;)}.desktop&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setOrganizationDomain</span><span class="p">(</span><span class="s2">&quot;https://codesardine.github.io/Jade-Application-Kit&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setApplicationVersion</span><span class="p">(</span><span class="n">__version__</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlScheme</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlScheme</span>
+            <span class="n">QWebEngineUrlScheme</span><span class="o">.</span><span class="n">registerScheme</span><span class="p">(</span><span class="n">QWebEngineUrlScheme</span><span class="p">(</span><span class="s2">&quot;ipc&quot;</span><span class="o">.</span><span class="n">encode</span><span class="p">()))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Instance</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">,</span> <span class="n">JWebView</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">web_contents</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span><span class="p">,</span>
+                                         <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span><span class="p">))</span>
+
+        <span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">auto</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">,</span> <span class="n">JWindow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">transparent</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">))</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">default_size</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">),</span> <span class="n">win</span><span class="o">.</span><span class="n">default_size</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">))</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="n">win</span><span class="o">.</span><span class="n">window_original_position</span> <span class="o">=</span> <span class="n">win</span><span class="o">.</span><span class="n">frameGeometry</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">Instance</span><span class="o">.</span><span class="n">get_instances</span><span class="p">())</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exec_</span><span class="p">()</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
