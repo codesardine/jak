@@ -122,10 +122,20 @@ class JWebApp(QApplication):
 
     def run(self):
         Instance.record("view", JWebView(self.title, self.icon, self.web_contents, self.debug, self.transparent,
-                                         self.online, self.url_rules, self.cookies_path, self.user_agent,
-                                         self.custom_css, self.custom_js))
+                                         self.online, self.url_rules, self.cookies_path, self.user_agent))
 
-        win = Instance.auto("win", JWindow(self.debug, self.online, self.title, self.icon, self.transparent, self.toolbar))
+        if self.custom_css or self.custom_js:
+            from JAK.Utils import JavaScript
+            if self.custom_css:
+                JavaScript.css(self.custom_css)
+                print("Custom CSS detected")
+
+            if self.custom_js:
+                JavaScript.send(self.custom_js)
+                print("Custom JavaScript detected")
+
+        win = Instance.auto("win", JWindow(self.debug, self.online, self.title, self.icon, self.transparent,
+                                           self.toolbar))
         win.resize(win.default_size("width"), win.default_size("height"))
         win.show()
         win.window_original_position = win.frameGeometry()

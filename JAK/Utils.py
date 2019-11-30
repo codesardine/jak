@@ -199,9 +199,13 @@ class JavaScript:
         """
         * Send custom JavaScript
         """
-        view = Instance.retrieve("view")
-        print(view)
-        view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
+        try:
+            view = Instance.retrieve("view")
+            view.page().loadFinished.connect(
+                lambda: view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
+            )
+        except Exception as err:
+            print(err)
 
     @staticmethod
     def detect_type(script) -> str:
@@ -219,6 +223,3 @@ class JavaScript:
             return True
         elif isinstance(script, str):
             return script
-
-        else:
-            print("JavaScript.send() error, file path or string.")

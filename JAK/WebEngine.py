@@ -3,9 +3,8 @@
 # * Vitor Lopes Copyright (c) 2016 - 2019
 # * https://vitorlopes.me
 import os
-import time
 from functools import lru_cache as cache
-from JAK.Utils import JavaScript, check_url_rules, get_current_path, bindings
+from JAK.Utils import check_url_rules, get_current_path, bindings
 from JAK.RequestInterceptor import Interceptor
 if bindings() == "PyQt5":
     from PyQt5.QtCore import QUrl, Qt
@@ -178,7 +177,7 @@ class JWebPage(QWebEnginePage):
 class JWebView(QWebEngineView):
     """ #### Imports: from JAK.WebEngine import JWebView """
     def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False, url_rules="",
-                 cookies_path="", user_agent="", custom_css="", custom_js=""):
+                 cookies_path="", user_agent=""):
         """
         * :param title:str
         * :param icon:str
@@ -190,8 +189,6 @@ class JWebView(QWebEngineView):
         * :param url_rules:dict
         * :param cookies_path:str
         * :param user_agent:str
-        * :param custom_css:str
-        * :param custom_js:str
         * :param toolbar:dict
         """
         super(JWebView, self).__init__()
@@ -202,17 +199,7 @@ class JWebView(QWebEngineView):
         self.profile = QWebEngineProfile.defaultProfile()
         self.webpage = JWebPage(self.profile, self, icon, debug, online, cookies_path, url_rules)
         self.setPage(self.webpage)
-        self.page().loadFinished.connect(self._page_load_finish)
         #QWebEnginePage.setDevToolsPage(self.page)
-        if custom_css:
-            # Check for custom CSS
-            self.custom_css = custom_css
-            print("Custom CSS detected")
-
-        if custom_js:
-            # Check for custom JavaScript
-            self.custom_js = custom_js
-            print("Custom JavaScript detected")
 
         if url_rules:
             # Check for URL rules
@@ -286,24 +273,7 @@ class JWebView(QWebEngineView):
         print(self.profile.httpUserAgent())
         validate_url(self, web_contents)
 
-    def _page_load_finish(self) -> None:
-        result = time.localtime(time.time())
-        print(f"Document Ready in: {result.tm_sec} seconds")
-        try:
-            if self.custom_css:
-                print("Custom CSS loaded")
-                JavaScript.css(self.custom_css)
-        except AttributeError:
-            pass
-
-        try:
-            if self.custom_js:
-                print("Custom JavaScript loaded")
-                JavaScript.send(self.custom_js)
-        except AttributeError:
-            pass
-
-    def _download_requested(self, download_item)-> None:
+    def _download_requested(self, download_item) -> None:
         """
         * If a download is requested call a save file dialog
         * :param download_item: file to be downloaded
