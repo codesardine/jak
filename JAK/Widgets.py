@@ -101,7 +101,8 @@ class JWindow(QMainWindow):
 
     def _set_icons(self):
         self.setWindowIcon(self.icon)
-        self.system_tray.setIcon(self.icon)
+        if self.online:
+            self.system_tray.setIcon(self.icon)
 
     def _icon_changed(self):
         if not self.view.icon().isNull():
