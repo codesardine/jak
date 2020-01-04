@@ -3,7 +3,7 @@ from JAK.Application import JWebApp
 
 
 def office():
-    # v2.0.1
+    # v2.0.3
     start = "https://office.live.com"
     icon = "/usr/share/pixmaps/ms-office.png"
 
