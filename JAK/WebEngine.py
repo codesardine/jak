@@ -11,9 +11,9 @@ if bindings() == "PyQt5":
     from PyQt5.QtWebEngineCore import QWebEngineUrlSchemeHandler
     from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
 else:
-    from Pyside2.QtCore import QUrl, Qt
-    from Pyside2.QtWebEngineCore import QWebEngineUrlSchemeHandler
-    from Pyside2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
+    from PySide2.QtCore import QUrl, Qt
+    from PySide2.QtWebEngineCore import QWebEngineUrlSchemeHandler
+    from PySide2.QtWebEngineWidgets import QWebEngineView, QWebEngineProfile, QWebEnginePage, QWebEngineSettings
 
 
 @cache(maxsize=5)
