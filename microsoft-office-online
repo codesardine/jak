@@ -3,7 +3,7 @@ from JAK.Application import JWebApp
 
 
 def office():
-    # v2.0.0
+    # v2.0.1
     start = "https://office.live.com"
     icon = "/usr/share/pixmaps/ms-office.png"
 
@@ -11,12 +11,18 @@ def office():
               "banner.advertising.com", "cdn.bannerflow.com", "acdn.adnxs.com"
 
     tab_only_allow = "[a-z]*\.live.com", "www.office.com", "forms.office.com", "onedrive.", "d.docs.live.",\
-                     "www.onenote.", "outlook.", "www.outlook.", "sway.office.com", "1drv.ms/", "to-do.microsoft.com/",\
-                     "[a-z]*\.officeapps.live", "www.dropbox.com", "login.microsoftonline.com/", "onenote",\
-                     "sway.com", "[a-z]*\.flow\.", "flow.", "[a-z-]+.sharepoint.com.sharepoint.com", "login.windows.net"
+                     "www.onenote.", "outlook.", "www.outlook.", "sway.office.com", "1drv.ms/",\
+                     "to-do.microsoft.com/", "[a-z]*\.officeapps.live", "www.dropbox.com", \
+                     "login.microsoftonline.com/", "onenote", "sway.com", "[a-z]*\.flow\.", "flow.",\
+                     "[a-z-]+.sharepoint.com", "login.windows.net", "[a-z-]+.onmicrosoft.com", \
+                     "teams.microsoft.com", "aka.ms", "myanalytics.microsoft.com/",\
+                     "https://tasks.office.com", "app.powerbi.com/", "web.powerapps.com/",\
+                     "security.microsoft.com/", "web.microsoftstream.com/", "whiteboard.microsoft.com/",\
+                     "www.yammer.com/"
 
-    css_hide = ".hero-section, .tiles-section, a[href*='skype'], a[href*='bing'], a[href*='msn'], \
-               a[href*='https://g.live.com'], ._14PqNbws6gkP3kvU8nzH0G {display:none !important;}"
+    css_hide = "a[href*='skype'], a[href*='bing'], a[href*='msn'], \
+               a[href*='https://g.live.com'] {display:none !important;} \
+               "
 
     deny = "account.microsoft", "support", "web.skype", "www.microsoft", "store.office.com", "msn.com", "bing.",\
            "products.office", "go.microsoft.com", "privacy."
@@ -37,7 +43,8 @@ def office():
               {"name": "Flow", "url": "https://flow.microsoft.com"},\
               {"name": "Sway", "url": "https://sway.office.com"},\
               {"name": "OneDrive", "url": "https://onedrive.live.com"},\
-              {"name": "DropBox", "url": "https://www.dropbox.com"}
+              {"name": "DropBox", "url": "https://www.dropbox.com"},\
+              {"name": "Teams", "url": "https://teams.microsoft.com"}
 
     webapp = JWebApp(title="Microsoft Office Online", icon=icon, web_contents=start, online=True,
                      cookies_path="microsoft", url_rules=rules, custom_css=css_hide, toolbar=toolbar)
