@@ -24,16 +24,6 @@ class Communication:
     def activate(url) -> None:
         url = url.split(':')[1]
         if url.endswith("()"):
-            try:
-                view = Instance.retrieve("view")
-                # FIXME This won't allow to pass arguments to the method
-                method = Bind.__dict__[url.replace("()", "")]
-                method(view)
-            except KeyError as error:
-                print(error)
-
-            except NameError as error:
-                print(error)
-
+            eval(f"Bind.{url}")
         else:
             Bind.listen(url)
