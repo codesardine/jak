@@ -84,14 +84,9 @@ class JWebPage(QWebEnginePage):
 
     def _dialog_open_in_browser(self) -> None:
         """ Opens a dialog to confirm if user wants to open url in external browser """
-        try:
-            from Widgets import JCancelConfirmDialog
-        except ImportError:
-            from JAK.Widgets import JCancelConfirmDialog
-
+        from JAK.Widgets import JCancelConfirmDialog
         msg = "Open In Your Browser"
-
-        JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
+        JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser())
 
     @cache(maxsize=10)
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:

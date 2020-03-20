@@ -22,7 +22,8 @@ class Communication:
     """
     @staticmethod
     def activate(url) -> None:
-        url = url.split(':')[1]
+        if ":" in url:
+            url = url.split(':')[1]
         if url.endswith("()"):
             eval(f"Bind.{url}")
         else:

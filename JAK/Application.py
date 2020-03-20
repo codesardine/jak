@@ -20,9 +20,7 @@ from JAK.Widgets import JWindow
 from JAK.WebEngine import JWebView
 
 
-
 time.time()
-
 
 
 class JWebApp(QApplication):
@@ -30,7 +28,7 @@ class JWebApp(QApplication):
 
     def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False,
                  disable_gpu=False, url_rules="", cookies_path="", user_agent="", custom_css="", custom_js="",
-                 toolbar=""):
+                 toolbar="", menus=""):
         """
         * JWebApp(args)
         * :arg title:str: Required
@@ -103,6 +101,7 @@ class JWebApp(QApplication):
         self.transparent = transparent
         self.online = online
         self.toolbar = toolbar
+        self.menus = menus
         self.url_rules = url_rules
         self.cookies_path = cookies_path
         self.user_agent = user_agent
@@ -135,7 +134,7 @@ class JWebApp(QApplication):
                 print("Custom JavaScript detected")
 
         win = Instance.auto("win", JWindow(self.debug, self.online, self.title, self.icon, self.transparent,
-                                           self.toolbar))
+                                           self.toolbar, self.menus))
         win.resize(win.default_size("width"), win.default_size("height"))
         win.show()
         win.window_original_position = win.frameGeometry()
