@@ -144,7 +144,7 @@ class JWebPage(QWebEnginePage):
             self.setFeaturePermission(security_origin, feature, self.PermissionGrantedByUser)
         def deny_permission():
             self.setFeaturePermission(security_origin, feature, self.PermissionDeniedByUser)
-            
+
         if feature == self.Notifications:
             grant_permission()
         elif feature == self.MediaAudioVideoCapture and self.config["MediaAudioVideoCapture"]:
@@ -229,20 +229,54 @@ class JWebView(QWebEngineView):
             self.setStyleSheet("background:transparent;")
             print("Transparency detected, make sure you set [ body {background:transparent;} ]")
 
-        settings = self.settings()
         # * Set Engine options
-        # * TODO: allow to set settings per application by passing a list
-        settings.setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
-        settings.setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
-        settings.setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        settings.setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
-        settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-        settings.setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
-        settings.setAttribute(QWebEngineSettings.SpatialNavigationEnabled, True)
-        settings.setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
-        settings.setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
+        if self.config["JavascriptCanPaste"]:
+            self.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, False)
+
+        if self.config["PlaybackRequiresUserGesture"]:
+            self.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
+
+        if self.config["FullScreenSupportEnabled"]:
+            self.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, False)
+
+        if self.config["AllowWindowActivationFromJavaScript"]:
+            self.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, False)
+
+        if self.config["LocalContentCanAccessRemoteUrls"]:
+            self.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, False)
+
+        if self.config["JavascriptCanAccessClipboard"]:
+            self.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, False)
+
+        if self.config["SpatialNavigationEnabled"]:
+            self.settings().setAttribute(QWebEngineSettings.SpatialNavigationEnabled, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.SpatialNavigationEnabled, False)
+
+        if self.config["TouchIconsEnabled"]:
+            self.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, False)
+
+        if self.config["FocusOnNavigationEnabled"]:
+            self.settings().setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
+        else:
+            self.settings().setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, False)
+
         if config["online"]:
-            settings.setAttribute(QWebEngineSettings.DnsPrefetchEnabled, True)
+            self.settings().setAttribute(QWebEngineSettings.DnsPrefetchEnabled, True)
             print("Engine online (IPC) Disabled")
             self.page().profile().downloadRequested.connect(self._download_requested)
 
@@ -261,7 +295,7 @@ class JWebView(QWebEngineView):
             self.profile.setPersistentStoragePath(_cookies_path)
             print(f"Cookies PATH:{_cookies_path}")
         else:
-            settings.setAttribute(QWebEngineSettings.ShowScrollBars, False)
+            self.settings().setAttribute(QWebEngineSettings.ShowScrollBars, False)
             print("Engine interprocess communication (IPC) up and running:")
             self._ipc_scheme_handler = IpcSchemeHandler()
             self.profile.installUrlSchemeHandler('ipc'.encode(), self._ipc_scheme_handler)

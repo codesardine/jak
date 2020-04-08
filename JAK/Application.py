@@ -44,7 +44,16 @@ class JWebApp(QApplication):
         "Geolocation": False,
         "MouseLock": False,
         "DesktopVideoCapture": False,
-        "DesktopAudioVideoCapture": False
+        "DesktopAudioVideoCapture": False,
+        "JavascriptCanPaste": True,
+        "PlaybackRequiresUserGesture": False,
+        "FullScreenSupportEnabled": True,
+        "AllowWindowActivationFromJavaScript": True,
+        "LocalContentCanAccessRemoteUrls": True,
+        "JavascriptCanAccessClipboard": True,
+        "SpatialNavigationEnabled": True,
+        "TouchIconsEnabled": True,
+        "FocusOnNavigationEnabled": True
     }
 
     def __init__(self, config=config, **app_config):
