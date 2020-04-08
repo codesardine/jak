@@ -31,10 +31,13 @@ class Interceptor(QWebEngineUrlRequestInterceptor):
         if self.config["url_rules"] is not None:
             # If we have any URL's in the block dictionary
             url = info.requestUrl().toString()
-            if check_url_rules("Block", url, self.config["url_rules"]["block"]):
-                # block url's
-                info.block(True)
-                print(f"Blocked:{url}")
+            try:
+                if check_url_rules("Block", url, self.config["url_rules"]["block"]):
+                    # block url's
+                    info.block(True)
+                    print(f"Blocked:{url}")
+            except KeyError:
+                pass
 
         if self.config["debug"]:
             url = info.requestUrl().toString()
