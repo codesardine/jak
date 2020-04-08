@@ -139,8 +139,30 @@ class JWebPage(QWebEnginePage):
         return True
 
     def _on_feature_permission_requested(self, security_origin, feature):
-        if feature is self.Notifications:
+
+        def grant_permission():
             self.setFeaturePermission(security_origin, feature, self.PermissionGrantedByUser)
+        def deny_permission():
+            self.setFeaturePermission(security_origin, feature, self.PermissionDeniedByUser)
+            
+        if feature == self.Notifications:
+            grant_permission()
+        elif feature == self.MediaAudioVideoCapture and self.config["MediaAudioVideoCapture"]:
+            grant_permission()
+        elif feature == self.MediaVideoCapture and self.config["MediaVideoCapture"]:
+            grant_permission()
+        elif feature == self.MediaAudioCapture and self.config["MediaAudioCapture"]:
+            grant_permission()
+        elif feature == self.Geolocation and self.config["Geolocation"]:
+            grant_permission()
+        elif feature == self.MouseLock and self.config["MouseLock"]:
+            grant_permission()
+        elif feature == self.DesktopVideoCapture and self.config["DesktopVideoCapture"]:
+            grant_permission()
+        elif feature == self.DesktopAudioVideoCapture and self.config["DesktopAudioVideoCapture"]:
+            grant_permission()
+        else:
+            deny_permission()
 
     def open_window(self, url):
         """ Open a New Window"""

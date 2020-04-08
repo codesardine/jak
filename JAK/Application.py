@@ -37,7 +37,14 @@ class JWebApp(QApplication):
         "custom_css": None,
         "custom_js": None,
         "toolbar": None,
-        "menus": None
+        "menus": None,
+        "MediaAudioVideoCapture": False,
+        "MediaVideoCapture": False,
+        "MediaAudioCapture": False,
+        "Geolocation": False,
+        "MouseLock": False,
+        "DesktopVideoCapture": False,
+        "DesktopAudioVideoCapture": False
     }
 
     def __init__(self, config=config, **app_config):
