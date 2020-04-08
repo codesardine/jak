@@ -27,7 +27,8 @@ class Interceptor(QWebEngineUrlRequestInterceptor):
         * All method calls to the profile on the main thread will block until execution of this function is finished.
         * :param info: QWebEngineUrlRequestInfo
         """
-        if self.config["url_rules"]["block"]:
+
+        if self.config["url_rules"] is not None:
             # If we have any URL's in the block dictionary
             url = info.requestUrl().toString()
             if check_url_rules("Block", url, self.config["url_rules"]["block"]):
