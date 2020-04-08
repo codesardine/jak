@@ -4,9 +4,10 @@
 # * https://vitorlopes.me
 
 import sys
-import time
 import subprocess
 from JAK.Utils import Instance, bindings
+from JAK.Widgets import JWindow
+from JAK.WebEngine import JWebView
 from JAK import __version__
 if bindings() == "PyQt5":
     print("PyQt5 Bindings")
@@ -16,19 +17,31 @@ else:
     print("PySide2 Bindings, JAK_PREFERRED_BINDING environment variable not set.")
     from PySide2.QtCore import Qt, QCoreApplication
     from PySide2.QtWidgets import QApplication
-from JAK.Widgets import JWindow
-from JAK.WebEngine import JWebView
-
-
-time.time()
 
 
 class JWebApp(QApplication):
     #### Imports: from JAK.Application import JWebApp
 
-    def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False,
-                 disable_gpu=False, url_rules="", cookies_path="", user_agent="", custom_css="", custom_js="",
-                 toolbar="", menus=""):
+    config = {
+        "title": "Jade Application Kit",
+        "icon": None,
+        "web_contents": "https://codesardine.github.io/Jade-Application-Kit",
+        "debug": False,
+        "debug_port": "9000",
+        "transparent": False,
+        "online": False,
+        "disable_gpu": False,
+        "url_rules": None,
+        "cookies_path": None,
+        "user_agent": None,
+        "custom_css": None,
+        "custom_js": None,
+        "toolbar": None,
+        "menus": None
+    }
+
+    def __init__(self, config=config, **app_config):
+        self.config = config
         """
         * JWebApp(args)
         * :arg title:str: Required
@@ -45,19 +58,22 @@ class JWebApp(QApplication):
         * :arg custom_js:str: Optional
         * :arg toolbar:dict: Optional
         """
+        for key, value in app_config.items():
+            config[key] = value
+
         QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
         QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
-        if debug or "--dev" in sys.argv:
+        if config["debug"] or "--dev" in sys.argv:
             # Adding some command line arguments for testing purposes,
             # this MUST BE done before initializing QApplication
-            sys.argv.append("--remote-debugging-port=9000")
+            sys.argv.append(f"--remote-debugging-port={config['debug_port']}")
             print("Debugging Mode On")
-            if not debug:
-                debug = True
+            if not config["debug"]:
+                config["debug"] = True
         else:
             print("Production Mode On, use (--dev) for debugging")
         # Enable/Disable GPU acceleration
-        if not disable_gpu:
+        if not config["disable_gpu"]:
             # Virtual machine detection using SystemD
             detect_virtual_machine = subprocess.Popen(
                 ["systemd-detect-virt"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
@@ -76,7 +92,7 @@ class JWebApp(QApplication):
             # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307
             QCoreApplication.setAttribute(Qt.AA_UseSoftwareOpenGL, True)
 
-        if disable_gpu:
+        if config["disable_gpu"]:
             disable_opengl()
             print("Disabling GPU, Software Rendering explicitly activated")
         else:
@@ -95,24 +111,11 @@ class JWebApp(QApplication):
                 print(f"Virtual Machine:{virtual[-1]}")
 
         super(JWebApp, self).__init__(sys.argv)
-        self.title = title
-        self.web_contents = web_contents
-        self.debug = debug
-        self.transparent = transparent
-        self.online = online
-        self.toolbar = toolbar
-        self.menus = menus
-        self.url_rules = url_rules
-        self.cookies_path = cookies_path
-        self.user_agent = user_agent
-        self.custom_css = custom_css
-        self.custom_js = custom_js
-        self.icon = icon
         # Desktop file must match application name in lowercase with dashes instead of white space.
-        self.setDesktopFileName(f"{title.lower().replace(' ', '-')}.desktop")
-        self.setOrganizationDomain("https://codesardine.github.io/Jade-Application-Kit")
+        self.setDesktopFileName(f"{config['title'].lower().replace(' ', '-')}.desktop")
+        self.setOrganizationDomain(config['web_contents'])
         self.setApplicationVersion(__version__)
-        if not self.online:
+        if not config['online']:
             if bindings() == "PyQt5":
                 from PyQt5.QtWebEngineCore import QWebEngineUrlScheme
             else:
@@ -120,26 +123,21 @@ class JWebApp(QApplication):
             QWebEngineUrlScheme.registerScheme(QWebEngineUrlScheme("ipc".encode()))
 
     def run(self):
-        Instance.record("view", JWebView(self.title, self.icon, self.web_contents, self.debug, self.transparent,
-                                         self.online, self.url_rules, self.cookies_path, self.user_agent))
+        Instance.record("view", JWebView(self.config))
 
-        if self.custom_css or self.custom_js:
+        if self.config["custom_css"]:
             from JAK.Utils import JavaScript
-            if self.custom_css:
-                JavaScript.css(self.custom_css)
-                print("Custom CSS detected")
+            JavaScript.css(self.config["custom_css"])
+            print("Custom CSS detected")
 
-            if self.custom_js:
-                JavaScript.send(self.custom_js)
-                print("Custom JavaScript detected")
+        if self.config["custom_js"]:
+            from JAK.Utils import JavaScript
+            JavaScript.send(self.config["custom_js"])
+            print("Custom JavaScript detected")
 
-        win = Instance.auto("win", JWindow(self.debug, self.online, self.title, self.icon, self.transparent,
-                                           self.toolbar, self.menus))
+        win = Instance.auto("win", JWindow(self.config))
         win.resize(win.default_size("width"), win.default_size("height"))
         win.show()
         win.window_original_position = win.frameGeometry()
-        if self.debug:
-            print(Instance.get_instances())
-
         result = self.exec_()
         sys.exit(result)

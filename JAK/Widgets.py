@@ -10,12 +10,13 @@ from JAK.KeyBindings import KeyPress
 if bindings() == "PyQt5":
     from PyQt5.QtCore import Qt, QSize, QUrl
     from PyQt5.QtGui import QIcon
-    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget, QAction, QToolBar, QMenu, QMenuBar, QFileDialog
+    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget,\
+        QAction, QToolBar, QMenu, QMenuBar, QFileDialog
 else:
     from PySide2.QtCore import Qt, QSize, QUrl
     from PySide2.QtGui import QIcon
-    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget
-    from PySide2.QtWidgets import QAction, QToolBar, QMenu, QMenuBar, QFileDialog
+    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget,\
+        QAction, QToolBar, QMenu, QMenuBar, QFileDialog
 
 
 class SystemTrayIcon(QSystemTrayIcon):
@@ -39,7 +40,7 @@ class SystemTrayIcon(QSystemTrayIcon):
 
 class JWindow(QMainWindow):
     """ #### Imports: from JAK.Widgets import JWindow """
-    def __init__(self, debug=False, online="", title="Jade Application Kit", icon=False, transparent=False, toolbar="", menus="", parent=None):
+    def __init__(self, config):
         """
         * :param title:str
         * :param icon:str
@@ -49,15 +50,13 @@ class JWindow(QMainWindow):
         """
 
         QMainWindow.__init__(self)
-        self.online = online
-        self.debug = debug
-        self.title = title
+        self.config = config
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
-        self.setWindowTitle(title)
-        if icon and os.path.isfile(icon):
-            self.icon = QIcon(icon)
+        self.setWindowTitle(config["title"])
+        if config["icon"] and os.path.isfile(config["icon"]):
+            self.icon = QIcon(config["icon"])
         else:
             # TODO detect active icon theme
             QIcon.setThemeName("Papirus-Maia")
@@ -71,30 +70,29 @@ class JWindow(QMainWindow):
             self.view = view
             self.setCentralWidget(self.view)
             self.view.iconChanged.connect(self._icon_changed)
-            if self.online:
+            if config["online"]:
                 self.view.page().titleChanged.connect(self.status_message)
 
-        if transparent:
+        if config["transparent"]:
             # Set Background Transparency
             self.setAttribute(Qt.WA_TranslucentBackground, True)
             self.setAutoFillBackground(True)
 
-        if self.online:
+        if config["online"]:
             # Do not display toolbar or system tray offline
-            if toolbar:
-                self.toolbar = JToolbar(self, toolbar, self.icon, title)
+            if config["toolbar"]:
+                self.toolbar = JToolbar(self, config["toolbar"], self.icon, config["title"])
                 self.addToolBar(self.toolbar)
-            # self.addToolBar(Qt.RightToolBarArea, self.bar)
-            self.system_tray = SystemTrayIcon(self.icon, self, self.title)
+            self.system_tray = SystemTrayIcon(self.icon, self, config["title"])
             self._set_icons()
-            self.setMenuBar(Menu(self, menus))
+            self.setMenuBar(Menu(self, config["menus"]))
 
-        if self.debug:
+        if config["debug"]:
             dock = Inspector("Dev Tools", self)
             self.addDockWidget(Qt.BottomDockWidgetArea, dock)
-           # self.resizeDocks(dock, 200, Qt.Horizontal)
             from JAK.WebEngine import JWebView
-            inspector_view = JWebView(web_contents="http://127.0.0.1:9000")
+            config["web_contents"] = "http://127.0.0.1:9000"
+            inspector_view = JWebView(config)
             dock.setWidget(inspector_view)
 
     def keyPressEvent(self, event):
@@ -102,7 +100,7 @@ class JWindow(QMainWindow):
 
     def _set_icons(self):
         self.setWindowIcon(self.icon)
-        if self.online:
+        if self.config["online"]:
             self.system_tray.setIcon(self.icon)
 
     def _icon_changed(self):
@@ -162,29 +160,25 @@ class JWindow(QMainWindow):
 
 class JCancelConfirmDialog(QWidget):
     """ #### Imports: from JAK.Widgets import JCancelConfirmDialog """
-    def __init__(self, parent, window_title, msg, on_confirm):
+    def __init__(self, parent, title, msg, on_confirm):
         """
         * :param parent: Parent window
         * :param window_title:str
         * :param msg:str
-        * :param on_confirm: Function to execute omit parenthesis ()
+        * :param on_confirm: Function to execute use parenthesis ()
         """
-        self.on_confirm = on_confirm
         super().__init__(parent)
-        reply = QMessageBox.question(self, window_title, msg, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        reply = QMessageBox.question(self, title, msg, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         self.setAttribute(Qt.WA_DeleteOnClose, True)
-        self.setWindowTitle(window_title)
+        self.setWindowTitle(title)
         view = Instance.retrieve("view")
         if view:
             self.setWindowIcon(view.icon())
         if reply == QMessageBox.Yes:
-            self.confirm()
+            on_confirm()
         else:
             self.destroy()
         self.show()
-
-    def confirm(self):
-        self.on_confirm
 
 
 class JToolbar(QToolBar):
@@ -229,15 +223,15 @@ class Menu(QMenuBar):
     def __init__(self, parent, menus):
 
         super(Menu, self).__init__(parent)
-        print(menus)
-        for menu in menus:
-            if type(menu) is dict:
-                title = self.addMenu(menu["title"])
-                for entry in menu["entries"]:
-                    submenu = QAction(entry[0], self)
-                    title.addAction(submenu)
-                    print(entry[1])
-                    submenu.triggered.connect(self._on_click(entry[1]))
+        if menus:
+            for menu in menus:
+                if type(menu) is dict:
+                    title = self.addMenu(menu["title"])
+                    for entry in menu["entries"]:
+                        submenu = QAction(entry[0], self)
+                        title.addAction(submenu)
+                        print(entry[1])
+                        submenu.triggered.connect(self._on_click(entry[1]))
 
         help_menu = {"title": "Keyboard Shortcuts", "text": """
                 <body style='margin-right:46px;'><b>
@@ -343,5 +337,5 @@ class Inspector(QDockWidget):
         super().__init__(title, parent)
         self.setObjectName("Dev Tools")
         self.setAllowedAreas(
-            Qt.LeftDockWidgetArea  | Qt.RightDockWidgetArea | Qt.BottomDockWidgetArea
+            Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea | Qt.BottomDockWidgetArea
             )

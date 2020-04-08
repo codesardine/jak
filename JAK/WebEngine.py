@@ -52,16 +52,17 @@ class IpcSchemeHandler(QWebEngineUrlSchemeHandler):
     def requestStarted(self, request):
         url = request.requestUrl().toString()
         if url.startswith("ipc:"):
-                # * Link's that starts with [ ipc:somefunction() ] trigger's the two way communication system bettwen HTML
-                # and Python, only if online is set to false
-                from JAK.IPC import Communication
-                Communication().activate(url)
-                return 
+            # * Link's that starts with [ ipc:somefunction() ] trigger's the two way communication system between
+            # HTML and Python, only if online is set to false
+            from JAK.IPC import Communication
+            Communication().activate(url)
+            return
 
 
 class JWebPage(QWebEnginePage):
     """ #### Imports: from JAK.WebEngine import JWebPage """
-    def __init__(self, profile, webview, icon, debug, online, cookies_path, url_rules="", ):
+    def __init__(self, profile, webview, config):
+        self.config = config
         """
         * :param icon: str
         * :param debug: bool
@@ -69,11 +70,6 @@ class JWebPage(QWebEnginePage):
         * :param url_rules: dict
         """
         super(JWebPage, self).__init__(profile, webview)
-        self.debug = debug
-        self.online = online
-        self.url_rules = url_rules
-        self.icon = icon
-        self.cookies_path = cookies_path
         self.featurePermissionRequested.connect(self._on_feature_permission_requested)
 
     def _open_in_browser(self) -> None:
@@ -86,7 +82,7 @@ class JWebPage(QWebEnginePage):
         """ Opens a dialog to confirm if user wants to open url in external browser """
         from JAK.Widgets import JCancelConfirmDialog
         msg = "Open In Your Browser"
-        JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser())
+        JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
 
     @cache(maxsize=10)
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
@@ -97,24 +93,25 @@ class JWebPage(QWebEnginePage):
         * :param is_main_frame:bool
         """
         self.url = url.toString()
-        self.page = JWebPage(self.profile(), self.view(), self.icon, self.debug, self.online, self.url_rules)
+        self.page = JWebPage(self.profile(), self.view(), self.config)
         # Redirect new tabs to same window
         self.page.urlChanged.connect(self._on_url_changed)
+        dev_tools = f"http://127.0.0.1:{self.config['debug_port']}/"
 
-        if self.online:
+        if self.config["online"] and self.url != dev_tools:
             if _type == QWebEnginePage.WebWindowType.WebBrowserTab:
-                if self.url_rules and self.online:
+                if self.config["url_rules"]:
                     # Check for URL rules on new tabs
-                    if self.url.startswith(self.url_rules["WebBrowserTab"]):
+                    if self.url.startswith(self.config["url_rules"]["WebBrowserTab"]):
                         self.open_window(self.url)
                         return False
-                    elif check_url_rules("WebBrowserTab", self.url, self.url_rules):
+                    elif check_url_rules("WebBrowserTab", self.url, self.config["url_rules"]):
                         print(f"Redirecting WebBrowserTab^ to same window")
                         return True
                     else:
                         print(f"Deny WebBrowserTab:{self.url}")
                         # check against WebBrowserWindow list to avoid duplicate dialogs
-                        if not check_url_rules("WebBrowserWindow", self.url, self.url_rules):
+                        if not check_url_rules("WebBrowserWindow", self.url, self.config["url_rules"]):
                             self._dialog_open_in_browser()
                         return False
                 else:
@@ -125,9 +122,9 @@ class JWebPage(QWebEnginePage):
                 return True
 
             elif _type == QWebEnginePage.WebBrowserWindow:
-                if self.url_rules and self.online:
+                if self.config["url_rules"] and self.config["online"]:
                     # Check URL rules on new windows
-                    if check_url_rules("WebBrowserWindow", self.url, self.url_rules):
+                    if check_url_rules("WebBrowserWindow", self.url, self.config["url_rules"]):
                         print(f"Deny WebBrowserWindow:{self.url}")
                         self._dialog_open_in_browser()
                         return False
@@ -148,7 +145,7 @@ class JWebPage(QWebEnginePage):
     def open_window(self, url):
         """ Open a New Window"""
         # FIXME cookies path needs to be declared for this to work
-        self.popup = JWebView(web_contents=url, online=True, cookies_path=self.cookies_path)
+        self.popup = JWebView(self.config)
         self.popup.page().windowCloseRequested.connect(self.popup.close)
         self.popup.show()
         print(f"Opening New Window^")
@@ -171,8 +168,8 @@ class JWebPage(QWebEnginePage):
 
 class JWebView(QWebEngineView):
     """ #### Imports: from JAK.WebEngine import JWebView """
-    def __init__(self, title="", icon="", web_contents="", debug=False, transparent=False, online=False, url_rules="",
-                 cookies_path="", user_agent=""):
+    def __init__(self, config):
+        self.config = config
         """
         * :param title:str
         * :param icon:str
@@ -188,38 +185,22 @@ class JWebView(QWebEngineView):
         """
         super(JWebView, self).__init__()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
-        self.debug = debug
-        self.online = online
-        self.home = web_contents
         self.profile = QWebEngineProfile.defaultProfile()
-        self.webpage = JWebPage(self.profile, self, icon, debug, online, cookies_path, url_rules)
+        self.webpage = JWebPage(self.profile, self, config)
         self.setPage(self.webpage)
-        #QWebEnginePage.setDevToolsPage(self.page)
 
-        if url_rules:
-            # Check for URL rules
-            try:
-                self.block_rules = url_rules["block"]
-            except KeyError:
-                self.block_rules = ""
-            finally:
-                self.interceptor = Interceptor(debug, self.block_rules)
-        else:
-            self.interceptor = Interceptor(debug)
+        self.interceptor = Interceptor(config)
 
-        if user_agent:
+        if config["user_agent"]:
             # Set user agent
-            self.user_agent = user_agent
-            self.profile.setHttpUserAgent(user_agent)
+            self.profile.setHttpUserAgent(config["user_agent"])
 
-        if self.debug:
-            self.page().setInspectedPage(self.webpage)
-            self.triggerPageAction(QWebEnginePage.InspectElement)
+        if config["debug"]:
             self.settings().setAttribute(QWebEngineSettings.XSSAuditingEnabled, True)
         else:
             self.setContextMenuPolicy(Qt.PreventContextMenu)
 
-        if transparent:
+        if config["transparent"]:
             # Activates background transparency
             self.setAttribute(Qt.WA_TranslucentBackground)
             self.page().setBackgroundColor(Qt.transparent)
@@ -238,7 +219,7 @@ class JWebView(QWebEngineView):
         settings.setAttribute(QWebEngineSettings.SpatialNavigationEnabled, True)
         settings.setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
         settings.setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
-        if online:
+        if config["online"]:
             settings.setAttribute(QWebEngineSettings.DnsPrefetchEnabled, True)
             print("Engine online (IPC) Disabled")
             self.page().profile().downloadRequested.connect(self._download_requested)
@@ -247,12 +228,12 @@ class JWebView(QWebEngineView):
             self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
 
             # set cookies on user folder
-            if cookies_path:
+            if config["cookies_path"]:
                 # allow specific path per application.
-                _cookies_path = f"{os.getenv('HOME')}/.jak/{cookies_path}"
+                _cookies_path = f"{os.getenv('HOME')}/.jak/{config['cookies_path']}"
             else:
                 # use separate cookies database per application
-                title = title.lower().replace(" ", "-")
+                title = config["title"].lower().replace(" ", "-")
                 _cookies_path = f"{os.getenv('HOME')}/.jak/{title}"
 
             self.profile.setPersistentStoragePath(_cookies_path)
@@ -260,13 +241,12 @@ class JWebView(QWebEngineView):
         else:
             settings.setAttribute(QWebEngineSettings.ShowScrollBars, False)
             print("Engine interprocess communication (IPC) up and running:")
-            #self.profile.setHttpCacheType(self.profile.MemoryHttpCache)
             self._ipc_scheme_handler = IpcSchemeHandler()
             self.profile.installUrlSchemeHandler('ipc'.encode(), self._ipc_scheme_handler)
 
         self.profile.setRequestInterceptor(self.interceptor)
         print(self.profile.httpUserAgent())
-        validate_url(self, web_contents)
+        validate_url(self, config["web_contents"])
 
     def _download_requested(self, download_item) -> None:
         """
@@ -277,17 +257,15 @@ class JWebView(QWebEngineView):
             from PyQt5.QtWidgets import QFileDialog
         else:
             from PySide2.QtWidgets import QFileDialog
-        self.download_item = download_item
         dialog = QFileDialog(self)
         path = dialog.getSaveFileName(dialog, "Save File", download_item.path())
 
         if path[0]:
-            print(path)
             download_item.setPath(path[0])
             print(f"downloading file to:( {download_item.path()} )")
             download_item.accept()
+            self.download_item = download_item
             download_item.finished.connect(self._download_finished)
-
         else:
             print("Download canceled")
 
@@ -297,14 +275,5 @@ class JWebView(QWebEngineView):
         """
         file_path = self.download_item.path()
         msg = f"File Downloaded to: {file_path}"
-
         from JAK.Widgets import InfoDialog
         InfoDialog(self, "Download Complete", msg)
-        if self.online:
-            self.back()
-
-    def navigate_home(self) -> None:
-        """
-        Goes back to original application url
-        """
-        self.load(self.home)
