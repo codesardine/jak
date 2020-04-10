@@ -20,24 +20,23 @@
       <h3>Jade Application Kit</h3>
 <ul>
 <li>https://codesardine.github.io/Jade-Application-Kit</li>
-<li>Vitor Lopes Copyright (c) 2016 - 2019</li>
+<li>Vitor Lopes Copyright (c) 2016 - 2020</li>
 <li>https://vitorlopes.me</li>
 </ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span> <span class="k">as</span> <span class="n">cache</span>
-<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span><span class="p">,</span> <span class="n">check_url_rules</span><span class="p">,</span> <span class="n">get_current_path</span><span class="p">,</span> <span class="n">bindings</span>
+<span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span><span class="p">,</span> <span class="n">get_current_path</span><span class="p">,</span> <span class="n">bindings</span>
 <span class="kn">from</span> <span class="nn">JAK.RequestInterceptor</span> <span class="kn">import</span> <span class="n">Interceptor</span>
 <span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
     <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlSchemeHandler</span>
     <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span>
 <span class="k">else</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">Pyside2.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
-    <span class="kn">from</span> <span class="nn">Pyside2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlSchemeHandler</span>
-    <span class="kn">from</span> <span class="nn">Pyside2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span></pre></div>
+    <span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineCore</span> <span class="kn">import</span> <span class="n">QWebEngineUrlSchemeHandler</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineView</span><span class="p">,</span> <span class="n">QWebEngineProfile</span><span class="p">,</span> <span class="n">QWebEnginePage</span><span class="p">,</span> <span class="n">QWebEngineSettings</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -54,7 +53,7 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="nd">@cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+<span class="k">def</span> <span class="nf">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -79,8 +78,8 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="n">base_url</span> <span class="o">=</span> <span class="n">get_current_path</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setHtml</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">QUrl</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;file://{base_url}/&quot;</span><span class="p">))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Loading local HTML&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setHtml</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">QUrl</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;file://</span><span class="si">{</span><span class="n">base_url</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Loading local HTML&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.html&quot;</span><span class="p">):</span></pre></div>
     </div>
@@ -95,8 +94,8 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre>            <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">):</span>
-                <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;/{url}&quot;</span>
-            <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;file://{url}&quot;</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;file://</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">elif</span> <span class="s2">&quot;://&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">url</span><span class="p">:</span></pre></div>
     </div>
@@ -110,12 +109,12 @@
       <p>HTML URL</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="n">url</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;https://{url}&quot;</span>
+      <div class="highlight"><pre>            <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://</span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="n">url</span> <span class="o">=</span> <span class="n">QUrl</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">url</span><span class="o">.</span><span class="n">isValid</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Loading URL:{url.toString()}&quot;</span><span class="p">)</span></pre></div>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading URL:</span><span class="si">{</span><span class="n">url</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -164,14 +163,14 @@
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
       <ul>
-<li>Link&rsquo;s that starts with [ ipc:somefunction() ] trigger&rsquo;s the two way communication system bettwen HTML
-and Python, only if online is set to false</li>
+<li>Link&rsquo;s that starts with [ ipc:somefunction() ] trigger&rsquo;s the two way communication system between
+HTML and Python, only if online is set to false</li>
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                <span class="kn">from</span> <span class="nn">JAK.IPC</span> <span class="kn">import</span> <span class="n">Communication</span>
-                <span class="n">Communication</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-                <span class="k">return</span></pre></div>
+      <div class="highlight"><pre>            <span class="kn">from</span> <span class="nn">JAK.IPC</span> <span class="kn">import</span> <span class="n">Communication</span>
+            <span class="n">Communication</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+            <span class="k">return</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -200,7 +199,8 @@ and Python, only if online is set to false</li>
 </ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="n">webview</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">cookies_path</span><span class="p">,</span> <span class="n">url_rules</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">,</span> <span class="n">webview</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -213,11 +213,6 @@ and Python, only if online is set to false</li>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">JWebPage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">webview</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="o">=</span> <span class="n">online</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span> <span class="o">=</span> <span class="n">url_rules</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">icon</span> <span class="o">=</span> <span class="n">icon</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span> <span class="o">=</span> <span class="n">cookies_path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">featurePermissionRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_feature_permission_requested</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -230,7 +225,7 @@ and Python, only if online is set to false</li>
       <p>Open url in a external browser</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_open_in_browser</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_open_in_browser</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -242,7 +237,7 @@ and Python, only if online is set to false</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Open above^ tab in Browser&quot;</span><span class="p">)</span>
+      <div class="highlight"><pre>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Open above^ tab in Browser&quot;</span><span class="p">)</span>
         <span class="kn">from</span> <span class="nn">webbrowser</span> <span class="kn">import</span> <span class="n">open_new_tab</span>
         <span class="n">open_new_tab</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span></pre></div>
     </div>
@@ -256,7 +251,7 @@ and Python, only if online is set to false</li>
       <p>Opens a dialog to confirm if user wants to open url in external browser</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_dialog_open_in_browser</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_dialog_open_in_browser</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -268,13 +263,8 @@ and Python, only if online is set to false</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">Widgets</span> <span class="kn">import</span> <span class="n">JCancelConfirmDialog</span>
-        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">JCancelConfirmDialog</span>
-
+      <div class="highlight"><pre>        <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">JCancelConfirmDialog</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Open In Your Browser&quot;</span>
-
         <span class="n">JCancelConfirmDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">msg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_open_in_browser</span><span class="p">)</span></pre></div>
     </div>
   </div>
@@ -306,7 +296,7 @@ and Python, only if online is set to false</li>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">icon</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">)</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">page</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -319,10 +309,11 @@ and Python, only if online is set to false</li>
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="o">.</span><span class="n">urlChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_on_url_changed</span><span class="p">)</span>
+        <span class="n">dev_tools</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;http://127.0.0.1:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;debug_port&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">/&quot;</span>
 
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;online&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">!=</span> <span class="n">dev_tools</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebWindowType</span><span class="o">.</span><span class="n">WebBrowserTab</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span></pre></div>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -334,14 +325,14 @@ and Python, only if online is set to false</li>
       <p>Check for URL rules on new tabs</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">]):</span>
+      <div class="highlight"><pre>                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">][</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">]):</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">open_window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="bp">False</span>
-                    <span class="k">elif</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">):</span>
-                        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Redirecting WebBrowserTab^ to same window&quot;</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="bp">True</span>
+                        <span class="k">return</span> <span class="kc">False</span>
+                    <span class="k">elif</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserTab&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Redirecting WebBrowserTab^ to same window&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">True</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Deny WebBrowserTab:{self.url}&quot;</span><span class="p">)</span></pre></div>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deny WebBrowserTab:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -353,18 +344,18 @@ and Python, only if online is set to false</li>
       <p>check against WebBrowserWindow list to avoid duplicate dialogs</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">):</span>
+      <div class="highlight"><pre>                        <span class="k">if</span> <span class="ow">not</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]):</span>
                             <span class="bp">self</span><span class="o">.</span><span class="n">_dialog_open_in_browser</span><span class="p">()</span>
-                        <span class="k">return</span> <span class="bp">False</span>
+                        <span class="k">return</span> <span class="kc">False</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">True</span>
+                    <span class="k">return</span> <span class="kc">True</span>
 
             <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebBrowserBackgroundTab</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;WebBrowserBackgroundTab request:{self.url}&quot;</span><span class="p">)</span>
-                <span class="k">return</span> <span class="bp">True</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WebBrowserBackgroundTab request:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
 
             <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebBrowserWindow</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span></pre></div>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;online&quot;</span><span class="p">]:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -376,19 +367,19 @@ and Python, only if online is set to false</li>
       <p>Check URL rules on new windows</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                    <span class="k">if</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url_rules</span><span class="p">):</span>
-                        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Deny WebBrowserWindow:{self.url}&quot;</span><span class="p">)</span>
+      <div class="highlight"><pre>                    <span class="k">if</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;WebBrowserWindow&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Deny WebBrowserWindow:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_dialog_open_in_browser</span><span class="p">()</span>
-                        <span class="k">return</span> <span class="bp">False</span>
+                        <span class="k">return</span> <span class="kc">False</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Allow WebBrowserWindow:{self.url}&quot;</span><span class="p">)</span>
-                        <span class="k">return</span> <span class="bp">True</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Allow WebBrowserWindow:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="kc">True</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">True</span>
+                    <span class="k">return</span> <span class="kc">True</span>
 
             <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebDialog</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">return</span> <span class="bp">True</span></pre></div>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">True</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -400,9 +391,7 @@ and Python, only if online is set to false</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_on_feature_permission_requested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">security_origin</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">feature</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">Notifications</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setFeaturePermission</span><span class="p">(</span><span class="n">security_origin</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PermissionGrantedByUser</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_on_feature_permission_requested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">security_origin</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -411,10 +400,11 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-24'>#</a>
       </div>
-      <p>Open a New Window</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">open_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>        <span class="k">def</span> <span class="nf">grant_permission</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setFeaturePermission</span><span class="p">(</span><span class="n">security_origin</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PermissionGrantedByUser</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -423,13 +413,30 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-25'>#</a>
       </div>
-      <p>FIXME cookies path needs to be declared for this to work</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span> <span class="o">=</span> <span class="n">JWebView</span><span class="p">(</span><span class="n">web_contents</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">online</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cookies_path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cookies_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">windowCloseRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Opening New Window^&quot;</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="k">def</span> <span class="nf">deny_permission</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setFeaturePermission</span><span class="p">(</span><span class="n">security_origin</span><span class="p">,</span> <span class="n">feature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PermissionDeniedByUser</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">Notifications</span><span class="p">:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">MediaAudioVideoCapture</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;MediaAudioVideoCapture&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">MediaVideoCapture</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;MediaVideoCapture&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">MediaAudioCapture</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;MediaAudioCapture&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">Geolocation</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;Geolocation&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">MouseLock</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;MouseLock&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">DesktopVideoCapture</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;DesktopVideoCapture&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">DesktopAudioVideoCapture</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;DesktopAudioVideoCapture&quot;</span><span class="p">]:</span>
+            <span class="n">grant_permission</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">deny_permission</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -437,6 +444,33 @@ and Python, only if online is set to false</li>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>Open a New Window</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">open_window</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>FIXME cookies path needs to be declared for this to work</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span> <span class="o">=</span> <span class="n">JWebView</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">windowCloseRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">popup</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Opening New Window^&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
       </div>
       <ul>
 <li>Redirect new window&rsquo;s or tab&rsquo;s to same window</li>
@@ -449,10 +483,10 @@ and Python, only if online is set to false</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-27'>
+  <div class='section' id='section-29'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-27'>#</a>
+        <a class='octothorpe' href='#section-29'>#</a>
       </div>
       
     </div>
@@ -461,59 +495,20 @@ and Python, only if online is set to false</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-28'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-28'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_on_url_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">url</span> <span class="o">==</span> <span class="s2">&quot;about:blank&quot;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-29'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-29'>#</a>
-      </div>
-      <h4>Imports: from JAK.WebEngine import JWebView</h4>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JWebView</span><span class="p">(</span><span class="n">QWebEngineView</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-30'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-30'>#</a>
       </div>
-      <ul>
-<li>:param title:str</li>
-<li>:param icon:str</li>
-<li>:param web_contents:str</li>
-<li>:param debug:bool</li>
-<li>:param transparent:bool</li>
-<li>:param online:bool</li>
-<li>:param disable_gpu:bool</li>
-<li>:param url_rules:dict</li>
-<li>:param cookies_path:str</li>
-<li>:param user_agent:str</li>
-<li>:param custom_css:str</li>
-<li>:param custom_js:str</li>
-<li>:param toolbar:dict</li>
-</ul>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">web_contents</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">transparent</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">online</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">url_rules</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-                 <span class="n">cookies_path</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_css</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">custom_js</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_on_url_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">url</span> <span class="o">==</span> <span class="s2">&quot;about:blank&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -522,18 +517,10 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-31'>#</a>
       </div>
-      
+      <h4>Imports: from JAK.WebEngine import JWebView</h4>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="nb">super</span><span class="p">(</span><span class="n">JWebView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">WA_DeleteOnClose</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">debug</span> <span class="o">=</span> <span class="n">debug</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">online</span> <span class="o">=</span> <span class="n">online</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">home</span> <span class="o">=</span> <span class="n">web_contents</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">QWebEngineProfile</span><span class="o">.</span><span class="n">defaultProfile</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">webpage</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">icon</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">online</span><span class="p">,</span> <span class="n">cookies_path</span><span class="p">,</span> <span class="n">url_rules</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">webpage</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">loadFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_page_load_finish</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">JWebView</span><span class="p">(</span><span class="n">QWebEngineView</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -542,10 +529,22 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-32'>#</a>
       </div>
-      <p>QWebEnginePage.setDevToolsPage(self.page)</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">custom_css</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">JWebView</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">WA_DeleteOnClose</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span> <span class="o">=</span> <span class="n">QWebEngineProfile</span><span class="o">.</span><span class="n">defaultProfile</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">webpage</span> <span class="o">=</span> <span class="n">JWebPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">webpage</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;inject_JavaScript&quot;</span><span class="p">][</span><span class="s2">&quot;JavaScript&quot;</span><span class="p">]:</span>
+            <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span>
+            <span class="n">JavaScript</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">(),</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;inject_JavaScript&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span> <span class="o">=</span> <span class="n">Interceptor</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;user_agent&quot;</span><span class="p">]:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -554,13 +553,17 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-33'>#</a>
       </div>
-      <p>Check for custom CSS</p>
+      <p>Set user agent</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span> <span class="o">=</span> <span class="n">custom_css</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Custom CSS detected&quot;</span><span class="p">)</span>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setHttpUserAgent</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;user_agent&quot;</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="n">custom_js</span><span class="p">:</span></pre></div>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">XSSAuditingEnabled</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setContextMenuPolicy</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">PreventContextMenu</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;transparent&quot;</span><span class="p">]:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -569,13 +572,13 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-34'>#</a>
       </div>
-      <p>Check for custom JavaScript</p>
+      <p>Activates background transparency</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span> <span class="o">=</span> <span class="n">custom_js</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Custom JavaScript detected&quot;</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">url_rules</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">WA_TranslucentBackground</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">setBackgroundColor</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">transparent</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;background:transparent;&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Transparency detected, make sure you set [ body {background:transparent;} ]&quot;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -584,19 +587,52 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-35'>#</a>
       </div>
-      <p>Check for URL rules</p>
+      <ul>
+<li>Set Engine options</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="k">try</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span> <span class="o">=</span> <span class="n">url_rules</span><span class="p">[</span><span class="s2">&quot;block&quot;</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-            <span class="k">finally</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span> <span class="o">=</span> <span class="n">Interceptor</span><span class="p">(</span><span class="n">debug</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">block_rules</span><span class="p">)</span>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;JavascriptCanPaste&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanPaste</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span> <span class="o">=</span> <span class="n">Interceptor</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanPaste</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;PlaybackRequiresUserGesture&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">PlaybackRequiresUserGesture</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">PlaybackRequiresUserGesture</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;FullScreenSupportEnabled&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FullScreenSupportEnabled</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FullScreenSupportEnabled</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;AllowWindowActivationFromJavaScript&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">AllowWindowActivationFromJavaScript</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">AllowWindowActivationFromJavaScript</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;LocalContentCanAccessRemoteUrls&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">LocalContentCanAccessRemoteUrls</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">LocalContentCanAccessRemoteUrls</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;JavascriptCanAccessClipboard&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanAccessClipboard</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanAccessClipboard</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;SpatialNavigationEnabled&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">SpatialNavigationEnabled</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">SpatialNavigationEnabled</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;TouchIconsEnabled&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">TouchIconsEnabled</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">TouchIconsEnabled</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;FocusOnNavigationEnabled&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FocusOnNavigationEnabled</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FocusOnNavigationEnabled</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">user_agent</span><span class="p">:</span></pre></div>
+        <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;online&quot;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">DnsPrefetchEnabled</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Engine online (IPC) Disabled&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span><span class="o">.</span><span class="n">downloadRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_requested</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -605,20 +641,10 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-36'>#</a>
       </div>
-      <p>Set user agent</p>
+      <p>Set persistent cookies</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">user_agent</span> <span class="o">=</span> <span class="n">user_agent</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setHttpUserAgent</span><span class="p">(</span><span class="n">user_agent</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">setInspectedPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">webpage</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">triggerPageAction</span><span class="p">(</span><span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">InspectElement</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">XSSAuditingEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setContextMenuPolicy</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">PreventContextMenu</span><span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">transparent</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentCookiesPolicy</span><span class="p">(</span><span class="n">QWebEngineProfile</span><span class="o">.</span><span class="n">ForcePersistentCookies</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -627,15 +653,10 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-37'>#</a>
       </div>
-      <p>Activates background transparency</p>
+      <p>set cookies on user folder</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">WA_TranslucentBackground</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">setBackgroundColor</span><span class="p">(</span><span class="n">Qt</span><span class="o">.</span><span class="n">transparent</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;background:transparent;&quot;</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Transparency detected, make sure you set [ body {background:transparent;} ]&quot;</span><span class="p">)</span>
-
-        <span class="n">settings</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span></pre></div>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;cookies_path&quot;</span><span class="p">]:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -644,25 +665,11 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-38'>#</a>
       </div>
-      <ul>
-<li>Set Engine options</li>
-<li>TODO: allow to set settings per application by passing a list</li>
-</ul>
+      <p>allow specific path per application.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanPaste</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">PlaybackRequiresUserGesture</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FullScreenSupportEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">AllowWindowActivationFromJavaScript</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">LocalContentCanAccessRemoteUrls</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanAccessClipboard</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">SpatialNavigationEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">TouchIconsEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FocusOnNavigationEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">online</span><span class="p">:</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">DnsPrefetchEnabled</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Engine online (IPC) Disabled&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span><span class="o">.</span><span class="n">downloadRequested</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_requested</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/.jak/</span><span class="si">{</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;cookies_path&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">else</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -671,10 +678,50 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-39'>#</a>
       </div>
-      <p>Set persistent cookies</p>
+      <p>use separate cookies database per application</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentCookiesPolicy</span><span class="p">(</span><span class="n">QWebEngineProfile</span><span class="o">.</span><span class="n">ForcePersistentCookies</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>                <span class="n">title</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s1">&#39;HOME&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/.jak/</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentStoragePath</span><span class="p">(</span><span class="n">_cookies_path</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cookies PATH:</span><span class="si">{</span><span class="n">_cookies_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="p">()</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">ShowScrollBars</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Engine interprocess communication (IPC) up and running:&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ipc_scheme_handler</span> <span class="o">=</span> <span class="n">IpcSchemeHandler</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">installUrlSchemeHandler</span><span class="p">(</span><span class="s1">&#39;ipc&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ipc_scheme_handler</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;webChannel&quot;</span><span class="p">][</span><span class="s2">&quot;active&quot;</span><span class="p">]:</span>
+                <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">JavaScript</span>
+                <span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+                    <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QFile</span><span class="p">,</span> <span class="n">QIODevice</span>
+                    <span class="kn">from</span> <span class="nn">PyQt5.QtWebChannel</span> <span class="kn">import</span> <span class="n">QWebChannel</span>
+
+                <span class="n">webchannel_js</span> <span class="o">=</span> <span class="n">QFile</span><span class="p">(</span><span class="s1">&#39;:/qtwebchannel/qwebchannel.js&#39;</span><span class="p">)</span>
+                <span class="n">webchannel_js</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">QIODevice</span><span class="o">.</span><span class="n">ReadOnly</span><span class="p">)</span>
+                <span class="n">webchannel_js</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">webchannel_js</span><span class="o">.</span><span class="n">readAll</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+                <span class="n">webchannel_js</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot; var JAK;</span>
+<span class="s2">                                      new QWebChannel(qt.webChannelTransport, function (channel) {</span>
+<span class="s2">                                      JAK = channel.objects.Bridge;</span>
+<span class="s2">                                      });&quot;&quot;&quot;</span>
+
+                <span class="n">JavaScript</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">(),</span> <span class="p">{</span>
+                    <span class="s2">&quot;JavaScript&quot;</span><span class="p">:</span> <span class="n">webchannel_js</span><span class="p">,</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;QWebChannel API&quot;</span>
+                <span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">channel</span> <span class="o">=</span> <span class="n">QWebChannel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">())</span>
+                <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;webChannel&quot;</span><span class="p">][</span><span class="s2">&quot;shared_obj&quot;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">bridge_obj</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;webChannel&quot;</span><span class="p">][</span><span class="s2">&quot;shared_obj&quot;</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;QWebChannel shared QObject&quot;</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="o">.</span><span class="n">registerObject</span><span class="p">(</span><span class="s2">&quot;Bridge&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bridge_obj</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">setWebChannel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channel</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;QWebChannel bridge active&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setRequestInterceptor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">httpUserAgent</span><span class="p">())</span>
+        <span class="n">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;web_contents&quot;</span><span class="p">])</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -683,10 +730,32 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-40'>#</a>
       </div>
-      <p>set cookies on user folder</p>
+      <p>if bindings() == &ldquo;PyQt5&rdquo;:
+    from PyQt5.QtWidgets import QFileDialog
+else:
+    from PySide2.QtWidgets import QFileDialog
+dialog = QFileDialog(self)
+path = dialog.getSaveFileName(dialog, &ldquo;Save File&rdquo;, download_item.path())</p>
+<p>if path[0]:
+    download_item.setPath(path[0])
+    print(f&rdquo;downloading file to:( {download_item.path()} )&rdquo;)
+    download_item.accept()
+    self.download_item = download_item
+    download_item.finished.connect(self._download_finished)
+else:
+    print(&ldquo;Download canceled&rdquo;)</p>
+<pre><code>def _download_finished(self) -&gt; None:
+</code></pre>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">cookies_path</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_download_requested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">download_item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        * If a download is requested call a save file dialog</span>
+<span class="s2">        * :param download_item: file to be downloaded</span>
+<span class="s2">#DIVIDER</span>
+<span class="s2">        Goes to previous page and pops an alert informing the user that the download is finish and were to find it</span>
+
+</pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -695,173 +764,13 @@ and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-41'>#</a>
       </div>
-      <p>allow specific path per application.</p>
+      <p>file_path = self.download_item.path()
+msg = f&rdquo;File Downloaded to: {file_path}&rdquo;
+from JAK.Widgets import InfoDialog
+InfoDialog(self, &ldquo;Download Complete&rdquo;, msg)</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{os.getenv(&#39;HOME&#39;)}/.jak/{cookies_path}&quot;</span>
-            <span class="k">else</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-42'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-42'>#</a>
-      </div>
-      <p>use separate cookies database per application</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>                <span class="n">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
-                <span class="n">_cookies_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{os.getenv(&#39;HOME&#39;)}/.jak/{title}&quot;</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setPersistentStoragePath</span><span class="p">(</span><span class="n">_cookies_path</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Cookies PATH:{_cookies_path}&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">settings</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">ShowScrollBars</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Engine interprocess communication (IPC) up and running:&quot;</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-43'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-43'>#</a>
-      </div>
-      <p>self.profile.setHttpCacheType(self.profile.MemoryHttpCache)</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">_ipc_scheme_handler</span> <span class="o">=</span> <span class="n">IpcSchemeHandler</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">installUrlSchemeHandler</span><span class="p">(</span><span class="s1">&#39;ipc&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ipc_scheme_handler</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">setRequestInterceptor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interceptor</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">profile</span><span class="o">.</span><span class="n">httpUserAgent</span><span class="p">())</span>
-        <span class="n">validate_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">web_contents</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-44'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-44'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_page_load_finish</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Document Ready in: {result.tm_sec} seconds&quot;</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Custom CSS loaded&quot;</span><span class="p">)</span>
-                <span class="n">JavaScript</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_css</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span><span class="p">:</span>
-                <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Custom JavaScript loaded&quot;</span><span class="p">)</span>
-                <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">custom_js</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
-            <span class="k">pass</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-45'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-45'>#</a>
-      </div>
-      <ul>
-<li>If a download is requested call a save file dialog</li>
-<li>:param download_item: file to be downloaded</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_download_requested</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">download_item</span><span class="p">)</span><span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-46'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-46'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">PyQt5.QtWidgets</span> <span class="kn">import</span> <span class="n">QFileDialog</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">PySide2.QtWidgets</span> <span class="kn">import</span> <span class="n">QFileDialog</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">download_item</span> <span class="o">=</span> <span class="n">download_item</span>
-        <span class="n">dialog</span> <span class="o">=</span> <span class="n">QFileDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">dialog</span><span class="o">.</span><span class="n">getSaveFileName</span><span class="p">(</span><span class="n">dialog</span><span class="p">,</span> <span class="s2">&quot;Save File&quot;</span><span class="p">,</span> <span class="n">download_item</span><span class="o">.</span><span class="n">path</span><span class="p">())</span>
-
-        <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-            <span class="n">download_item</span><span class="o">.</span><span class="n">setPath</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;downloading file to:( {download_item.path()} )&quot;</span><span class="p">)</span>
-            <span class="n">download_item</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
-            <span class="n">download_item</span><span class="o">.</span><span class="n">finished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_finished</span><span class="p">)</span>
-
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Download canceled&quot;</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-47'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-47'>#</a>
-      </div>
-      <p>Goes to previous page and pops an alert informing the user that the download is finish and were to find it</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_download_finished</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-48'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-48'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_item</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;File Downloaded to: {file_path}&quot;</span>
-
-        <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">InfoDialog</span>
-        <span class="n">InfoDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Download Complete&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">online</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">back</span><span class="p">()</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-49'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-49'>#</a>
-      </div>
-      <p>Goes back to original application url</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">navigate_home</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-50'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-50'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">home</span><span class="p">)</span>
-
-</pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
