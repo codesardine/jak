@@ -208,20 +208,20 @@ class JavaScript:
             print(err)
 
     @staticmethod
-    def inject(page, options) -> None:
+    def inject(page, options: dict) -> None:
         if bindings() == "PyQt5":
             from PyQt5.QtWebEngineWidgets import QWebEngineScript
         else:
             from PySide2.QtWebEngineWidgets import QWebEngineScript
 
-            script = QWebEngineScript()
-            script.setName(options["name"])
-            script.setWorldId(QWebEngineScript.MainWorld)
-            script.setInjectionPoint(QWebEngineScript.DocumentCreation)
-            script.setRunsOnSubFrames(True)
-            script.setSourceCode(options["JavaScript"])
-            print(f"Injecting JavaScript {options['name']}")
-            page.profile().scripts().insert(script)
+        script = QWebEngineScript()
+        script.setName(options["name"])
+        script.setWorldId(QWebEngineScript.MainWorld)
+        script.setInjectionPoint(QWebEngineScript.DocumentCreation)
+        script.setRunsOnSubFrames(True)
+        script.setSourceCode(options["JavaScript"])
+        print(f"Injecting JavaScript {options['name']}")
+        page.profile().scripts().insert(script)
 
     @staticmethod
     def detect_type(script) -> str:

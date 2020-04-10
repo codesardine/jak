@@ -192,19 +192,6 @@ class JWebView(QWebEngineView):
     """ #### Imports: from JAK.WebEngine import JWebView """
     def __init__(self, config):
         self.config = config
-        """
-        * :param title:str
-        * :param icon:str
-        * :param web_contents:str
-        * :param debug:bool
-        * :param transparent:bool
-        * :param online:bool
-        * :param disable_gpu:bool
-        * :param url_rules:dict
-        * :param cookies_path:str
-        * :param user_agent:str
-        * :param toolbar:dict
-        """
         super(JWebView, self).__init__()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.profile = QWebEngineProfile.defaultProfile()
@@ -213,7 +200,6 @@ class JWebView(QWebEngineView):
         if config["inject_JavaScript"]["JavaScript"]:
             from JAK.Utils import JavaScript
             JavaScript.inject(self.page(), config["inject_JavaScript"])
-
         self.interceptor = Interceptor(config)
 
         if config["user_agent"]:
@@ -294,6 +280,33 @@ class JWebView(QWebEngineView):
             print("Engine interprocess communication (IPC) up and running:")
             self._ipc_scheme_handler = IpcSchemeHandler()
             self.profile.installUrlSchemeHandler('ipc'.encode(), self._ipc_scheme_handler)
+            if config["webChannel"]["active"]:
+                from JAK.Utils import JavaScript
+                if bindings() == "PyQt5":
+                    from PyQt5.QtCore import QFile, QIODevice
+                    from PyQt5.QtWebChannel import QWebChannel
+
+                webchannel_js = QFile(':/qtwebchannel/qwebchannel.js')
+                webchannel_js.open(QIODevice.ReadOnly)
+                webchannel_js = bytes(webchannel_js.readAll()).decode('utf-8')
+                webchannel_js += """ var JAK;
+                                      new QWebChannel(qt.webChannelTransport, function (channel) {
+                                      JAK = channel.objects.Bridge;
+                                      });"""
+
+                JavaScript.inject(self.page(), {
+                    "JavaScript": webchannel_js,
+                    "name": "QWebChannel API"
+                })
+                self.channel = QWebChannel(self.page())
+                if config["webChannel"]["shared_obj"]:
+                    self.bridge_obj = config["webChannel"]["shared_obj"]
+                else:
+                    raise NotImplementedError("QWebChannel shared QObject")
+
+                self.channel.registerObject("Bridge", self.bridge_obj)
+                self.page().setWebChannel(self.channel)
+                print("QWebChannel bridge active")
 
         self.profile.setRequestInterceptor(self.interceptor)
         print(self.profile.httpUserAgent())

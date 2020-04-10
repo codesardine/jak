@@ -41,6 +41,10 @@ class JWebApp(QApplication):
             "JavaScript": None,
             "name": "user-script"
         },
+        "webChannel": {
+            "active": False,
+            "shared_obj": None
+        },
         "toolbar": None,
         "menus": None,
         "MediaAudioVideoCapture": False,
