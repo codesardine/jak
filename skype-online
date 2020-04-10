@@ -3,7 +3,7 @@ from JAK.Application import JWebApp
 
 
 def skype():
-    # v1.0.0
+    # v1.0.1
     url = "web.skype.com"
 
     allow = url, "login.skype.com", "login.live.com"
@@ -12,7 +12,8 @@ def skype():
 
     rules = {"WebBrowserTab": allow, "WebBrowserWindow": deny}
 
-    webapp = JWebApp(title="Skype Online", web_contents=url, url_rules=rules, online=True, cookies_path="microsoft")
+    webapp = JWebApp(title="Skype Online", web_contents=url, url_rules=rules, online=True, cookies_path="microsoft", MediaVideoCapture=True,
+        MediaAudioCapture=True)
 
     return webapp
 
