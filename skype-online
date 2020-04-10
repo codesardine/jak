@@ -3,7 +3,7 @@ from JAK.Application import JWebApp
 
 
 def skype():
-    # v1.0.1
+    # v2.0.2
     url = "web.skype.com"
 
     allow = url, "login.skype.com", "login.live.com"
