@@ -1,2 +1,2 @@
-__version__ = "v2.1.4"
+__version__ = "v3.0.0"
 print(f"JAK {__version__}")

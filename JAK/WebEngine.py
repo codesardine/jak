@@ -1,6 +1,6 @@
 #### Jade Application Kit
 # * https://codesardine.github.io/Jade-Application-Kit
-# * Vitor Lopes Copyright (c) 2016 - 2019
+# * Vitor Lopes Copyright (c) 2016 - 2020
 # * https://vitorlopes.me
 import os
 from functools import lru_cache as cache

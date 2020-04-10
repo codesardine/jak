@@ -6,24 +6,14 @@ import subprocess
 """
  App Name   - Jade Application Kit
  App Url    - https://codesardine.github.io/Jade-Application-Kit
- Author     - Vitor Lopes -> Copyright (c) 2016 - 2019
+ Author     - Vitor Lopes -> Copyright (c) 2016 - 2020
  Author Url - https://vitorlopes.me
 """
-try:
-    # Testing locally
-    from Application import JWebApp
-    print("Testing: modules imported locally")
-except ImportError:
-    # Production
-    from JAK.Application import JWebApp
-
-
+from JAK.Application import JWebApp
 def run(url, title,  online,  transparent, debug, disable_gpu, icon, cookies_path, user_agent, custom_css, custom_js):
-
-
     app = JWebApp(title=title, online=online, icon=icon, web_contents=url, debug=debug, disable_gpu=disable_gpu,
-                  transparent=transparent, cookies_path=cookies_path, user_agent=user_agent, custom_css=custom_css,
-                  custom_js=custom_js)
+                  transparent=transparent, cookies_path=cookies_path, user_agent=user_agent, add_CSS=custom_css,
+                  run_JavaScript=custom_js)
 
     app.run()
 

@@ -1,6 +1,6 @@
 #### Jade Application Kit
 # * https://codesardine.github.io/Jade-Application-Kit
-# * Vitor Lopes Copyright (c) 2016 - 2019
+# * Vitor Lopes Copyright (c) 2016 - 2020
 # * https://vitorlopes.me
 
 from JAK.Utils import check_url_rules, bindings
