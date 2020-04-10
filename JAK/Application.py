@@ -14,7 +14,7 @@ if bindings() == "PyQt5":
     from PyQt5.QtCore import Qt, QCoreApplication
     from PyQt5.QtWidgets import QApplication
 else:
-    print("PySide2 Bindings, JAK_PREFERRED_BINDING environment variable not set.")
+    print("JAK_PREFERRED_BINDING environment variable not set, falling back to PySide2 Bindings.")
     from PySide2.QtCore import Qt, QCoreApplication
     from PySide2.QtWidgets import QApplication
 
@@ -22,7 +22,8 @@ else:
 class JWebApp(QApplication):
     #### Imports: from JAK.Application import JWebApp
 
-    config = {
+    def config():
+        return {
         "title": "Jade Application Kit",
         "icon": None,
         "web_contents": "https://codesardine.github.io/Jade-Application-Kit",
@@ -34,8 +35,12 @@ class JWebApp(QApplication):
         "url_rules": None,
         "cookies_path": None,
         "user_agent": None,
-        "custom_css": None,
-        "custom_js": None,
+        "add_CSS": None,
+        "run_JavaScript": None,
+        "inject_JavaScript": {
+            "JavaScript": None,
+            "name": "user-script"
+        },
         "toolbar": None,
         "menus": None,
         "MediaAudioVideoCapture": False,
@@ -56,24 +61,8 @@ class JWebApp(QApplication):
         "FocusOnNavigationEnabled": True
     }
 
-    def __init__(self, config=config, **app_config):
+    def __init__(self, config=config(), **app_config):
         self.config = config
-        """
-        * JWebApp(args)
-        * :arg title:str: Required
-        * :arg icon:str: Optional
-        * :arg web_contents:str: Required
-        * :arg debug:bool: Optional
-        * :arg transparent:bool: Optional
-        * :arg online:bool: Optional
-        * :arg disable_gpu:bool: Optional
-        * :arg url_rules:dict: Optional
-        * :arg cookies_path:str: Optional
-        * :arg user_agent:str: Optional
-        * :arg custom_css:str: Optional
-        * :arg custom_js:str: Optional
-        * :arg toolbar:dict: Optional
-        """
         for key, value in app_config.items():
             config[key] = value
 
@@ -141,14 +130,14 @@ class JWebApp(QApplication):
     def run(self):
         Instance.record("view", JWebView(self.config))
 
-        if self.config["custom_css"]:
+        if self.config["add_CSS"]:
             from JAK.Utils import JavaScript
-            JavaScript.css(self.config["custom_css"])
+            JavaScript.css(self.config["add_CSS"])
             print("Custom CSS detected")
 
-        if self.config["custom_js"]:
+        if self.config["run_JavaScript"]:
             from JAK.Utils import JavaScript
-            JavaScript.send(self.config["custom_js"])
+            JavaScript.send(self.config["run_JavaScript"])
             print("Custom JavaScript detected")
 
         win = Instance.auto("win", JWindow(self.config))

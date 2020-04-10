@@ -210,6 +210,9 @@ class JWebView(QWebEngineView):
         self.profile = QWebEngineProfile.defaultProfile()
         self.webpage = JWebPage(self.profile, self, config)
         self.setPage(self.webpage)
+        if config["inject_JavaScript"]["JavaScript"]:
+            from JAK.Utils import JavaScript
+            JavaScript.inject(self.page(), config["inject_JavaScript"])
 
         self.interceptor = Interceptor(config)
 
@@ -234,42 +237,34 @@ class JWebView(QWebEngineView):
             self.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, False)
-
         if self.config["PlaybackRequiresUserGesture"]:
             self.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
-
         if self.config["FullScreenSupportEnabled"]:
             self.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, False)
-
         if self.config["AllowWindowActivationFromJavaScript"]:
             self.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, False)
-
         if self.config["LocalContentCanAccessRemoteUrls"]:
             self.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, False)
-
         if self.config["JavascriptCanAccessClipboard"]:
             self.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, False)
-
         if self.config["SpatialNavigationEnabled"]:
             self.settings().setAttribute(QWebEngineSettings.SpatialNavigationEnabled, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.SpatialNavigationEnabled, False)
-
         if self.config["TouchIconsEnabled"]:
             self.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
         else:
             self.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, False)
-
         if self.config["FocusOnNavigationEnabled"]:
             self.settings().setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
         else:
