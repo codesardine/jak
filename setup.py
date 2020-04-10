@@ -24,7 +24,7 @@ long_description = long_description,
 long_description_content_type='text/markdown',
 download_url     = "https://github.com/codesardine/Jade-Application-Kit/zipball/master",
 keywords         = ["Jade Application Kit", "gui", "blink", "html5", "web technologies", "javascript", "python",
-                    "webgl", "css3", "QTWebEngine", "test", "linux"],
+                    "webgl", "CSS", "QTWebEngine", "linux", "webview"],
 classifiers      = [
 "Development Status :: 4 - Beta",
 "Intended Audience :: Developers",
@@ -40,7 +40,7 @@ classifiers      = [
 "Topic :: Software Development :: User Interfaces",
         ],
     data_files=[
-    ("/usr/bin/", ["bin/jak"]), ("/usr/bin/", ["bin/jak-cli"])
+    ("/usr/bin/", ["bin/jak-cli"])
     ],
 install_requires=[
    "PySide2",
