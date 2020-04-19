@@ -61,11 +61,8 @@ class JWindow(QMainWindow):
         if config["icon"] and os.path.isfile(config["icon"]):
             self.icon = QIcon(config["icon"])
         else:
-            # TODO detect active icon theme
-            QIcon.setThemeName("Papirus-Maia")
-            icon_paths = QIcon.themeSearchPaths()
-            icon_paths.append("/usr/share/pixmaps")
-            QIcon.setThemeSearchPaths(icon_paths)
+            print(f"icon not found: {config['icon']}")
+            print("loading default icon:")
             self.icon = QIcon.fromTheme("applications-internet")
 
         view = Instance.retrieve("view")
@@ -87,7 +84,6 @@ class JWindow(QMainWindow):
                 self.toolbar = JToolbar(self, config["toolbar"], self.icon, config["title"])
                 self.addToolBar(self.toolbar)
             self.system_tray = SystemTrayIcon(self.icon, self, config["title"])
-            self._set_icons()
             self.setMenuBar(Menu(self, config["menus"]))
 
         if config["debug"]:
@@ -97,6 +93,8 @@ class JWindow(QMainWindow):
             config["web_contents"] = "http://127.0.0.1:9000"
             inspector_view = JWebView(config)
             dock.setWidget(inspector_view)
+
+        self._set_icons()
 
     def keyPressEvent(self, event):
         KeyPress(event)
