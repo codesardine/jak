@@ -27,6 +27,7 @@ class JWebApp(QApplication):
         "title": "Jade Application Kit",
         "icon": None,
         "setWindowFlags":  Qt.Window,
+        "fullScreen": False,
         "web_contents": "https://codesardine.github.io/Jade-Application-Kit",
         "debug": False,
         "debug_port": "9000",

@@ -56,6 +56,8 @@ class JWindow(QMainWindow):
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(config["title"])
         self.setWindowFlags(config["setWindowFlags"])
+        if  config["fullScreen"]:
+            self.showFullScreen()
         if config["icon"] and os.path.isfile(config["icon"]):
             self.icon = QIcon(config["icon"])
         else:
