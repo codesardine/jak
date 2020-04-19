@@ -53,9 +53,12 @@ class JWindow(QMainWindow):
         self.config = config
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
-        self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(config["title"])
         self.setWindowFlags(config["setWindowFlags"])
+        self.setWAttribute(Qt.WA_DeleteOnClose)
+        for attr in config["setWAttribute"]:
+            self.setWAttribute(attr)
+
         if  config["fullScreen"]:
             self.showFullScreen()
         if config["icon"] and os.path.isfile(config["icon"]):
@@ -75,7 +78,7 @@ class JWindow(QMainWindow):
 
         if config["transparent"]:
             # Set Background Transparency
-            self.setAttribute(Qt.WA_TranslucentBackground, True)
+            self.setWAttribute(Qt.WA_TranslucentBackground)
             self.setAutoFillBackground(True)
 
         if config["online"]:
@@ -95,6 +98,9 @@ class JWindow(QMainWindow):
             dock.setWidget(inspector_view)
 
         self._set_icons()
+
+    def setWAttribute(self, attr):
+        self.setAttribute(attr, True)
 
     def keyPressEvent(self, event):
         KeyPress(event)

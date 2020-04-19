@@ -26,7 +26,9 @@ class JWebApp(QApplication):
         return {
         "title": "Jade Application Kit",
         "icon": None,
+        "setAAttribute": (),
         "setWindowFlags":  Qt.Window,
+        "setWAttribute": (),
         "fullScreen": False,
         "web_contents": "https://codesardine.github.io/Jade-Application-Kit",
         "debug": False,
@@ -70,11 +72,14 @@ class JWebApp(QApplication):
 
     def __init__(self, config=config(), **app_config):
         self.config = config
+        self.setAAttribute(Qt.AA_UseHighDpiPixmaps)
+        self.setAAttribute(Qt.AA_EnableHighDpiScaling)
         for key, value in app_config.items():
             config[key] = value
 
-        QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
-        QCoreApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+        for attr in config["setAAttribute"]:
+            self.setAAttribute(attr)
+
         if config["debug"] or "--dev" in sys.argv:
             # Adding some command line arguments for testing purposes,
             # this MUST BE done before initializing QApplication
@@ -84,6 +89,7 @@ class JWebApp(QApplication):
                 config["debug"] = True
         else:
             print("Production Mode On, use (--dev) for debugging")
+
         # Enable/Disable GPU acceleration
         if not config["disable_gpu"]:
             # Virtual machine detection using SystemD
@@ -99,41 +105,44 @@ class JWebApp(QApplication):
             nvidia_pci = detect_nvidia_pci.communicate()
             nvidia_pci = nvidia_pci[0].decode("utf-8").lower()
 
-        def disable_opengl():
-            # Disable GPU acceleration
-            # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307
-            QCoreApplication.setAttribute(Qt.AA_UseSoftwareOpenGL, True)
-
         if config["disable_gpu"]:
-            disable_opengl()
+            self.disable_opengl()
             print("Disabling GPU, Software Rendering explicitly activated")
         else:
             if virtual[-1]:
                 # Detect virtual machine
                 print(f"Virtual machine detected:{virtual}")
-                disable_opengl()
+                self.disable_opengl()
 
             elif nvidia_pci:
                 # Detect NVIDIA cards
                 if "nvidia" in nvidia_pci:
                     print("NVIDIA detected:Known bug - kernel rejected pushbuf")
                     print("Falling back to Software Rendering")
-                    disable_opengl()
+                    self.disable_opengl()
             else:
                 print(f"Virtual Machine:{virtual[-1]}")
 
         super(JWebApp, self).__init__(sys.argv)
         # Desktop file must match application name in lowercase with dashes instead of white space.
-        self.setDesktopFileName(f"{config['title'].lower().replace(' ', '-')}.desktop")
-        self.setOrganizationDomain(config['web_contents'])
+        self.setDesktopFileName(f"{self.config['title'].lower().replace(' ', '-')}.desktop")
+        self.setOrganizationDomain(self.config['web_contents'])
         self.setApplicationVersion(__version__)
-        if not config['online'] and config['IPC']:
+        if not self.config['online'] and self.config['IPC']:
             if bindings() == "PyQt5":
                 from PyQt5.QtWebEngineCore import QWebEngineUrlScheme
             else:
                 from PySide2.QtWebEngineCore import QWebEngineUrlScheme
             QWebEngineUrlScheme.registerScheme(QWebEngineUrlScheme("ipc".encode()))
 
+    def disable_opengl(self):
+        # Disable GPU acceleration
+        # https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/206307
+        self.setAAttribute(Qt.AA_UseSoftwareOpenGL)
+
+    def setAAttribute(self, attr):
+        QCoreApplication.setAttribute(attr, True)
+        
     def run(self):
         Instance.record("view", JWebView(self.config))
 
