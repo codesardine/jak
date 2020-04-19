@@ -49,12 +49,13 @@ class JWindow(QMainWindow):
         * :param parent: Parent widget
         """
 
-        QMainWindow.__init__(self)
+        super().__init__()
         self.config = config
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
         self.setAttribute(Qt.WA_DeleteOnClose, True)
         self.setWindowTitle(config["title"])
+        self.setWindowFlags(config["setWindowFlags"])
         if config["icon"] and os.path.isfile(config["icon"]):
             self.icon = QIcon(config["icon"])
         else:
