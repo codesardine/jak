@@ -37,9 +37,10 @@ class JWebApp(QApplication):
         "user_agent": None,
         "add_CSS": None,
         "run_JavaScript": None,
+        "IPC": True,
         "inject_JavaScript": {
             "JavaScript": None,
-            "name": "user-script"
+            "name": "Application Script"
         },
         "webChannel": {
             "active": False,
@@ -124,7 +125,7 @@ class JWebApp(QApplication):
         self.setDesktopFileName(f"{config['title'].lower().replace(' ', '-')}.desktop")
         self.setOrganizationDomain(config['web_contents'])
         self.setApplicationVersion(__version__)
-        if not config['online']:
+        if not config['online'] and config['IPC']:
             if bindings() == "PyQt5":
                 from PyQt5.QtWebEngineCore import QWebEngineUrlScheme
             else:

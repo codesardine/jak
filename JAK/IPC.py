@@ -1,7 +1,3 @@
-#### Jade Application Kit
-# * https://codesardine.github.io/Jade-Application-Kit
-# * Vitor Lopes Copyright (c) 2016 - 2020
-# * https://vitorlopes.me
 from JAK.Utils import Instance
 
 
@@ -25,7 +21,7 @@ class Communication:
     Call python methods from JavaScript.
     """
     @staticmethod
-    def activate(url) -> None:
+    def send(url) -> None:
         if ":" in url:
             url = url.split(':')[1]
         if url.endswith("()"):

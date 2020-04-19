@@ -55,7 +55,7 @@ class IpcSchemeHandler(QWebEngineUrlSchemeHandler):
             # * Link's that starts with [ ipc:somefunction() ] trigger's the two way communication system between
             # HTML and Python, only if online is set to false
             from JAK.IPC import Communication
-            Communication().activate(url)
+            Communication.send(url)
             return
 
 
@@ -198,8 +198,7 @@ class JWebView(QWebEngineView):
         self.webpage = JWebPage(self.profile, self, config)
         self.setPage(self.webpage)
         if config["inject_JavaScript"]["JavaScript"]:
-            from JAK.Utils import JavaScript
-            JavaScript.inject(self.page(), config["inject_JavaScript"])
+            self._inject_script(config["inject_JavaScript"])
         self.interceptor = Interceptor(config)
 
         if config["user_agent"]:
@@ -258,7 +257,7 @@ class JWebView(QWebEngineView):
 
         if config["online"]:
             self.settings().setAttribute(QWebEngineSettings.DnsPrefetchEnabled, True)
-            print("Engine online (IPC) Disabled")
+            print("Engine online IPC and Bridge Disabled")
             self.page().profile().downloadRequested.connect(self._download_requested)
 
             # Set persistent cookies
@@ -277,11 +276,17 @@ class JWebView(QWebEngineView):
             print(f"Cookies PATH:{_cookies_path}")
         else:
             self.settings().setAttribute(QWebEngineSettings.ShowScrollBars, False)
-            print("Engine interprocess communication (IPC) up and running:")
-            self._ipc_scheme_handler = IpcSchemeHandler()
-            self.profile.installUrlSchemeHandler('ipc'.encode(), self._ipc_scheme_handler)
+            application_script = "const JAK = {};"
+
+            if config["IPC"]:
+                print("IPC Active:")
+                self._ipc_scheme_handler = IpcSchemeHandler()
+                self.profile.installUrlSchemeHandler('ipc'.encode(), self._ipc_scheme_handler)
+                application_script += """JAK.IPC = function(backendFunction) {
+                            window.location.href = "ipc:" + backendFunction;
+                        };"""
+
             if config["webChannel"]["active"]:
-                from JAK.Utils import JavaScript
                 if bindings() == "PyQt5":
                     from PyQt5.QtCore import QFile, QIODevice
                     from PyQt5.QtWebChannel import QWebChannel
@@ -289,28 +294,31 @@ class JWebView(QWebEngineView):
                 webchannel_js = QFile(':/qtwebchannel/qwebchannel.js')
                 webchannel_js.open(QIODevice.ReadOnly)
                 webchannel_js = bytes(webchannel_js.readAll()).decode('utf-8')
-                webchannel_js += """ var JAK;
-                                      new QWebChannel(qt.webChannelTransport, function (channel) {
-                                      JAK = channel.objects.Bridge;
-                                      });"""
+                webchannel_js += """new QWebChannel(qt.webChannelTransport, function (channel) {
+                                        JAK.Bridge = channel.objects.Bridge;
+                                    });"""
 
-                JavaScript.inject(self.page(), {
-                    "JavaScript": webchannel_js,
-                    "name": "QWebChannel API"
-                })
-                self.channel = QWebChannel(self.page())
+                application_script += webchannel_js
+                self._inject_script({"JavaScript":application_script, "name":"JAK"})
+                channel = QWebChannel(self.page())
                 if config["webChannel"]["shared_obj"]:
-                    self.bridge_obj = config["webChannel"]["shared_obj"]
+                    bridge_obj = config["webChannel"]["shared_obj"]
                 else:
                     raise NotImplementedError("QWebChannel shared QObject")
 
-                self.channel.registerObject("Bridge", self.bridge_obj)
-                self.page().setWebChannel(self.channel)
-                print("QWebChannel bridge active")
+                channel.registerObject("Bridge", bridge_obj)
+                self.page().setWebChannel(channel)
+                print("WebChannel Active:")
+            else:
+                self._inject_script({"JavaScript":application_script, "name":"JAK"})
 
         self.profile.setRequestInterceptor(self.interceptor)
         print(self.profile.httpUserAgent())
         validate_url(self, config["web_contents"])
+
+    def _inject_script(self, script: dict):
+        from JAK.Utils import JavaScript
+        JavaScript.inject(self.page(), script)
 
     def _download_requested(self, download_item) -> None:
         """
