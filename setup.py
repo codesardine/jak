@@ -13,7 +13,7 @@ with open(path.join(readme, 'README.md'), encoding='utf-8') as f:
 setup(
 name             = "Jade-Application-Kit",
 version          = __version__,
-packages         = ["j", "JAK"],
+packages         = ["JAK"],
 python_requires  = ">=3.6",
 url              = "https://codesardine.github.io/Jade-Application-Kit",
 license          = "GPL",
