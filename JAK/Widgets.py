@@ -53,18 +53,18 @@ class JWindow(QMainWindow):
         self.config = config
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
-        self.setWindowTitle(config["title"])
-        self.setWindowFlags(config["setWindowFlags"])
+        self.setWindowTitle(config['window']["title"])
+        self.setWindowFlags(config['window']["setFlags"])
         self.setWAttribute(Qt.WA_DeleteOnClose)
-        for attr in config["setWAttribute"]:
+        for attr in config['window']["setAttribute"]:
             self.setWAttribute(attr)
 
-        if  config["fullScreen"]:
+        if  config['window']["fullScreen"]:
             self.showFullScreen()
-        if config["icon"] and os.path.isfile(config["icon"]):
-            self.icon = QIcon(config["icon"])
+        if config['window']["icon"] and os.path.isfile(config['window']["icon"]):
+            self.icon = QIcon(config['window']["icon"])
         else:
-            print(f"icon not found: {config['icon']}")
+            print(f"icon not found: {config['window']['icon']}")
             print("loading default icon:")
             self.icon = QIcon.fromTheme("applications-internet")
 
@@ -73,27 +73,27 @@ class JWindow(QMainWindow):
             self.view = view
             self.setCentralWidget(self.view)
             self.view.iconChanged.connect(self._icon_changed)
-            if config["online"]:
+            if config['webview']["online"]:
                 self.view.page().titleChanged.connect(self.status_message)
 
-        if config["transparent"]:
+        if config['window']["transparent"]:
             # Set Background Transparency
             self.setWAttribute(Qt.WA_TranslucentBackground)
             self.setAutoFillBackground(True)
 
-        if config["online"]:
+        if config['webview']["online"]:
             # Do not display toolbar or system tray offline
-            if config["toolbar"]:
-                self.toolbar = JToolbar(self, config["toolbar"], self.icon, config["title"])
+            if config['window']["toolbar"]:
+                self.toolbar = JToolbar(self, config['window']["toolbar"], self.icon, config['window']["title"])
                 self.addToolBar(self.toolbar)
-            self.system_tray = SystemTrayIcon(self.icon, self, config["title"])
-            self.setMenuBar(Menu(self, config["menus"]))
+            self.system_tray = SystemTrayIcon(self.icon, self, config['window']["title"])
+            self.setMenuBar(Menu(self, config['window']["menus"]))
 
         if config["debug"]:
             dock = Inspector("Dev Tools", self)
             self.addDockWidget(Qt.BottomDockWidgetArea, dock)
             from JAK.WebEngine import JWebView
-            config["web_contents"] = "http://127.0.0.1:9000"
+            config['webview']["webContents"] = "http://127.0.0.1:9000"
             inspector_view = JWebView(config)
             dock.setWidget(inspector_view)
 
@@ -107,7 +107,7 @@ class JWindow(QMainWindow):
 
     def _set_icons(self):
         self.setWindowIcon(self.icon)
-        if self.config["online"]:
+        if self.config['webview']["online"]:
             self.system_tray.setIcon(self.icon)
 
     def _icon_changed(self):

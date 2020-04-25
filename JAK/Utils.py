@@ -201,9 +201,7 @@ class JavaScript:
         """
         try:
             view = Instance.retrieve("view")
-            view.page().loadFinished.connect(
-                lambda: view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
-            )
+            view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
         except Exception as err:
             print(err)
 

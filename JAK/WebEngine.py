@@ -63,12 +63,6 @@ class JWebPage(QWebEnginePage):
     """ #### Imports: from JAK.WebEngine import JWebPage """
     def __init__(self, profile, webview, config):
         self.config = config
-        """
-        * :param icon: str
-        * :param debug: bool
-        * :param online: bool
-        * :param url_rules: dict
-        """
         super(JWebPage, self).__init__(profile, webview)
         self.featurePermissionRequested.connect(self._on_feature_permission_requested)
 
@@ -96,22 +90,22 @@ class JWebPage(QWebEnginePage):
         self.page = JWebPage(self.profile(), self.view(), self.config)
         # Redirect new tabs to same window
         self.page.urlChanged.connect(self._on_url_changed)
-        dev_tools = f"http://127.0.0.1:{self.config['debug_port']}/"
+        dev_tools = f"http://127.0.0.1:{self.config['debugPort']}/"
 
-        if self.config["online"] and self.url != dev_tools:
+        if self.config['webview']["online"] and self.url != dev_tools:
             if _type == QWebEnginePage.WebWindowType.WebBrowserTab:
-                if self.config["url_rules"]:
+                if self.config['webview']["urlRules"]:
                     # Check for URL rules on new tabs
-                    if self.url.startswith(self.config["url_rules"]["WebBrowserTab"]):
+                    if self.url.startswith(self.config['webview']["urlRules"]["WebBrowserTab"]):
                         self.open_window(self.url)
                         return False
-                    elif check_url_rules("WebBrowserTab", self.url, self.config["url_rules"]):
+                    elif check_url_rules("WebBrowserTab", self.url, self.config['webview']["urlRules"]):
                         print(f"Redirecting WebBrowserTab^ to same window")
                         return True
                     else:
                         print(f"Deny WebBrowserTab:{self.url}")
                         # check against WebBrowserWindow list to avoid duplicate dialogs
-                        if not check_url_rules("WebBrowserWindow", self.url, self.config["url_rules"]):
+                        if not check_url_rules("WebBrowserWindow", self.url, self.config['webview']["urlRules"]):
                             self._dialog_open_in_browser()
                         return False
                 else:
@@ -122,9 +116,9 @@ class JWebPage(QWebEnginePage):
                 return True
 
             elif _type == QWebEnginePage.WebBrowserWindow:
-                if self.config["url_rules"] and self.config["online"]:
+                if self.config["url_rules"] and self.config['webview']["online"]:
                     # Check URL rules on new windows
-                    if check_url_rules("WebBrowserWindow", self.url, self.config["url_rules"]):
+                    if check_url_rules("WebBrowserWindow", self.url, self.config['webview']["urlRules"]):
                         print(f"Deny WebBrowserWindow:{self.url}")
                         self._dialog_open_in_browser()
                         return False
@@ -147,19 +141,19 @@ class JWebPage(QWebEnginePage):
 
         if feature == self.Notifications:
             grant_permission()
-        elif feature == self.MediaAudioVideoCapture and self.config["MediaAudioVideoCapture"]:
+        elif feature == self.MediaAudioVideoCapture and self.config['webview']["MediaAudioVideoCapture"]:
             grant_permission()
-        elif feature == self.MediaVideoCapture and self.config["MediaVideoCapture"]:
+        elif feature == self.MediaVideoCapture and self.config['webview']["MediaVideoCapture"]:
             grant_permission()
-        elif feature == self.MediaAudioCapture and self.config["MediaAudioCapture"]:
+        elif feature == self.MediaAudioCapture and self.config['webview']["MediaAudioCapture"]:
             grant_permission()
-        elif feature == self.Geolocation and self.config["Geolocation"]:
+        elif feature == self.Geolocation and self.config['webview']["Geolocation"]:
             grant_permission()
-        elif feature == self.MouseLock and self.config["MouseLock"]:
+        elif feature == self.MouseLock and self.config['webview']["MouseLock"]:
             grant_permission()
-        elif feature == self.DesktopVideoCapture and self.config["DesktopVideoCapture"]:
+        elif feature == self.DesktopVideoCapture and self.config['webview']["DesktopVideoCapture"]:
             grant_permission()
-        elif feature == self.DesktopAudioVideoCapture and self.config["DesktopAudioVideoCapture"]:
+        elif feature == self.DesktopAudioVideoCapture and self.config['webview']["DesktopAudioVideoCapture"]:
             grant_permission()
         else:
             deny_permission()
@@ -197,20 +191,20 @@ class JWebView(QWebEngineView):
         self.profile = QWebEngineProfile.defaultProfile()
         self.webpage = JWebPage(self.profile, self, config)
         self.setPage(self.webpage)
-        if config["inject_JavaScript"]["JavaScript"]:
-            self._inject_script(config["inject_JavaScript"])
+        if config['webview']["injectJavaScript"]["JavaScript"]:
+            self._inject_script(config['webview']["injectJavaScript"])
         self.interceptor = Interceptor(config)
 
-        if config["user_agent"]:
+        if config['webview']["userAgent"]:
             # Set user agent
-            self.profile.setHttpUserAgent(config["user_agent"])
+            self.profile.setHttpUserAgent(config['webview']["userAgent"])
 
         if config["debug"]:
             self.settings().setAttribute(QWebEngineSettings.XSSAuditingEnabled, True)
         else:
             self.setContextMenuPolicy(Qt.PreventContextMenu)
 
-        if config["transparent"]:
+        if config['window']["transparent"]:
             # Activates background transparency
             self.setAttribute(Qt.WA_TranslucentBackground)
             self.page().setBackgroundColor(Qt.transparent)
@@ -218,44 +212,11 @@ class JWebView(QWebEngineView):
             print("Transparency detected, make sure you set [ body {background:transparent;} ]")
 
         # * Set Engine options
-        if self.config["JavascriptCanPaste"]:
-            self.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.JavascriptCanPaste, False)
-        if self.config["PlaybackRequiresUserGesture"]:
-            self.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.PlaybackRequiresUserGesture, False)
-        if self.config["FullScreenSupportEnabled"]:
-            self.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.FullScreenSupportEnabled, False)
-        if self.config["AllowWindowActivationFromJavaScript"]:
-            self.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.AllowWindowActivationFromJavaScript, False)
-        if self.config["LocalContentCanAccessRemoteUrls"]:
-            self.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, False)
-        if self.config["JavascriptCanAccessClipboard"]:
-            self.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.JavascriptCanAccessClipboard, False)
-        if self.config["SpatialNavigationEnabled"]:
-            self.settings().setAttribute(QWebEngineSettings.SpatialNavigationEnabled, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.SpatialNavigationEnabled, False)
-        if self.config["TouchIconsEnabled"]:
-            self.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.TouchIconsEnabled, False)
-        if self.config["FocusOnNavigationEnabled"]:
-            self.settings().setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, True)
-        else:
-            self.settings().setAttribute(QWebEngineSettings.FocusOnNavigationEnabled, False)
+        self.settings().setAttribute(self.config['webview']['disabledSettings'], False)
+        for setting in self.config['webview']['enabledSettings']:
+            self.settings().setAttribute(setting, True)
 
-        if config["online"]:
+        if config['webview']["online"]:
             self.settings().setAttribute(QWebEngineSettings.DnsPrefetchEnabled, True)
             print("Engine online IPC and Bridge Disabled")
             self.page().profile().downloadRequested.connect(self._download_requested)
@@ -264,12 +225,12 @@ class JWebView(QWebEngineView):
             self.profile.setPersistentCookiesPolicy(QWebEngineProfile.ForcePersistentCookies)
 
             # set cookies on user folder
-            if config["cookies_path"]:
+            if config['webview']["cookiesPath"]:
                 # allow specific path per application.
-                _cookies_path = f"{os.getenv('HOME')}/.jak/{config['cookies_path']}"
+                _cookies_path = f"{os.getenv('HOME')}/.jak/{config['webview']['cookiesPath']}"
             else:
                 # use separate cookies database per application
-                title = config["title"].lower().replace(" ", "-")
+                title = config['window']["title"].lower().replace(" ", "-")
                 _cookies_path = f"{os.getenv('HOME')}/.jak/{title}"
 
             self.profile.setPersistentStoragePath(_cookies_path)
@@ -278,7 +239,7 @@ class JWebView(QWebEngineView):
             self.settings().setAttribute(QWebEngineSettings.ShowScrollBars, False)
             application_script = "const JAK = {};"
 
-            if config["IPC"]:
+            if config['webview']["IPC"]:
                 print("IPC Active:")
                 self._ipc_scheme_handler = IpcSchemeHandler()
                 self.profile.installUrlSchemeHandler('ipc'.encode(), self._ipc_scheme_handler)
@@ -286,7 +247,7 @@ class JWebView(QWebEngineView):
                             window.location.href = "ipc:" + backendFunction;
                         };"""
 
-            if config["webChannel"]["active"]:
+            if config['webview']["webChannel"]["active"]:
                 if bindings() == "PyQt5":
                     from PyQt5.QtCore import QFile, QIODevice
                     from PyQt5.QtWebChannel import QWebChannel
@@ -301,8 +262,8 @@ class JWebView(QWebEngineView):
                 application_script += webchannel_js
                 self._inject_script({"JavaScript":application_script, "name":"JAK"})
                 channel = QWebChannel(self.page())
-                if config["webChannel"]["shared_obj"]:
-                    bridge_obj = config["webChannel"]["shared_obj"]
+                if config['webview']["webChannel"]["sharedOBJ"]:
+                    bridge_obj = config['webview']["webChannel"]["sharedOBJ"]
                 else:
                     raise NotImplementedError("QWebChannel shared QObject")
 
@@ -314,7 +275,7 @@ class JWebView(QWebEngineView):
 
         self.profile.setRequestInterceptor(self.interceptor)
         print(self.profile.httpUserAgent())
-        validate_url(self, config["web_contents"])
+        validate_url(self, config['webview']["webContents"])
 
     def _inject_script(self, script: dict):
         from JAK.Utils import JavaScript

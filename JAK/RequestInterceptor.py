@@ -28,11 +28,11 @@ class Interceptor(QWebEngineUrlRequestInterceptor):
         * :param info: QWebEngineUrlRequestInfo
         """
 
-        if self.config["url_rules"] is not None:
+        if self.config['webview']["urlRules"] is not None:
             # If we have any URL's in the block dictionary
             url = info.requestUrl().toString()
             try:
-                if check_url_rules("Block", url, self.config["url_rules"]["block"]):
+                if check_url_rules("Block", url, self.config['webview']["urlRules"]["block"]):
                     # block url's
                     info.block(True)
                     print(f"Blocked:{url}")
