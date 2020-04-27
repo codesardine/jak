@@ -37,11 +37,11 @@ class JWebApp(QApplication):
         for attr in config["setAAttribute"]:
             self.setAAttribute(attr)
 
+        if config["remote-debug"] or "--remote-debug" in sys.argv:
+            sys.argv.append("--remote-debugging-port=9000")
+
         if config["debug"] or "--dev" in sys.argv:
-            # Adding some command line arguments for testing purposes,
-            # this MUST BE done before initializing QApplication
-            sys.argv.append(f"--remote-debugging-port={config['debugPort']}")
-            print("Debugging Mode On")
+            print("Debugging On")
             if not config["debug"]:
                 config["debug"] = True
         else:

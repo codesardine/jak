@@ -10,12 +10,12 @@ from JAK.KeyBindings import KeyPress
 if bindings() == "PyQt5":
     from PyQt5.QtCore import Qt, QSize, QUrl
     from PyQt5.QtGui import QIcon
-    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget,\
+    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
         QAction, QToolBar, QMenu, QMenuBar, QFileDialog
 else:
     from PySide2.QtCore import Qt, QSize, QUrl
     from PySide2.QtGui import QIcon
-    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon, QDockWidget,\
+    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
         QAction, QToolBar, QMenu, QMenuBar, QFileDialog
 
 
@@ -87,17 +87,22 @@ class JWindow(QMainWindow):
                 self.toolbar = JToolbar(self, config['window']["toolbar"], self.icon, config['window']["title"])
                 self.addToolBar(self.toolbar)
             self.system_tray = SystemTrayIcon(self.icon, self, config['window']["title"])
-            self.setMenuBar(Menu(self, config['window']["menus"]))
-
+            self.setMenuBar(Menu(self, config['window']["menus"]))  
+                
         if config["debug"]:
-            dock = Inspector("Dev Tools", self)
-            self.addDockWidget(Qt.BottomDockWidgetArea, dock)
-            from JAK.WebEngine import JWebView
-            config['webview']["webContents"] = "http://127.0.0.1:9000"
-            inspector_view = JWebView(config)
-            dock.setWidget(inspector_view)
+            self.showInspector()                       
+        self._set_icons()            
 
-        self._set_icons()
+    def showInspector(self):
+        from JAK.DevTools import WebView, InspectorDock
+        self.inspector_dock = InspectorDock(self)
+        self.inspector_view = WebView(parent=self)
+        self.inspector_view.set_inspected_view(self.view)
+        self.inspector_dock.setWidget(self.inspector_view)
+        self.addDockWidget(Qt.TopDockWidgetArea, self.inspector_dock)
+
+    def hideInspector(self):
+        self.inspector_dock.hide()   
 
     def setWAttribute(self, attr):
         self.setAttribute(attr, True)
@@ -334,15 +339,3 @@ class FileChooserDialog(QWidget):
             options=options)
         if file_name[0]:
             return file_name[0]
-
-
-class Inspector(QDockWidget):
-    """
-    Developer Tools
-    """
-    def __init__(self, title, parent=None):
-        super().__init__(title, parent)
-        self.setObjectName("Dev Tools")
-        self.setAllowedAreas(
-            Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea | Qt.BottomDockWidgetArea
-            )

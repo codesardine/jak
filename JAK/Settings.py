@@ -14,7 +14,7 @@ else:
 def config():
     return {
         "debug": False,
-        "debugPort": "9000",
+        "remote-debug": False,
         "setAAttribute": (),
         "disableGPU": False,
         "window": {

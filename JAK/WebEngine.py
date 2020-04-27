@@ -90,9 +90,8 @@ class JWebPage(QWebEnginePage):
         self.page = JWebPage(self.profile(), self.view(), self.config)
         # Redirect new tabs to same window
         self.page.urlChanged.connect(self._on_url_changed)
-        dev_tools = f"http://127.0.0.1:{self.config['debugPort']}/"
 
-        if self.config['webview']["online"] and self.url != dev_tools:
+        if self.config['webview']["online"]:
             if _type == QWebEnginePage.WebWindowType.WebBrowserTab:
                 if self.config['webview']["urlRules"]:
                     # Check for URL rules on new tabs
