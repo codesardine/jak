@@ -207,7 +207,6 @@ class JWebView(QWebEngineView):
             # Activates background transparency
             self.setAttribute(Qt.WA_TranslucentBackground)
             self.page().setBackgroundColor(Qt.transparent)
-            self.setStyleSheet("background:transparent;")
             print("Transparency detected")
 
         # * Set Engine options
