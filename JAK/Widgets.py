@@ -86,8 +86,10 @@ class JWindow(QMainWindow):
             if config['window']["toolbar"]:
                 self.toolbar = JToolbar(self, config['window']["toolbar"], self.icon, config['window']["title"])
                 self.addToolBar(self.toolbar)
+            self.setMenuBar(Menu(self, config['window']["menus"])) 
+
+        if config['window']["SystemTrayIcon"]: 
             self.system_tray = SystemTrayIcon(self.icon, self, config['window']["title"])
-            self.setMenuBar(Menu(self, config['window']["menus"]))  
                 
         if config["debug"]:
             self.showInspector()                       
