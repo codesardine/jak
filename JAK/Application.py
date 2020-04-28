@@ -115,7 +115,9 @@ class JWebApp(QApplication):
 
         win = Instance.auto("win", JWindow(self.config))
         win.resize(win.default_size("width"), win.default_size("height"))
+        win.setFocusPolicy(Qt.WheelFocus)
         win.show()
+        win.setFocus()
         win.window_original_position = win.frameGeometry()
         result = self.exec_()
         sys.exit(result)
