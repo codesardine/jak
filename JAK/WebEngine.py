@@ -208,7 +208,7 @@ class JWebView(QWebEngineView):
             self.setAttribute(Qt.WA_TranslucentBackground)
             self.page().setBackgroundColor(Qt.transparent)
             self.setStyleSheet("background:transparent;")
-            print("Transparency detected, make sure you set [ body {background:transparent;} ]")
+            print("Transparency detected")
 
         # * Set Engine options
         self.settings().setAttribute(self.config['webview']['disabledSettings'], False)

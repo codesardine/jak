@@ -182,7 +182,10 @@ class JavaScript:
              style.innerHTML = "{JavaScript.detect_type(styles)}";
              document.getElementsByTagName('head')[0].appendChild(style);
         """
-        JavaScript.send(javascript)
+        view = Instance.retrieve("view")
+        view.page().loadFinished.connect(
+            lambda: JavaScript.send(javascript)
+        )
         JavaScript.log(f"JAK Custom Styles Applied:[{styles}]")
 
     @staticmethod
