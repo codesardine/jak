@@ -12,7 +12,7 @@ from JAK.WebEngine import JWebView
 from JAK import __version__
 if bindings() == "PyQt5":
     print("PyQt5 Bindings")
-    from PyQt5.QtCore import Qt, QCoreApplication
+    from PyQt5.QtCore import Qt, QCoreApplication, QRect
     from PyQt5.QtWidgets import QApplication
 else:
     print("JAK_PREFERRED_BINDING environment variable not set, falling back to PySide2 Bindings.")
@@ -118,7 +118,13 @@ class JWebApp(QApplication):
             print("Custom JavaScript detected")
 
         win = Instance.auto("win", JWindow(self.config))
-        win.resize(win.default_size("width"), win.default_size("height"))
+        if self.config['window']["fullScreen"]:
+            screen = self.primaryScreen()
+            rect = screen.availableGeometry()
+            win.resize(rect.width(), rect.height())
+        else:
+            win.resize(win.default_size("width"), win.default_size("height"))
+
         win.setFocusPolicy(Qt.WheelFocus)
         win.show()
         win.setFocus()

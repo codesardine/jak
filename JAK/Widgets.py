@@ -62,8 +62,6 @@ class JWindow(QMainWindow):
         if config['window']["state"]:
             self.setWindowState(config['window']["state"])
 
-        if config['window']["fullScreen"]:
-            self.showFullScreen()
         if config['window']["icon"] and os.path.isfile(config['window']["icon"]):
             self.icon = QIcon(config['window']["icon"])
         else:
