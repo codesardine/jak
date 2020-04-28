@@ -13,13 +13,13 @@ else:
 class KeyPress:
     """ #### Imports: from JAK.Keybindings import KeyPress """
 
-    def __init__(self, event):
+    def __init__(self, event, config):
         # * self.win = QMainWindow Instance
         # * self.view = QTWebEngine Instance
         if event.type() == event.KeyPress:
-            if event.key() == Qt.Key_F11:
+            if event.key() == Qt.Key_F11 and config['webview']["online"]:
                 self.full_screen()
-            elif event.key() == Qt.Key_F12:
+            elif event.key() == Qt.Key_F12 and config['webview']["online"]:
                 self.win = Instance.retrieve("win")
                 self.win.corner_window()
 

@@ -110,7 +110,7 @@ class JWindow(QMainWindow):
         self.setAttribute(attr, True)
 
     def keyPressEvent(self, event):
-        KeyPress(event)
+        KeyPress(event, self.config)
 
     def _set_icons(self):
         self.setWindowIcon(self.icon)
