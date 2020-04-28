@@ -22,6 +22,7 @@ def config():
             "icon": None,
             "setFlags": Qt.Window,
             "setAttribute": (),
+            "state": None,
             "fullScreen": False,
             "transparent": False,
             "toolbar": None,
