@@ -41,16 +41,11 @@ class SystemTrayIcon(QSystemTrayIcon):
 class JWindow(QMainWindow):
     """ #### Imports: from JAK.Widgets import JWindow """
     def __init__(self, config):
-        """
-        * :param title:str
-        * :param icon:str
-        * :param transparent:bool
-        * :param toolbar:dict
-        * :param parent: Parent widget
-        """
-
         super().__init__()
         self.config = config
+        if config["window"]["backgroundImage"]:
+            # Transparency must be set to True
+            self.setBackgroundImage(config["window"]["backgroundImage"])
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
         self.setWindowTitle(config['window']["title"])
@@ -94,7 +89,11 @@ class JWindow(QMainWindow):
                 
         if config["debug"]:
             self.showInspector()                       
-        self._set_icons()            
+        self._set_icons() 
+
+    def setBackgroundImage(self, image):
+        self.setStyleSheet(f"background-image:url({image})")
+        #self.save(image)           
 
     def showInspector(self):
         from JAK.DevTools import WebView, InspectorDock

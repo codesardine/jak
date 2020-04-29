@@ -20,6 +20,7 @@ def config():
         "window": {
             "title": "Jade Application Kit",
             "icon": None,
+            "backgroundImage": None,
             "setFlags": Qt.Window,
             "setAttribute": (),
             "state": None,
