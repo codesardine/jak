@@ -45,6 +45,7 @@ class JWindow(QMainWindow):
         self.config = config
         if config["window"]["backgroundImage"]:
             # Transparency must be set to True
+            self.setObjectName("JAKWindow")
             self.setBackgroundImage(config["window"]["backgroundImage"])
         self.video_corner = False
         self.center = QDesktopWidget().availableGeometry().center()
@@ -92,7 +93,7 @@ class JWindow(QMainWindow):
         self._set_icons() 
 
     def setBackgroundImage(self, image):
-        self.setStyleSheet(f"background-image:url({image})")
+        self.setStyleSheet(f"#JAKWindow {{background-image:url({image})}}")
         #self.save(image)           
 
     def showInspector(self):
