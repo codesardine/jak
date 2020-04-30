@@ -17,9 +17,9 @@ class KeyPress:
         # * self.win = QMainWindow Instance
         # * self.view = QTWebEngine Instance
         if event.type() == event.KeyPress:
-            if event.key() == Qt.Key_F11 and config['webview']["online"]:
+            if event.key() == Qt.Key_F11 and config['webview']["online"] is True:
                 self.full_screen()
-            elif event.key() == Qt.Key_F12 and config['webview']["online"]:
+            elif event.key() == Qt.Key_F10 and config['webview']["online"] is True:
                 self.win = Instance.retrieve("win")
                 self.win.corner_window()
 
@@ -38,21 +38,21 @@ class KeyPress:
     def _zoom_in(self):
         new_zoom = self._current_zoom() * 1.5
         self.view.setZoomFactor(new_zoom)
-        self._update_zoom_label()
+        self._save_zoom()
 
     def _zoom_out(self):
         new_zoom = self._current_zoom() / 1.5
         self.view.setZoomFactor(new_zoom)
-        self._update_zoom_label()
+        self._save_zoom()
 
     # TODO only zoom to a certain lvl then reset
     def _reset_zoom(self):
         self.view.setZoomFactor(1)
-        self._update_zoom_label()
 
-    def _update_zoom_label(self):
+    def _save_zoom(self):
         percent = int(self._current_zoom() * 100)
         print(f"Zoom:{percent}%")
+        # TODO save zoom
 
     def full_screen(self):
         # TODO animate window resize
