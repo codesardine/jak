@@ -14,6 +14,7 @@ if bindings() == "PyQt5":
     print("PyQt5 Bindings")
     from PyQt5.QtCore import Qt, QCoreApplication, QRect
     from PyQt5.QtWidgets import QApplication
+    from PyQt5.QtWebEngineWidgets import QWebEnginePage
 else:
     print("JAK_PREFERRED_BINDING environment variable not set, falling back to PySide2 Bindings.")
     from PySide2.QtCore import Qt, QCoreApplication
@@ -23,10 +24,11 @@ else:
 class JWebApp(QApplication):
     #### Imports: from JAK.Application import JWebApp
     def __init__(self, config=Settings.config(), **app_config):
+        super(JWebApp, self).__init__(sys.argv)
         self.config = config
         self.setAAttribute(Qt.AA_UseHighDpiPixmaps)
         self.setAAttribute(Qt.AA_EnableHighDpiScaling)
-        # override default configuration
+        self.applicationStateChanged.connect(self._applicationStateChanged_cb)
         for key, value in app_config.items():
             if isinstance(value, dict):
                 for subkey, subvalue in app_config[key].items():
@@ -80,7 +82,6 @@ class JWebApp(QApplication):
             else:
                 print(f"Virtual Machine:{virtual[-1]}")
 
-        super(JWebApp, self).__init__(sys.argv)
         # Desktop file must match application name in lowercase with dashes instead of white space.
         self.setDesktopFileName(f"{self.config['window']['title'].lower().replace(' ', '-')}.desktop")
         self.setOrganizationDomain(self.config['webview']['webContents'])
@@ -91,6 +92,17 @@ class JWebApp(QApplication):
             else:
                 from PySide2.QtWebEngineCore import QWebEngineUrlScheme
             QWebEngineUrlScheme.registerScheme(QWebEngineUrlScheme("ipc".encode()))
+
+    def _applicationStateChanged_cb(self, event):
+        view = Instance.retrieve("view")
+        page = view.page()
+        # TODO freeze view when inactive to save ram
+        if event == Qt.ApplicationInactive:
+            print("inactive")
+            print(page.lifecycleState)
+        elif event == Qt.ApplicationActive:
+            print("active")
+            print(page.lifecycleState)
 
     def disable_opengl(self):
         # Disable GPU acceleration
