@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+#### Jade Application Kit
+# * https://codesardine.github.io/Jade-Application-Kit
+# * Vitor Lopes Copyright (c) 2016 - 2020
+# * https://vitorlopes.me
 import argparse
 import os
 import sys
@@ -10,11 +14,26 @@ import subprocess
  Author Url - https://vitorlopes.me
 """
 from JAK.Application import JWebApp
-def run(url, title,  online,  transparent, debug, disable_gpu, icon, cookies_path, user_agent, custom_css, custom_js):
-    app = JWebApp(title=title, online=online, icon=icon, web_contents=url, debug=debug, disable_gpu=disable_gpu,
-                  transparent=transparent, cookies_path=cookies_path, user_agent=user_agent, add_CSS=custom_css,
-                  run_JavaScript=custom_js)
 
+
+def run(url, title,  online,  transparent, debug, disable_gpu, icon, cookies_path, user_agent, custom_css, custom_js):
+    app = JWebApp(
+                  debug=debug,
+                  disableGPU=disable_gpu,
+                  window={
+                     "title": title,
+                     "icon": icon,
+                     "transparent": transparent,
+                     "showHelpMenu": True,
+                   },
+                  webview={
+                     "webContents": url,
+                     "addCSS": custom_css,
+                     "cookiesPath": cookies_path,
+                     "online": online,
+                     "userAgent": user_agent,
+                     "runJavaScript": custom_js
+                  })
     app.run()
 
 

@@ -17,11 +17,13 @@ class KeyPress:
         # * self.win = QMainWindow Instance
         # * self.view = QTWebEngine Instance
         if event.type() == event.KeyPress:
-            if event.key() == Qt.Key_F11 and config['webview']["online"] is True:
-                self.full_screen()
-            elif event.key() == Qt.Key_F10 and config['webview']["online"] is True:
-                self.win = Instance.retrieve("win")
-                self.win.corner_window()
+            if event.key() == Qt.Key_F11:
+                if config['webview']["online"] is True or config['window']["showHelpMenu"] is True:
+                    self.full_screen()
+            elif event.key() == Qt.Key_F10:
+                if config['webview']["online"] is True or config['window']["showHelpMenu"] is True:
+                    self.win = Instance.retrieve("win")
+                    self.win.corner_window()
 
             elif event.modifiers() == Qt.ControlModifier:
 

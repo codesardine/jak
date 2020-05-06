@@ -84,7 +84,11 @@ class JWindow(QMainWindow):
             if config['window']["toolbar"]:
                 self.toolbar = JToolbar(self, config['window']["toolbar"], self.icon, config['window']["title"])
                 self.addToolBar(self.toolbar)
-            self.setMenuBar(Menu(self, config['window']["menus"])) 
+            self.setMenuBar(Menu(self, config['window']["menus"]))
+        else:
+            if config['window']["showHelpMenu"]:
+                self.setMenuBar(Menu(self, config['window']["menus"]))
+                self.view.page().titleChanged.connect(self.status_message)
 
         if config['window']["SystemTrayIcon"]: 
             self.system_tray = SystemTrayIcon(self.icon, self, config['window']["title"])

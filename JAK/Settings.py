@@ -29,6 +29,7 @@ def config():
             "toolbar": None,
             "menus": None,
             "SystemTrayIcon": False,
+            "showHelpMenu": False,
         },
         "webview": {
             "webContents": "https://codesardine.github.io/Jade-Application-Kit",
