@@ -312,7 +312,7 @@ class Menu(QMenuBar):
 
         elif url.endswith("()"):
             from JAK import IPC
-            return lambda: IPC.Communication.activate(url)
+            return lambda: IPC.Communication.send(url)
         else:
             msg = url
             return lambda: InfoDialog(self, title, msg)
@@ -346,7 +346,7 @@ class FileChooserDialog(QWidget):
         options = dialog.Options()
         file_name = dialog.getOpenFileName(
             self, self.title, os.environ['HOME'],
-            f"{self.file_type.upper()} Files (*.{self.file_type})",
+            f"{self.file_type.upper()} Files ({self.file_type})",
             options=options)
         if file_name[0]:
             return file_name[0]
