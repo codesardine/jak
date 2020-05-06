@@ -16,7 +16,7 @@ else:
     from PySide2.QtCore import Qt, QSize, QUrl
     from PySide2.QtGui import QIcon, QPixmap, QImage
     from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
-        QAction, QToolBar, QMenu, QMenuBar, QFileDialog
+        QAction, QToolBar, QMenu, QMenuBar, QFileDialog, QLabel
 
 
 class SystemTrayIcon(QSystemTrayIcon):
@@ -49,7 +49,7 @@ class JWindow(QMainWindow):
             self.setObjectName("JAKWindow")
             self.setBackgroundImage(config["window"]["backgroundImage"])
         self.video_corner = False
-        self.center = QDesktopWidget().availableGeometry().center()
+        self.center = getScreenGeometry().center()
         self.setWindowTitle(config['window']["title"])
         self.setWindowFlags(config['window']["setFlags"])
         self.setWAttribute(Qt.WA_DeleteOnClose)
@@ -141,15 +141,13 @@ class JWindow(QMainWindow):
             if self.config['window']["toolbar"]:
                 self.toolbar.show()
 
-    def get_geometry(self):
-        return QDesktopWidget().availableGeometry(self)
-
     def default_size(self, size: str):
         # Set to 70% screen size
+        screen = getScreenGeometry()
         if size == "width":
-            return self.get_geometry().width() * 2 / 3
+            return screen.width() * 2 / 3
         elif size == "height":
-            return self.get_geometry().height() * 2 / 3
+            return screen.height() * 2 / 3
 
     def set_window_to_defaults(self):
         self.window_original_position.moveCenter(self.center)
@@ -162,9 +160,10 @@ class JWindow(QMainWindow):
     def set_window_to_corner(self):
         self.move(self.window_original_position.bottomRight())
         # Set to 30% screen size
-        self.resize(self.get_geometry().width() * 0.7 / 2, self.get_geometry().height() * 0.7 / 2)
+        screen = getScreenGeometry()
+        self.resize(screen.width() * 0.7 / 2, screen.height() * 0.7 / 2)
         self.hide_show_bar()
-        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.SplashScreen | Qt.WindowStaysOnTopHint)
         self.show()
 
     def corner_window(self):
