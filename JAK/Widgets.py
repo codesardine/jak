@@ -5,16 +5,16 @@
 
 import sys
 import os
-from JAK.Utils import Instance, bindings
+from JAK.Utils import Instance, bindings, getScreenGeometry
 from JAK.KeyBindings import KeyPress
 if bindings() == "PyQt5":
     from PyQt5.QtCore import Qt, QSize, QUrl
-    from PyQt5.QtGui import QIcon
+    from PyQt5.QtGui import QIcon, QPixmap, QImage
     from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
-        QAction, QToolBar, QMenu, QMenuBar, QFileDialog
+        QAction, QToolBar, QMenu, QMenuBar, QFileDialog, QLabel
 else:
     from PySide2.QtCore import Qt, QSize, QUrl
-    from PySide2.QtGui import QIcon
+    from PySide2.QtGui import QIcon, QPixmap, QImage
     from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
         QAction, QToolBar, QMenu, QMenuBar, QFileDialog
 
@@ -45,6 +45,7 @@ class JWindow(QMainWindow):
         self.config = config
         if config["window"]["backgroundImage"]:
             # Transparency must be set to True
+            self.label = QLabel(self)
             self.setObjectName("JAKWindow")
             self.setBackgroundImage(config["window"]["backgroundImage"])
         self.video_corner = False
@@ -90,11 +91,13 @@ class JWindow(QMainWindow):
                 
         if config["debug"]:
             self.showInspector()                       
-        self._set_icons() 
+        self._set_icons()
 
     def setBackgroundImage(self, image):
-        self.setStyleSheet(f"#JAKWindow {{background-image:url({image})}}")
-        #self.save(image)           
+        screen = getScreenGeometry()
+        pixmap = QPixmap(QImage(image)).scaled(screen.width(), screen.height(), Qt.KeepAspectRatioByExpanding)
+        self.label.setPixmap(pixmap)
+        self.label.setGeometry(0, 0, screen.width(), self.label.sizeHint().height())
 
     def showInspector(self):
         from JAK.DevTools import WebView, InspectorDock

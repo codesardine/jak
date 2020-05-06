@@ -5,7 +5,7 @@
 
 import sys
 import subprocess
-from JAK.Utils import Instance, bindings
+from JAK.Utils import Instance, bindings, getScreenGeometry
 from JAK import Settings
 from JAK.Widgets import JWindow
 from JAK.WebEngine import JWebView
@@ -131,9 +131,8 @@ class JWebApp(QApplication):
 
         win = Instance.auto("win", JWindow(self.config))
         if self.config['window']["fullScreen"]:
-            screen = self.primaryScreen()
-            rect = screen.availableGeometry()
-            win.resize(rect.width(), rect.height())
+            screen = getScreenGeometry()
+            win.resize(screen.width(), screen.height())
         else:
             win.resize(win.default_size("width"), win.default_size("height"))
 

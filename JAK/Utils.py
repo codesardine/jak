@@ -7,6 +7,7 @@ import os
 import re
 import subprocess
 from pathlib import Path
+from PyQt5.QtWidgets import QApplication
 
 register = {}
 
@@ -42,6 +43,11 @@ Categories=Network;
             print("Database updated.")
     else:
         print("desktop-file-utils:Not installed\nDatabase not updated.")
+
+
+def getScreenGeometry():
+    app = QApplication.instance()
+    return app.desktop().screenGeometry()
 
 
 def bindings():
