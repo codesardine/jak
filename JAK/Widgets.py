@@ -118,7 +118,7 @@ class JWindow(QMainWindow):
 
     def _set_icons(self):
         self.setWindowIcon(self.icon)
-        if self.config['webview']["online"]:
+        if self.config['window']["SystemTrayIcon"]:
             self.system_tray.setIcon(self.icon)
 
     def _icon_changed(self):
@@ -134,10 +134,12 @@ class JWindow(QMainWindow):
     def hide_show_bar(self):
         if self.isFullScreen() or self.video_corner:
             self.statusbar.hide()
-            self.toolbar.hide()
+            if self.config['window']["toolbar"]:
+                self.toolbar.hide()
         else:
             self.statusbar.show()
-            self.toolbar.show()
+            if self.config['window']["toolbar"]:
+                self.toolbar.show()
 
     def get_geometry(self):
         return QDesktopWidget().availableGeometry(self)
