@@ -257,7 +257,7 @@ class Menu(QMenuBar):
                 <body style='margin-right:46px;'><b>
                     F11 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Toggle Full Screen 
                 <br>
-                    F12 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Toggle Corner Window
+                    F10 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Toggle Corner Window
                 <br>
                     CTRL + &nbsp; &nbsp; Zoom In  
                 <br>
