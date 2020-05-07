@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# v2.0.6
+# v2.1.0
 import sys
 from JAK.Application import JWebApp
 from JAK import IPC
@@ -29,11 +29,6 @@ def convert_file(convert_from, extension):
 
         file_name = src_file.rsplit('/', 1)[1].split(".")[0]
         output = f"{output_path}{file_name}.{extension}"
-        #if os.path.exists(output):
-            #from JAK.Widgets import JCancelConfirmDialog
-            #window = Instance.retrieve("win")
-            #msg = f"Overwrite: {output}"
-            #JCancelConfirmDialog(window, "File already exists", msg, callback(src_file, extension, output))
         callback(src_file, extension, output)
         subprocess.run(["xdg-open", output_path])
 
@@ -121,10 +116,19 @@ def office():
         ["ODT to PDF", "odt_to_pdf()"],\
         ["ODT to DOCX", "odt_to_docx()"]]}
 
-    webapp = JWebApp(title="Microsoft Office Online", icon=icon, web_contents=start, online=True,
-                     cookies_path="microsoft", url_rules=rules, add_CSS=css_hide, menus=menus, MediaVideoCapture=True, MediaAudioCapture=True)
+    webapp = JWebApp(
+                     window={
+                        "title": "Microsoft Office Online",
+                        "icon": icon,
+                        "menus": menus,
+                     },
 
+                     webview={
+                        "webContents": start,
+                        "addCSS": css_hide,
+                        "urlRules": rules,
+                        "cookiesPath": "microsoft",
+                        "online": True
+                    })
     return webapp
-
-
 office().run()
