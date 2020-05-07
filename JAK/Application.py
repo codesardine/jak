@@ -99,10 +99,8 @@ class JWebApp(QApplication):
         # TODO freeze view when inactive to save ram
         if event == Qt.ApplicationInactive:
             print("inactive")
-            print(page.lifecycleState)
         elif event == Qt.ApplicationActive:
             print("active")
-            print(page.lifecycleState)
 
     def disable_opengl(self):
         # Disable GPU acceleration
