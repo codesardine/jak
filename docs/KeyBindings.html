@@ -65,7 +65,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -82,10 +82,12 @@
     <div class='code'>
       <div class="highlight"><pre>        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">event</span><span class="o">.</span><span class="n">KeyPress</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Key_F11</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">full_screen</span><span class="p">()</span>
-            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Key_F12</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">corner_window</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;online&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;window&#39;</span><span class="p">][</span><span class="s2">&quot;showHelpMenu&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">full_screen</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Key_F10</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;online&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span> <span class="ow">or</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;window&#39;</span><span class="p">][</span><span class="s2">&quot;showHelpMenu&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;win&quot;</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">corner_window</span><span class="p">()</span>
 
             <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">modifiers</span><span class="p">()</span> <span class="o">==</span> <span class="n">Qt</span><span class="o">.</span><span class="n">ControlModifier</span><span class="p">:</span>
 
@@ -122,7 +124,7 @@
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_zoom_in</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">new_zoom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_zoom</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.5</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">setZoomFactor</span><span class="p">(</span><span class="n">new_zoom</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_update_zoom_label</span><span class="p">()</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_zoom</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -137,7 +139,7 @@
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_zoom_out</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">new_zoom</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_current_zoom</span><span class="p">()</span> <span class="o">/</span> <span class="mf">1.5</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">setZoomFactor</span><span class="p">(</span><span class="n">new_zoom</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_update_zoom_label</span><span class="p">()</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_save_zoom</span><span class="p">()</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -150,8 +152,7 @@
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_reset_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">setZoomFactor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_update_zoom_label</span><span class="p">()</span></pre></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">setZoomFactor</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -163,7 +164,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_update_zoom_label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">_save_zoom</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">percent</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_current_zoom</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zoom:</span><span class="si">{</span><span class="n">percent</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span></pre></div>
     </div>
@@ -174,10 +175,10 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-10'>#</a>
       </div>
-      
+      <p>TODO save zoom</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">full_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -185,6 +186,18 @@
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">full_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <p>TODO animate window resize</p>
     </div>

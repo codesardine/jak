@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>Settings.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id='container'>
+  <div id="background"></div>
+  <div class='section'>
+    <div class='docs'><h1>Settings.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <h3>Jade Application Kit</h3>
+<ul>
+<li>https://codesardine.github.io/Jade-Application-Kit</li>
+<li>Vitor Lopes Copyright (c) 2016 - 2020</li>
+<li>https://vitorlopes.me</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">bindings</span>
+<span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
+    <span class="kn">from</span> <span class="nn">PyQt5.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineSettings</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">PySide2.QtCore</span> <span class="kn">import</span> <span class="n">Qt</span>
+    <span class="kn">from</span> <span class="nn">Side2.QtWebEngineWidgets</span> <span class="kn">import</span> <span class="n">QWebEngineSettings</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">config</span><span class="p">():</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;debug&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;remote-debug&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;setAAttribute&quot;</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s2">&quot;disableGPU&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="s2">&quot;window&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Jade Application Kit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;backgroundImage&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;setFlags&quot;</span><span class="p">:</span> <span class="n">Qt</span><span class="o">.</span><span class="n">Window</span><span class="p">,</span>
+            <span class="s2">&quot;setAttribute&quot;</span><span class="p">:</span> <span class="p">(),</span>
+            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;fullScreen&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;transparent&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;toolbar&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;menus&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;SystemTrayIcon&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;showHelpMenu&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;webview&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;webContents&quot;</span><span class="p">:</span> <span class="s2">&quot;https://codesardine.github.io/Jade-Application-Kit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;online&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;urlRules&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;cookiesPath&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;userAgent&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;addCSS&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;runJavaScript&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s2">&quot;IPC&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">&quot;MediaAudioVideoCapture&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;MediaVideoCapture&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;MediaAudioCapture&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;Geolocation&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;MouseLock&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;DesktopVideoCapture&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;DesktopAudioVideoCapture&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;injectJavaScript&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;JavaScript&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Application Script&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;webChannel&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;active&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                <span class="s2">&quot;sharedOBJ&quot;</span><span class="p">:</span> <span class="kc">None</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;enabledSettings&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanPaste</span><span class="p">,</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">FullScreenSupportEnabled</span><span class="p">,</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">AllowWindowActivationFromJavaScript</span><span class="p">,</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">LocalContentCanAccessRemoteUrls</span><span class="p">,</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">JavascriptCanAccessClipboard</span><span class="p">,</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">SpatialNavigationEnabled</span><span class="p">,</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">TouchIconsEnabled</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;disabledSettings&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="n">QWebEngineSettings</span><span class="o">.</span><span class="n">PlaybackRequiresUserGesture</span>
+            <span class="p">)</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

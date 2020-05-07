@@ -108,7 +108,7 @@
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span></pre></div>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;urlRules&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -122,7 +122,7 @@
     <div class='code'>
       <div class="highlight"><pre>            <span class="n">url</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">requestUrl</span><span class="p">()</span><span class="o">.</span><span class="n">toString</span><span class="p">()</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;Block&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">][</span><span class="s2">&quot;block&quot;</span><span class="p">]):</span></pre></div>
+                <span class="k">if</span> <span class="n">check_url_rules</span><span class="p">(</span><span class="s2">&quot;Block&quot;</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;urlRules&quot;</span><span class="p">][</span><span class="s2">&quot;block&quot;</span><span class="p">]):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>

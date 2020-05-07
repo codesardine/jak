@@ -107,7 +107,8 @@ Looking for wrapper's examples? Check [Branches](https://github.com/codesardine/
 * [RequestInterceptor](https://codesardine.github.io/Jade-Application-Kit/docs/RequestInterceptor.html)
 * [Utils](https://codesardine.github.io/Jade-Application-Kit/docs/Utils.html)
 * [WebEngine](https://codesardine.github.io/Jade-Application-Kit/docs/WebEngine.html)
-* [Widgets](https://codesardine.github.io/Jade-Application-Kit/docs/Widgets.html)
+* [DevTools](https://codesardine.github.io/Jade-Application-Kit/docs/DevTools.html)
+* [Settings](https://codesardine.github.io/Jade-Application-Kit/docs/Settings.html)
 
 ## Versioning
 
