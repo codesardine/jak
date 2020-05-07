@@ -20,8 +20,8 @@ else:
 
 
 class SystemTrayIcon(QSystemTrayIcon):
-    def __init__(self, icon, app, title):
-        self.title = title
+    def __init__(self, icon, app, config):
+        self.config = config
         self.icon = icon
         super(SystemTrayIcon, self).__init__(icon, parent=app)
         self.setContextMenu(self.tray_menu())
@@ -31,10 +31,16 @@ class SystemTrayIcon(QSystemTrayIcon):
         """
         Create menu for the tray icon
         """
-        self.quit = QAction(f"&Quit {self.title}", self)
-        self.quit.triggered.connect(sys.exit)
         self.menu = QMenu()
-        self.menu.addAction(self.quit)
+        for item in self.config['window']["SystemTrayIcon"]:
+            try:
+                self.action = QAction(f"{item['title']}", self)
+                self.action.triggered.connect(item['action'])
+                if item['icon']:
+                    self.action.setIcon(QIcon(QPixmap(item['icon'])))
+                self.menu.addAction(self.action)
+            except KeyError:
+                pass
         return self.menu
 
 
@@ -91,7 +97,7 @@ class JWindow(QMainWindow):
                 self.view.page().titleChanged.connect(self.status_message)
 
         if config['window']["SystemTrayIcon"]: 
-            self.system_tray = SystemTrayIcon(self.icon, self, config['window']["title"])
+            self.system_tray = SystemTrayIcon(self.icon, self, config)
                 
         if config["debug"]:
             self.showInspector()                       
