@@ -176,7 +176,7 @@ class JavaScript:
         JavaScript.send(f"console.log('JAK log:{message}');")
 
     @staticmethod
-    def css(styles: str) -> None:
+    def css(styles: str, _type) -> None:
         """
         * Insert custom styles
         * :param styles: CSS -> a { color: red; }
@@ -184,15 +184,14 @@ class JavaScript:
         javascript = f"""
              var style = document.createElement('style');
              style.type = 'text/css';
-             style.classList.add('jak-custom-style');
-             style.innerHTML = "{JavaScript.detect_type(styles)}";
+             style.classList.add('{_type}-custom-style');
+             style.innerHTML = `{JavaScript._is_file_or_string(styles)}`;
              document.getElementsByTagName('head')[0].appendChild(style);
         """
         view = Instance.retrieve("view")
         view.page().loadFinished.connect(
-            lambda: JavaScript.send(javascript)
+            lambda: view.page().runJavaScript(javascript)
         )
-        JavaScript.log(f"JAK Custom Styles Applied:[{styles}]")
 
     @staticmethod
     def alert(message: str) -> None:
@@ -210,7 +209,7 @@ class JavaScript:
         """
         try:
             view = Instance.retrieve("view")
-            view.page().runJavaScript(f"{JavaScript.detect_type(script)}")
+            view.page().runJavaScript(f"{JavaScript._is_file_or_string(script)}")
         except Exception as err:
             print(err)
 
@@ -231,7 +230,7 @@ class JavaScript:
         page.profile().scripts().insert(script)
 
     @staticmethod
-    def detect_type(script) -> str:
+    def _is_file_or_string(script) -> str:
         """
         * Detect if is file or string, convert to string
         * :param script: file or string
@@ -241,8 +240,7 @@ class JavaScript:
                 with open(script, "r") as file:
                     string = file.read()
                     return string
-            except IOError:
-                return False
-            return True
+            except Exception as err:
+                print(err)
         elif isinstance(script, str):
             return script

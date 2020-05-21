@@ -113,14 +113,16 @@ class JWebApp(QApplication):
     def run(self):
         Instance.record("view", JWebView(self.config))
 
-        if self.config['webview']["addCSS"]:
-            from JAK.Utils import JavaScript
-            JavaScript.css(self.config['webview']["addCSS"])
-            print("Custom CSS detected")
-
         if self.config['window']["transparent"]:
             from JAK.Utils import JavaScript
-            JavaScript.css("body, html {background-color:transparent !important;background-image:none !important;}")
+            JavaScript.css(
+                "body, html {background-color:transparent !important;background-image:none !important;}", "JAK"
+            )
+
+        if self.config['webview']["addCSS"]:
+            from JAK.Utils import JavaScript
+            JavaScript.css(self.config['webview']["addCSS"], "user")
+            print("Custom CSS detected")
 
         if self.config['webview']["runJavaScript"]:
             from JAK.Utils import JavaScript
