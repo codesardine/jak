@@ -115,7 +115,7 @@ class JWebPage(QWebEnginePage):
                 return True
 
             elif _type == QWebEnginePage.WebBrowserWindow:
-                if self.config["url_rules"] and self.config['webview']["online"]:
+                if self.config['webview']["url_rules"] and self.config['webview']["online"]:
                     # Check URL rules on new windows
                     if check_url_rules("WebBrowserWindow", self.url, self.config['webview']["urlRules"]):
                         print(f"Deny WebBrowserWindow:{self.url}")
