@@ -279,6 +279,10 @@ class JWebView(QWebEngineView):
         from JAK.Utils import JavaScript
         JavaScript.inject(self.page(), script)
 
+    def dropEvent(self, *args):
+        # disable drop event
+        pass
+
     def _download_requested(self, download_item) -> None:
         """
         * If a download is requested call a save file dialog
