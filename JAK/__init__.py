@@ -1,2 +1,2 @@
 __version__ = "v3.5.3"
-print(f"JAK {__version__}")
+printf("JAK {__version__}")
