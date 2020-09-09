@@ -39,7 +39,7 @@ Install manually
 ```
 or
 ```bash
-sudo setup.py install
+sudo python3 setup.py install
 ```
 
 Install in Manjaro
