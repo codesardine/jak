@@ -8,7 +8,7 @@ if bindings() == "PyQt5":
     from PyQt5.QtWebEngineWidgets import QWebEngineSettings
 else:
     from PySide2.QtCore import Qt
-    from Side2.QtWebEngineWidgets import QWebEngineSettings
+    from PySide2.QtWebEngineWidgets import QWebEngineSettings
 
 
 def config():
