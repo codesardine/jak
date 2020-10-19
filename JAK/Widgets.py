@@ -187,7 +187,7 @@ class JWindow(QMainWindow):
             self.set_window_to_corner()
 
 
-class JCancelConfirmDialog(QWidget):
+class JCancelConfirmDialog(QMessageBox):
     """ #### Imports: from JAK.Widgets import JCancelConfirmDialog """
     def __init__(self, parent, title, msg, on_confirm):
         """
@@ -197,17 +197,14 @@ class JCancelConfirmDialog(QWidget):
         * :param on_confirm: Function to execute use parenthesis ()
         """
         super().__init__(parent)
-        reply = QMessageBox.question(self, title, msg, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        self.setAttribute(Qt.WA_DeleteOnClose, True)
-        self.setWindowTitle(title)
-        view = Instance.retrieve("view")
-        if view:
-            self.setWindowIcon(view.icon())
-        if reply == QMessageBox.Yes:
-            on_confirm()
-        else:
-            self.destroy()
+        reply = self.question(self, title, msg, self.Yes | self.No, self.No)
         self.show()
+
+        if reply == self.Yes:
+            on_confirm()
+
+        self.hide()        
+        self.destroy()
 
 
 class JToolbar(QToolBar):
@@ -324,19 +321,18 @@ class Menu(QMenuBar):
             return lambda: InfoDialog(self, title, msg)
         
 
-class InfoDialog(QWidget):
+class InfoDialog(QMessageBox):
     """ #### Imports: from JAK.Widgets import InfoDialog """
     def __init__(self, parent, title, msg):
         """
         * :param parent: Parent window
         * :param msg:str
-        * :param on_confirm: Function to execute omit parenthesis ()
         """
-        super().__init__()
-        self.setAttribute(Qt.WA_DeleteOnClose, True)
-        self.setWindowTitle(title)
-        QMessageBox.information(parent, title, msg, QMessageBox.Ok)
+        super().__init__(parent)
+        self.information(parent, title, msg, QMessageBox.Ok)
         self.show()
+        self.hide()        
+        self.destroy()
 
 
 class FileChooserDialog(QWidget):
