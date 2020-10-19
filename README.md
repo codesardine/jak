@@ -26,20 +26,20 @@ cd Jade-Application-Kit
 
 Install using pip
 ```bash
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 or
 ```bash
-pip install Jade-Application-Kit
+pip3 install Jade-Application-Kit
 ```
 
 Install manually
 ```bash
-~/.virtualenv/python setup.py install
+~/.virtualenv/python3 setup.py install
 ```
 or
 ```bash
-sudo setup.py install
+sudo python3 setup.py install
 ```
 
 Install in Manjaro
