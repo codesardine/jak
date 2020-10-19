@@ -352,3 +352,6 @@ class FileChooserDialog(QWidget):
             options=options)
         if file_name[0]:
             return file_name[0]
+
+        self.hide()
+        self.destroy() 
