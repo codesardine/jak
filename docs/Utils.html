@@ -399,7 +399,7 @@ If not present, creates it creates a new one and retrieves it.</li>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">css</span><span class="p">(</span><span class="n">styles</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">css</span><span class="p">(</span><span class="n">styles</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">_type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -417,15 +417,14 @@ If not present, creates it creates a new one and retrieves it.</li>
       <div class="highlight"><pre>        <span class="n">javascript</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">             var style = document.createElement(&#39;style&#39;);</span>
 <span class="s2">             style.type = &#39;text/css&#39;;</span>
-<span class="s2">             style.classList.add(&#39;jak-custom-style&#39;);</span>
-<span class="s2">             style.innerHTML = &quot;</span><span class="si">{</span><span class="n">JavaScript</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;;</span>
+<span class="s2">             style.classList.add(&#39;</span><span class="si">{</span><span class="n">_type</span><span class="si">}</span><span class="s2">-custom-style&#39;);</span>
+<span class="s2">             style.innerHTML = `</span><span class="si">{</span><span class="n">JavaScript</span><span class="o">.</span><span class="n">_is_file_or_string</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span><span class="si">}</span><span class="s2">`;</span>
 <span class="s2">             document.getElementsByTagName(&#39;head&#39;)[0].appendChild(style);</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
         <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">loadFinished</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
-            <span class="k">lambda</span><span class="p">:</span> <span class="n">JavaScript</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">javascript</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="n">JavaScript</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;JAK Custom Styles Applied:[</span><span class="si">{</span><span class="n">styles</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span></pre></div>
+            <span class="k">lambda</span><span class="p">:</span> <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="n">javascript</span><span class="p">)</span>
+        <span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -483,7 +482,7 @@ If not present, creates it creates a new one and retrieves it.</li>
     <div class='code'>
       <div class="highlight"><pre>        <span class="k">try</span><span class="p">:</span>
             <span class="n">view</span> <span class="o">=</span> <span class="n">Instance</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="s2">&quot;view&quot;</span><span class="p">)</span>
-            <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">JavaScript</span><span class="o">.</span><span class="n">detect_type</span><span class="p">(</span><span class="n">script</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">view</span><span class="o">.</span><span class="n">page</span><span class="p">()</span><span class="o">.</span><span class="n">runJavaScript</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">JavaScript</span><span class="o">.</span><span class="n">_is_file_or_string</span><span class="p">(</span><span class="n">script</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span></pre></div>
     </div>
@@ -514,7 +513,7 @@ If not present, creates it creates a new one and retrieves it.</li>
         <span class="n">page</span><span class="o">.</span><span class="n">profile</span><span class="p">()</span><span class="o">.</span><span class="n">scripts</span><span class="p">()</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">script</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">detect_type</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
+    <span class="k">def</span> <span class="nf">_is_file_or_string</span><span class="p">(</span><span class="n">script</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -534,9 +533,8 @@ If not present, creates it creates a new one and retrieves it.</li>
                 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
                     <span class="n">string</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
                     <span class="k">return</span> <span class="n">string</span>
-            <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
-                <span class="k">return</span> <span class="kc">False</span>
-            <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">script</span>
 

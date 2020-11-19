@@ -28,6 +28,7 @@
       <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span> <span class="k">as</span> <span class="n">cache</span>
 <span class="kn">from</span> <span class="nn">JAK.Utils</span> <span class="kn">import</span> <span class="n">check_url_rules</span><span class="p">,</span> <span class="n">get_current_path</span><span class="p">,</span> <span class="n">bindings</span>
+<span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">Dialog</span>
 <span class="kn">from</span> <span class="nn">JAK.RequestInterceptor</span> <span class="kn">import</span> <span class="n">Interceptor</span>
 <span class="k">if</span> <span class="n">bindings</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;PyQt5&quot;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">PyQt5.QtCore</span> <span class="kn">import</span> <span class="n">QUrl</span><span class="p">,</span> <span class="n">Qt</span>
@@ -247,9 +248,8 @@ HTML and Python, only if online is set to false</li>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>        <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">JCancelConfirmDialog</span>
-        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Open In Your Browser&quot;</span>
-        <span class="n">JCancelConfirmDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">msg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_open_in_browser</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;Open In Your Browser&quot;</span>
+        <span class="n">Dialog</span><span class="o">.</span><span class="n">question</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span> <span class="n">msg</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_open_in_browser</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -338,7 +338,7 @@ HTML and Python, only if online is set to false</li>
                 <span class="k">return</span> <span class="kc">True</span>
 
             <span class="k">elif</span> <span class="n">_type</span> <span class="o">==</span> <span class="n">QWebEnginePage</span><span class="o">.</span><span class="n">WebBrowserWindow</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;url_rules&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;online&quot;</span><span class="p">]:</span></pre></div>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;urlRules&quot;</span><span class="p">]</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;webview&#39;</span><span class="p">][</span><span class="s2">&quot;online&quot;</span><span class="p">]:</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -697,6 +697,30 @@ HTML and Python, only if online is set to false</li>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-40'>#</a>
       </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">dropEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      <p>disable drop event</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">pass</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
       <ul>
 <li>If a download is requested call a save file dialog</li>
 <li>:param download_item: file to be downloaded</li>
@@ -707,10 +731,10 @@ HTML and Python, only if online is set to false</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-41'>
+  <div class='section' id='section-43'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-41'>#</a>
+        <a class='octothorpe' href='#section-43'>#</a>
       </div>
       
     </div>
@@ -733,10 +757,10 @@ HTML and Python, only if online is set to false</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-42'>
+  <div class='section' id='section-44'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-42'>#</a>
+        <a class='octothorpe' href='#section-44'>#</a>
       </div>
       <p>Goes to previous page and pops an alert informing the user that the download is finish and were to find it</p>
     </div>
@@ -745,18 +769,17 @@ HTML and Python, only if online is set to false</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-43'>
+  <div class='section' id='section-45'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-43'>#</a>
+        <a class='octothorpe' href='#section-45'>#</a>
       </div>
       
     </div>
     <div class='code'>
       <div class="highlight"><pre>        <span class="n">file_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">download_item</span><span class="o">.</span><span class="n">path</span><span class="p">()</span>
         <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;File Downloaded to: </span><span class="si">{</span><span class="n">file_path</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="kn">from</span> <span class="nn">JAK.Widgets</span> <span class="kn">import</span> <span class="n">InfoDialog</span>
-        <span class="n">InfoDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Download Complete&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+        <span class="n">Dialog</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;Download Complete&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 
 </pre></div>
     </div>
