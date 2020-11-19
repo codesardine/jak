@@ -187,26 +187,6 @@ class JWindow(QMainWindow):
             self.set_window_to_corner()
 
 
-class JCancelConfirmDialog(QMessageBox):
-    """ #### Imports: from JAK.Widgets import JCancelConfirmDialog """
-    def __init__(self, parent, title, msg, on_confirm):
-        """
-        * :param parent: Parent window
-        * :param window_title:str
-        * :param msg:str
-        * :param on_confirm: Function to execute use parenthesis ()
-        """
-        super().__init__(parent)
-        reply = self.question(self, title, msg, self.Yes | self.No, self.No)
-        self.show()
-
-        if reply == self.Yes:
-            on_confirm()
-
-        self.hide()        
-        self.destroy()
-
-
 class JToolbar(QToolBar):
     """ #### Imports: from JAK.Widgets import JToolbar """
     def __init__(self, parent, toolbar, icon, title):
@@ -241,7 +221,7 @@ class JToolbar(QToolBar):
             return lambda: view.setUrl(QUrl(url))
         else:
             msg = url
-            return lambda: InfoDialog(self, title, msg)
+            return lambda: Dialog.information(self, title, msg)
 
 
 class Menu(QMenuBar):
@@ -318,21 +298,19 @@ class Menu(QMenuBar):
             return lambda: IPC.Communication.send(url)
         else:
             msg = url
-            return lambda: InfoDialog(self, title, msg)
-        
+            return lambda: Dialog.information(self, title, msg)
 
-class InfoDialog(QMessageBox):
-    """ #### Imports: from JAK.Widgets import InfoDialog """
-    def __init__(self, parent, title, msg):
-        """
-        * :param parent: Parent window
-        * :param msg:str
-        """
-        super().__init__(parent)
-        self.information(parent, title, msg, QMessageBox.Ok)
-        self.show()
-        self.hide()        
-        self.destroy()
+
+class Dialog:
+    @staticmethod
+    def question(parent, title, msg, on_confirm=""):
+        reply = QMessageBox.question(parent, title, msg, QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            on_confirm()
+
+    @staticmethod
+    def information(parent, title, msg):
+        QMessageBox.information(parent, title, msg)
 
 
 class FileChooserDialog(QWidget):

@@ -5,6 +5,7 @@
 import os
 from functools import lru_cache as cache
 from JAK.Utils import check_url_rules, get_current_path, bindings
+from JAK.Widgets import Dialog
 from JAK.RequestInterceptor import Interceptor
 if bindings() == "PyQt5":
     from PyQt5.QtCore import QUrl, Qt
@@ -74,9 +75,8 @@ class JWebPage(QWebEnginePage):
 
     def _dialog_open_in_browser(self) -> None:
         """ Opens a dialog to confirm if user wants to open url in external browser """
-        from JAK.Widgets import JCancelConfirmDialog
         msg = "Open In Your Browser"
-        JCancelConfirmDialog(self.parent(), self.title(), msg, self._open_in_browser)
+        Dialog.question(self.parent(), self.title(), msg, self._open_in_browser)
 
     @cache(maxsize=10)
     def acceptNavigationRequest(self, url, _type, is_main_frame) -> bool:
@@ -310,5 +310,4 @@ class JWebView(QWebEngineView):
         """
         file_path = self.download_item.path()
         msg = f"File Downloaded to: {file_path}"
-        from JAK.Widgets import InfoDialog
-        InfoDialog(self, "Download Complete", msg)
+        Dialog.information(self, "Download Complete", msg)
