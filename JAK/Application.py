@@ -9,12 +9,10 @@ from JAK.Utils import Instance, bindings, getScreenGeometry
 from JAK import Settings
 from JAK.Widgets import JWindow
 from JAK.WebEngine import JWebView
-from JAK import __version__
 if bindings() == "PyQt5":
     print("PyQt5 Bindings")
-    from PyQt5.QtCore import Qt, QCoreApplication, QRect
+    from PyQt5.QtCore import Qt, QCoreApplication
     from PyQt5.QtWidgets import QApplication
-    from PyQt5.QtWebEngineWidgets import QWebEnginePage
 else:
     print("JAK_PREFERRED_BINDING environment variable not set, falling back to PySide2 Bindings.")
     from PySide2.QtCore import Qt, QCoreApplication
@@ -29,6 +27,7 @@ class JWebApp(QApplication):
         self.setAAttribute(Qt.AA_UseHighDpiPixmaps)
         self.setAAttribute(Qt.AA_EnableHighDpiScaling)
         self.applicationStateChanged.connect(self._applicationStateChanged_cb)
+
         for key, value in app_config.items():
             if isinstance(value, dict):
                 for subkey, subvalue in app_config[key].items():
@@ -36,8 +35,9 @@ class JWebApp(QApplication):
             else:
                 config[key] = value
 
-        for attr in config["setAAttribute"]:
-            self.setAAttribute(attr)
+        if config["setAAttribute"]:
+            for attr in config["setAAttribute"]:
+                self.setAAttribute(attr)
 
         if config["remote-debug"] or "--remote-debug" in sys.argv:
             sys.argv.append("--remote-debugging-port=9000")
@@ -55,20 +55,18 @@ class JWebApp(QApplication):
             detect_virtual_machine = subprocess.Popen(
                 ["systemd-detect-virt"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT
             )
-            # FIXME find a more reliable way of detecting NVIDIA cards
             detect_nvidia_pci = subprocess.Popen(
                 "lspci | grep -i --color 'vga\|3d\|2d'", stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                 shell=True
             )
-            virtual = detect_virtual_machine.communicate()
-            nvidia_pci = detect_nvidia_pci.communicate()
-            nvidia_pci = nvidia_pci[0].decode("utf-8").lower()
+            virtual = detect_virtual_machine.communicate()[-1]
+            nvidia_pci = detect_nvidia_pci.communicate()[0].decode("utf-8").lower()
 
         if config["disableGPU"]:
             self.disable_opengl()
             print("Disabling GPU, Software Rendering explicitly activated")
         else:
-            if virtual[-1]:
+            if virtual:
                 # Detect virtual machine
                 print(f"Virtual machine detected:{virtual}")
                 self.disable_opengl()
@@ -76,16 +74,11 @@ class JWebApp(QApplication):
             elif nvidia_pci:
                 # Detect NVIDIA cards
                 if "nvidia" in nvidia_pci:
-                    print("NVIDIA detected:Known bug - kernel rejected pushbuf")
-                    print("Falling back to Software Rendering")
+                    print("NVIDIA falling back to Software Rendering")
                     self.disable_opengl()
             else:
-                print(f"Virtual Machine:{virtual[-1]}")
+                print(f"Virtual Machine:{virtual}")
 
-        # Desktop file must match application name in lowercase with dashes instead of white space.
-        self.setDesktopFileName(f"{self.config['window']['title'].lower().replace(' ', '-')}.desktop")
-        self.setOrganizationDomain(self.config['webview']['webContents'])
-        self.setApplicationVersion(__version__)
         if not self.config['webview']['online'] and self.config['webview']['IPC']:
             if bindings() == "PyQt5":
                 from PyQt5.QtWebEngineCore import QWebEngineUrlScheme
@@ -112,6 +105,7 @@ class JWebApp(QApplication):
         
     def run(self):
         Instance.record("view", JWebView(self.config))
+        win = Instance.auto("win", JWindow(self.config))
 
         if self.config['window']["transparent"]:
             from JAK.Utils import JavaScript
@@ -129,7 +123,6 @@ class JWebApp(QApplication):
             JavaScript.send(self.config['webview']["runJavaScript"])
             print("Custom JavaScript detected")
 
-        win = Instance.auto("win", JWindow(self.config))
         if self.config['window']["fullScreen"]:
             screen = getScreenGeometry()
             win.resize(screen.width(), screen.height())
@@ -140,5 +133,4 @@ class JWebApp(QApplication):
         win.show()
         win.setFocus()
         win.window_original_position = win.frameGeometry()
-        result = self.exec_()
-        sys.exit(result)
+        self.exec_()

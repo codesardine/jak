@@ -46,8 +46,7 @@ Categories=Network;
 
 
 def getScreenGeometry():
-    app = QApplication.instance()
-    return app.desktop().screenGeometry()
+    return QApplication.instance().desktop().screenGeometry()
 
 
 def bindings():

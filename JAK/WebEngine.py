@@ -135,6 +135,7 @@ class JWebPage(QWebEnginePage):
 
         def grant_permission():
             self.setFeaturePermission(security_origin, feature, self.PermissionGrantedByUser)
+
         def deny_permission():
             self.setFeaturePermission(security_origin, feature, self.PermissionDeniedByUser)
 
@@ -249,6 +250,9 @@ class JWebView(QWebEngineView):
                 if bindings() == "PyQt5":
                     from PyQt5.QtCore import QFile, QIODevice
                     from PyQt5.QtWebChannel import QWebChannel
+                else:
+                    from PySide2.QtCore import QFile, QIODevice
+                    from PySide2.QtWebChannel import QWebChannel
 
                 webchannel_js = QFile(':/qtwebchannel/qwebchannel.js')
                 webchannel_js.open(QIODevice.ReadOnly)
@@ -258,7 +262,7 @@ class JWebView(QWebEngineView):
                                     });"""
 
                 application_script += webchannel_js
-                self._inject_script({"JavaScript":application_script, "name":"JAK"})
+                self._inject_script({"JavaScript": application_script, "name": "JAK"})
                 channel = QWebChannel(self.page())
                 if config['webview']["webChannel"]["sharedOBJ"]:
                     bridge_obj = config['webview']["webChannel"]["sharedOBJ"]
@@ -269,7 +273,7 @@ class JWebView(QWebEngineView):
                 self.page().setWebChannel(channel)
                 print("WebChannel Active:")
             else:
-                self._inject_script({"JavaScript":application_script, "name":"JAK"})
+                self._inject_script({"JavaScript": application_script, "name": "JAK"})
 
         self.profile.setRequestInterceptor(self.interceptor)
         print(self.profile.httpUserAgent())

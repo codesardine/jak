@@ -3,13 +3,11 @@
 # * Vitor Lopes Copyright (c) 2016 - 2020
 # * https://vitorlopes.me
 
-from JAK.Utils import  bindings
+from JAK.Utils import bindings
 if bindings() == "PyQt5":
-    from PyQt5.QtCore import Qt
     from PyQt5.QtWebEngineWidgets import QWebEngineView
     from PyQt5.QtWidgets import QDockWidget
 else:
-    from PySide2.QtCore import Qt
     from PySide2.QtWebEngineWidgets import QWebEngineView
     from PySide2.QtWidgets import QDockWidget
 
@@ -29,4 +27,3 @@ class InspectorDock(QDockWidget):
         super().__init__(parent=parent)
         title = "Inspector"
         self.setWindowTitle(title)
-        self.setObjectName(title)

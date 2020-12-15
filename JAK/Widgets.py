@@ -3,19 +3,18 @@
 # * Vitor Lopes Copyright (c) 2016 - 2020
 # * https://vitorlopes.me
 
-import sys
 import os
 from JAK.Utils import Instance, bindings, getScreenGeometry
 from JAK.KeyBindings import KeyPress
 if bindings() == "PyQt5":
     from PyQt5.QtCore import Qt, QSize, QUrl
     from PyQt5.QtGui import QIcon, QPixmap, QImage
-    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
+    from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QSystemTrayIcon,\
         QAction, QToolBar, QMenu, QMenuBar, QFileDialog, QLabel
 else:
     from PySide2.QtCore import Qt, QSize, QUrl
     from PySide2.QtGui import QIcon, QPixmap, QImage
-    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QDesktopWidget, QSystemTrayIcon,\
+    from PySide2.QtWidgets import QMainWindow, QWidget, QMessageBox, QSystemTrayIcon,\
         QAction, QToolBar, QMenu, QMenuBar, QFileDialog, QLabel
 
 
@@ -282,11 +281,11 @@ class Menu(QMenuBar):
                 </body>
         """}
 
-        help = self.addMenu("Help")
+        _help = self.addMenu("Help")
         for entry in help_menu:
             submenu = QAction(entry["title"], self)
             submenu.triggered.connect(self._on_click(entry["text"], entry["title"]))
-            help.addAction(submenu)
+            _help.addAction(submenu)
 
     def _on_click(self, url: str, title=""):
         if url.startswith("https"):
