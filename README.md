@@ -137,7 +137,6 @@ Missing yours?, let me know.
 
 ## Known Issues
  * Does not like NVIDIA cards and as such falls back to software rendering, so if you use one of them you have to do without GPU acceleration. Only PCI devices.
- * As of Python 3.8 PySide2 is not compatible = https://github.com/codesardine/Jade-Application-Kit/issues/67, until this is fixed upstream set bindings via environment variable or config file.
 
 ## License
 Jade Application Kit is covered by the GPL license.
