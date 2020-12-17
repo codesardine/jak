@@ -125,9 +125,10 @@ See also the list of [contributors](https://github.com/codesardine/Jade-Applicat
 
 Applications
 * [Just Another Desktop Environment](https://github.com/codesardine/Jadesktop)
+* [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for [Manjaro](https://manjaro.org)
+
 
 Wrappers
-* [Microsoft Office online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/microsoft-office-online) for [Manjaro](https://manjaro.org)
 * [Slack online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/slack-online)
 * [Skype online](https://github.com/codesardine/Jade-Application-Kit/tree/wrapper/skype-online)
 * [Udemy online](https://github.com/Steffan153/udemy-online) by [Caleb Miller](https://github.com/Steffan153)
