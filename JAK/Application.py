@@ -125,9 +125,10 @@ class JWebApp(QApplication):
 
         if self.config['window']["fullScreen"]:
             screen = getScreenGeometry()
-            win.resize(screen.width(), screen.height())
+            win.resize(int(screen.width()), int(screen.height()))
         else:
-            win.resize(win.default_size("width"), win.default_size("height"))
+            width, height = int(win.default_size("width")), int(win.default_size("height"))
+            win.resize(width, height)
 
         win.setFocusPolicy(Qt.WheelFocus)
         win.show()
